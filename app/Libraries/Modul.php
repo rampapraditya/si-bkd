@@ -453,14 +453,6 @@ class Modul {
         return 'uploads/';
     }
 
-    public function setSliderPath() {
-        return FCPATH.'front/images/banner/';
-    }
-
-    public function getSliderPath() {
-        return 'front/images/banner/';
-    }
-
     public function setPrivatePath() {
         return WRITEPATH.'uploads/';
     }

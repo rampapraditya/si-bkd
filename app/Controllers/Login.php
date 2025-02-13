@@ -20,7 +20,7 @@ class Login extends BaseController {
         $jml = $this->mcustom->getCount("identitas");
         if ($jml > 0) {
             $tersimpan = (object)$this->mcustom->getDynamicData(true,[], "identitas");
-            $data['appname'] = $tersimpan->nama;
+            $data['appname'] = $tersimpan->appname;
             $data['slogan'] = $tersimpan->slogan;
 
             $deflogo = base_url('images/logo.png');
@@ -87,17 +87,6 @@ class Login extends BaseController {
                             'logged_admin' => TRUE
                         ]);
                         $output['pesan'] = "ok";
-                    }else if ($data->nama_jabatan == "KETUA BIDANG") {
-                        // ADMIN
-                        session()->set([
-                            'idusers' => $data->idusers,
-                            'nama' => $data->nama,
-                            'idjabatan' => $data->idjabatan,
-                            'nama_jabatan' => $data->nama_jabatan,
-                            'email' => $data->email,
-                            'logged_ketua_bidang' => TRUE
-                        ]);
-                        $output['pesan'] = "ok_ketua_bidang";
                     }
                 } else {
                     $output['pesan'] = "Anda tidak berhak mengakses !";
@@ -114,7 +103,7 @@ class Login extends BaseController {
         session()->destroy();
         clearstatcache();
 
-        $this->modul->halaman('home');
+        $this->modul->halaman('login');
     }
 
 }

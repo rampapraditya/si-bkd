@@ -3,8 +3,12 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>AdminLTE 2 | Dashboard</title>
+        <title><?php echo $appname; ?></title>
+        <meta name="csrf-token" content="<?= csrf_hash() ?>">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <meta name="description" content="SI-BKD SEKOLAH TINGGI TEKNOLOGI ANGKATAN LAUT" />
+        <meta name="keywords" content="SI-BKD, STTAL, PRAMEDIA">
+        <meta name="author" content="Rampa Praditya" />
         <link rel="stylesheet" href="<?php echo base_url() ?>bootstrap/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
         <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
@@ -25,7 +29,6 @@
             <?php echo $this->renderSection('content'); ?>
             <?php echo $this->include('template/footer'); ?>
         </div>
-
         
         <script src="<?php echo base_url() ?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
         <script src="<?php echo base_url() ?>plugins/jQueryUI/jquery-ui.min.js"></script>
@@ -46,7 +49,7 @@
         <script src="<?php echo base_url(); ?>izitoast/js/iziToast.min.js"></script>
         <script type="text/javascript">
             $(document).ready(function () {
-                alert("A");
+                
             });
         </script>
     </body>
