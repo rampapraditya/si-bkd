@@ -5,9 +5,9 @@ use CodeIgniter\Router\RouteCollection;
 /**
  * @var RouteCollection $routes
  */
-$routes->group('/', function ($routes) {
-    $routes->get('dashboard', 'Dashboard::index');
-});
+$routes->get('/', 'Dashboard::index');
+$routes->get('dashboard', 'Dashboard::index');
+$routes->get('dashboard/showimg/(:any)', 'Dashboard::showimg/$1');
 
 $routes->group('login', function ($routes) {
     $routes->get('', 'Login::index');

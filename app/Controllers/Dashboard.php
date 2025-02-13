@@ -67,4 +67,12 @@ class Dashboard extends BaseController
             $this->modul->halaman('login');
         }
     }
+
+    public function showimg($filename){
+        if (session()->get("logged_admin")) {
+            return $this->modul->serveImage($this->response, $filename);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
 }

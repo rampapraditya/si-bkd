@@ -6,11 +6,14 @@
         <title><?php echo $appname; ?></title>
         <meta name="csrf-token" content="<?= csrf_hash() ?>">
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-        <link rel="stylesheet" href="<?php echo base_url(); ?>bootstrap/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+        <link rel="icon" href="<?php echo $logo; ?>" type="image/x-icon">
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>bower_components/bootstrap/dist/css/bootstrap.min.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>bower_components/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<?php echo base_url(); ?>bower_components/Ionicons/css/ionicons.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>dist/css/AdminLTE.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/iCheck/square/blue.css">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <link rel="stylesheet" href="<?php echo base_url(); ?>izitoast/css/iziToast.min.css">
     </head>
     <body class="hold-transition login-page">
@@ -28,7 +31,7 @@
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
-                        <input id="pass" name="pass" type="password" class="form-control" placeholder="Password" autocomplete="off">
+                        <input id="pass" name="pass" type="password" class="form-control" placeholder="Password">
                         <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">
@@ -44,8 +47,8 @@
             </div>
         </div>
 
-        <script src="<?php echo base_url(); ?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
-        <script src="<?php echo base_url(); ?>bootstrap/js/bootstrap.min.js"></script>
+        <script src="<?php echo base_url(); ?>bower_components/jquery/dist/jquery.min.js"></script>
+        <script src="<?php echo base_url(); ?>bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
         <script src="<?php echo base_url(); ?>plugins/iCheck/icheck.min.js"></script>
         <script src="<?php echo base_url(); ?>izitoast/js/iziToast.min.js"></script>
 

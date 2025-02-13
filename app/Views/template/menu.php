@@ -9,11 +9,9 @@
                 <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
             </div>
         </div>
-        <ul class="sidebar-menu">
+        <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li <?php if($menu == '' || $menu == 'dashboard') { echo 'class="active"'; } ?> >
-                <a href="<?php echo base_url('dashboard'); ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
-            </li>
+            <li class="<?php if($menu == '' || $menu == 'dashboard'){ echo 'active'; } ?>"><a href="<?php echo base_url('dashboard'); ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a></li>
             <li class="treeview <?php if($menu == 'identitas' || $menu == 'profile' || $menu == 'ganti-password') { echo 'active'; } ?>">
                 <a href="#">
                     <i class="fa fa-gear"></i> <span>Setting</span>
