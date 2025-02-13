@@ -21,6 +21,7 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>plugins/daterangepicker/daterangepicker-bs3.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
         <link rel="stylesheet" href="<?php echo base_url(); ?>izitoast/css/iziToast.min.css">
+        <script src="<?php echo base_url() ?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
     </head>
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
@@ -30,7 +31,7 @@
             <?php echo $this->include('template/footer'); ?>
         </div>
         
-        <script src="<?php echo base_url() ?>plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        
         <script src="<?php echo base_url() ?>plugins/jQueryUI/jquery-ui.min.js"></script>
         <script src="<?php echo base_url() ?>bootstrap/js/bootstrap.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>

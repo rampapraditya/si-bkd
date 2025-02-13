@@ -51,6 +51,20 @@ class Profile extends BaseController
                 $data['logo'] = base_url('images/logo.png');
             }
 
+            $data['satker'] = $this->mcustom->getAll("satker");
+            $data['pangkat'] = $this->mcustom->getAll("pangkat");
+            $data['korps'] = $this->mcustom->getAll("korps");
+
+            $join = [
+                ['table' => 'jabatan', 'condition' => 'users.idjabatan = jabatan.idjabatan', 'type' => 'inner'],
+                ['table' => 'satker', 'condition' => 'users.idsatker = satker.idsatker', 'type' => 'inner'],
+                ['table' => 'pangkat', 'condition' => 'users.idpangkat = pangkat.idpangkat', 'type' => 'inner'],
+                ['table' => 'korps', 'condition' => 'users.idkorps = korps.idkorps', 'type' => 'inner']
+            ];
+            $where = ['users.idusers' => session()->get("idusers")];
+            $profile = (object) $this->mcustom->getDynamicData(true, ['users.*', 'jabatan.nama_jabatan', 'satker.namasatker', 'pangkat.nama_pangkat', 'korps.nama_korps'], 'users', $join, $where);
+            $data['profile'] = $profile;
+
             return view('profile/index', $data);
         } else {
             $this->modul->halaman('login');
@@ -89,6 +103,8 @@ class Profile extends BaseController
     }
 
     private function update_file() {
+        $idusers = session()->get("idusers");
+
         $file = $this->request->getFile('file');
         $fileName = $file->getRandomName();
         $ukuranFile = $file->getSizeByBinaryUnit();
@@ -100,67 +116,61 @@ class Profile extends BaseController
         $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
         //$allowedExtensions = ['jpeg', 'jpg', 'png', 'pdf'];
 
-        if($ukuranMB < 1){
+        if($ukuranMB < 3){
             if (in_array($mimeFile, $allowedMimeTypes)) {
-                if (file_exists($this->modul->getPublicPath() . '/' . $fileName)) {
-                    $status = "Gunakan nama file lain";
-                } else {
-                    // hapus file lama
-                    $lawas = (object)$this->mcustom->getDynamicData(true, ['logo'], 'identitas');
-                    if (strlen($lawas->logo) > 0) {
-                        if (file_exists($this->modul->getPublicPath() . $lawas->logo)) {
-                            unlink($this->modul->getPublicPath() . $lawas->logo);
-                        }
+                // hapus file lama
+                $lawas = (object)$this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $idusers]);  
+                if (strlen($lawas->foto) > 0) {
+                    if (file_exists($this->modul->getPrivatePath() . $lawas->foto)) {
+                        unlink($this->modul->getPrivatePath() . $lawas->foto);
                     }
+                }
 
-                    $status_upload = $file->move($this->modul->setPublicPath(), $fileName);
-                    if ($status_upload) {
-                        $data = array(
-                            'appname' => strip_tags($this->request->getPost('appname')),
-                            'namains' => strip_tags($this->request->getPost('ins')),
-                            'slogan' => strip_tags($this->request->getPost('slogan')),
-                            'tahun' => strip_tags($this->request->getPost('tahun')),
-                            'pimpinan' => strip_tags($this->request->getPost('pimpinan')),
-                            'alamat' => strip_tags($this->request->getPost('alamat')),
-                            'kdpos' => strip_tags($this->request->getPost('kdpos')),
-                            'tlp' => strip_tags($this->request->getPost('tlp')),
-                            'website' => strip_tags($this->request->getPost('website')),
-                            'email' => strip_tags($this->request->getPost('email')),
-                            'logo' => $fileName
-                        );
-                        $update = $this->mcustom->updateNK("identitas", $data);
-                        if ($update == 1) {
-                            $status = "Data tersimpan";
-                        } else {
-                            $status = "Data gagal tersimpan";
-                        }
+                $status_upload = $file->move($this->modul->setPrivatePath(), $fileName);
+                if ($status_upload) {
+                    $data = array(
+                        'username' => strip_tags($this->request->getPost('username')),
+                        'email' => strip_tags($this->request->getPost('email')),
+                        'nrp' => strip_tags($this->request->getPost('nrp')),
+                        'nama' => strip_tags($this->request->getPost('nama')),
+                        'idsatker' => strip_tags($this->request->getPost('satker')),
+                        'idpangkat' => strip_tags($this->request->getPost('pangkat')),
+                        'idkorps' => strip_tags($this->request->getPost('korps')),
+                        'foto' => $fileName,
+                        'updated_at' => $this->modul->TanggalWaktu()
+                    );
+                    $kond['idusers'] = session()->get("idusers");
+                    $update = $this->mcustom->ganti("users", $data, $kond);
+                    if ($update == 1) {
+                        $status = "Data tersimpan";
                     } else {
-                        $status = "File gagal terupload";
+                        $status = "Data gagal tersimpan";
                     }
+                } else {
+                    $status = "File gagal terupload";
                 }
             }else{
                 $status = "Hanya diperkenankan file gambar";
             }
         }else{
-            $status = "Hanya diperkenankan file dibawah 1 MB.";
+            $status = "Hanya diperkenankan file dibawah 3 MB.";
         }
         return $status;
     }
 
     private function update() {
         $data = array(
-            'appname' => strip_tags($this->request->getPost('appname')),
-            'namains' => strip_tags($this->request->getPost('ins')),
-            'slogan' => strip_tags($this->request->getPost('slogan')),
-            'tahun' => strip_tags($this->request->getPost('tahun')),
-            'pimpinan' => strip_tags($this->request->getPost('pimpinan')),
-            'alamat' => strip_tags($this->request->getPost('alamat')),
-            'kdpos' => strip_tags($this->request->getPost('kdpos')),
-            'tlp' => strip_tags($this->request->getPost('tlp')),
-            'website' => strip_tags($this->request->getPost('website')),
-            'email' => strip_tags($this->request->getPost('email'))
+            'username' => strip_tags($this->request->getPost('username')),
+            'email' => strip_tags($this->request->getPost('email')),
+            'nrp' => strip_tags($this->request->getPost('nrp')),
+            'nama' => strip_tags($this->request->getPost('nama')),
+            'idsatker' => strip_tags($this->request->getPost('satker')),
+            'idpangkat' => strip_tags($this->request->getPost('pangkat')),
+            'idkorps' => strip_tags($this->request->getPost('korps')),
+            'updated_at' => $this->modul->TanggalWaktu()
         );
-        $update = $this->mcustom->updateNK("identitas", $data);
+        $kond['idusers'] = session()->get("idusers");
+        $update = $this->mcustom->ganti("users", $data, $kond);
         if ($update == 1) {
             $status = "Data tersimpan";
         } else {

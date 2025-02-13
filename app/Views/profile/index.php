@@ -20,43 +20,70 @@
                             <div class="form-group">
                                 <label for="username" class="col-sm-2 control-label">Username</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="username" name="username" value="" autocomplete="off">
+                                    <input type="text" class="form-control" id="username" name="username" value="<?php echo $profile->username; ?>" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="email" name="email" value="" autocomplete="off">
+                                    <input type="text" class="form-control" id="email" name="email" value="<?php echo $profile->email; ?>" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nrp" class="col-sm-2 control-label">NRP</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="nrp" name="nrp" value="" autocomplete="off">
+                                    <input type="text" class="form-control" id="nrp" name="nrp" value="<?php echo $profile->nrp; ?>" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="nama" class="col-sm-2 control-label">Nama</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="nama" name="nama" value="" autocomplete="off">
+                                    <input type="text" class="form-control" id="nama" name="nama" value="<?php echo $profile->nama; ?>" autocomplete="off">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="satker" class="col-sm-2 control-label">Satker</label>
                                 <div class="col-sm-10">
-                                    
+                                    <select id="satker" name="satker" class="form-control">
+                                        <option value="-">- Pilih Satker -</option>
+                                        <?php
+                                        foreach ($satker as $row) {
+                                            ?>
+                                        <option <?php if($profile->idsatker == $row->idsatker){ echo 'selected'; } ?>  value="<?php echo $row->idsatker; ?>"><?php echo $row->namasatker; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="pangkat" class="col-sm-2 control-label">Pangkat</label>
                                 <div class="col-sm-10">
-                                    
+                                    <select id="pangkat" name="pangkat" class="form-control">
+                                        <option value="-">- Pilih Pangkat -</option>
+                                        <?php
+                                        foreach ($pangkat as $row) {
+                                            ?>
+                                        <option <?php if($profile->idpangkat == $row->idpangkat){ echo 'selected'; } ?> value="<?php echo $row->idpangkat; ?>"><?php echo $row->nama_pangkat; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="korps" class="col-sm-2 control-label">Korps</label>
                                 <div class="col-sm-10">
-                                    
+                                    <select id="korps" name="korps" class="form-control">
+                                        <option value="-">- Pilih Korps -</option>
+                                        <?php
+                                        foreach ($korps as $row) {
+                                            ?>
+                                        <option <?php if($profile->idkorps == $row->idkorps){ echo 'selected'; } ?> value="<?php echo $row->idkorps; ?>"><?php echo $row->nama_korps; ?></option>
+                                            <?php
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                             </div>
                             <div class="form-group">
@@ -84,68 +111,103 @@
     });
 
     function proses() {
-        $('#btnSave').text('Saving...');
-        $('#btnSave').attr('disabled', true);
+        var username = document.getElementById('username').value;
+        var email = document.getElementById('email').value;
+        var nrp = document.getElementById('nrp').value;
+        var nama = document.getElementById('nama').value;
+        var satker = document.getElementById('satker').value;
+        var pangkat = document.getElementById('pangkat').value;
+        var korps = document.getElementById('korps').value;
+        var foto = $('#foto').prop('files')[0];
 
-        var appname = document.getElementById('appname').value;
-        var ins = document.getElementById('ins').value;
-        var slogan = document.getElementById('slogan').value;
-        var tahun = document.getElementById('tahun').value;
-        var pimpinan = document.getElementById('pimpinan').value;
-        var alamat = document.getElementById('alamat').value;
-        var kdpos = document.getElementById('kdpos').value;
-        var tlp = document.getElementById('tlp').value;
-        var website = document.getElementById('website').value;
-        var logo = $('#logo').prop('files')[0];
+        if(username === ""){
+            iziToast.error({
+                title: 'Info',
+                message: "Username tidak boleh kosong",
+                position: 'topRight'
+            });
+        }else if(email === ""){
+            iziToast.error({
+                title: 'Info',
+                message: "Email tidak boleh kosong",
+                position: 'topRight'
+            });
+        }else if(nama === ""){
+            iziToast.error({
+                title: 'Info',
+                message: "Nama tidak boleh kosong",
+                position: 'topRight'
+            });
+        }else if(satker === "-"){
+            iziToast.error({
+                title: 'Info',
+                message: "Satker tidak boleh kosong",
+                position: 'topRight'
+            });
+        }else if(pangkat === "-"){
+            iziToast.error({
+                title: 'Info',
+                message: "Pangkat tidak boleh kosong",
+                position: 'topRight'
+            });
+        }else if(korps === "-"){
+            iziToast.error({
+                title: 'Info',
+                message: "Korps tidak boleh kosong",
+                position: 'topRight'
+            });
+        }else{
 
-        var form_data = new FormData();
-        form_data.append('appname', appname);
-        form_data.append('ins', ins);
-        form_data.append('slogan', slogan);
-        form_data.append('tahun', tahun);
-        form_data.append('pimpinan', pimpinan);
-        form_data.append('alamat', alamat);
-        form_data.append('kdpos', kdpos);
-        form_data.append('tlp', tlp);
-        form_data.append('website', website);
-        form_data.append('file', logo);
+            $('#btnSave').text('Saving...');
+            $('#btnSave').attr('disabled', true);
 
-        $.ajax({
-            url: "<?php echo base_url('identitas/proses'); ?>",
-            dataType: 'JSON',
-            cache: false,
-            contentType: false,
-            processData: false,
-            data: form_data,
-            type: 'POST',
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));    
-            },success: function (response, status, xhr) {
-                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
-                $('meta[name="csrf-token"]').attr('content', csrfToken);
+            var form_data = new FormData();
+            form_data.append('username', username);
+            form_data.append('email', email);
+            form_data.append('nrp', nrp);
+            form_data.append('nama', nama);
+            form_data.append('satker', satker);
+            form_data.append('pangkat', pangkat);
+            form_data.append('korps', korps);
+            form_data.append('file', foto);
 
-                iziToast.info({
-                    title: 'Info',
-                    message: response.status,
-                    position: 'topRight'
-                });
+            $.ajax({
+                url: "<?php echo base_url('profile/proses'); ?>",
+                dataType: 'JSON',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));    
+                },success: function (response, status, xhr) {
+                    var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                    $('meta[name="csrf-token"]').attr('content', csrfToken);
 
-                $('#btnSave').text('Save');
-                $('#btnSave').attr('disabled', false);
-            }, error: function (response, status, xhr) {
-                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
-                $('meta[name="csrf-token"]').attr('content', csrfToken);
+                    iziToast.info({
+                        title: 'Info',
+                        message: response.status,
+                        position: 'topRight'
+                    });
 
-                iziToast.error({
-                    title: 'Info',
-                    message: response.status,
-                    position: 'topRight'
-                });
+                    $('#btnSave').text('Save');
+                    $('#btnSave').attr('disabled', false);
+                }, error: function (response, status, xhr) {
+                    var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                    $('meta[name="csrf-token"]').attr('content', csrfToken);
 
-                $('#btnSave').text('Save');
-                $('#btnSave').attr('disabled', false);
-            }
-        });
+                    iziToast.error({
+                        title: 'Info',
+                        message: response.status,
+                        position: 'topRight'
+                    });
+
+                    $('#btnSave').text('Save');
+                    $('#btnSave').attr('disabled', false);
+                }
+            });
+        }
     }
 
 </script>
