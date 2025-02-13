@@ -5,7 +5,7 @@ namespace App\Controllers;
 use App\Models\Mcustom;
 use App\Libraries\Modul;
 
-class Profile extends BaseController
+class Korps extends BaseController
 {
     private $mcustom;
     private $modul;
@@ -26,20 +26,13 @@ class Profile extends BaseController
 
             $def_foto = base_url('images/noimg.jpg');
 
-            $join = [
-                ['table' => 'jabatan', 'condition' => 'users.idjabatan = jabatan.idjabatan', 'type' => 'inner'],
-                ['table' => 'satker', 'condition' => 'users.idsatker = satker.idsatker', 'type' => 'inner'],
-                ['table' => 'pangkat', 'condition' => 'users.idpangkat = pangkat.idpangkat', 'type' => 'inner'],
-                ['table' => 'korps', 'condition' => 'users.idkorps = korps.idkorps', 'type' => 'inner']
-            ];
-            $pro = (object) $this->mcustom->getDynamicData(true, ['users.*', 'jabatan.nama_jabatan', 'satker.namasatker', 'pangkat.nama_pangkat', 'korps.nama_korps'], 'users', $join, ['idusers' => $data['idusers']]);
+            $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('profile/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('korps/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
-            $data['profile'] = $pro;
 
             $jml = $this->mcustom->getCount('identitas');
             if ($jml > 0) {
@@ -59,11 +52,7 @@ class Profile extends BaseController
                 $data['logo'] = base_url('images/logo.png');
             }
 
-            $data['satker'] = $this->mcustom->getAll("satker");
-            $data['pangkat'] = $this->mcustom->getAll("pangkat");
-            $data['korps'] = $this->mcustom->getAll("korps");
-
-            return view('profile/index', $data);
+            return view('korps/index', $data);
         } else {
             $this->modul->halaman('login');
         }

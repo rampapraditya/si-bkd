@@ -14,7 +14,7 @@
             <li <?php if($menu == '' || $menu == 'dashboard') { echo 'class="active"'; } ?> >
                 <a href="<?php echo base_url('dashboard'); ?>"><i class="fa fa-dashboard"></i> <span>Dashboard</span> </a>
             </li>
-            <li class="treeview <?php if($menu == 'identitas' || $menu == 'profile' || $menu == 'gantipass') { echo 'active'; } ?>">
+            <li class="treeview <?php if($menu == 'identitas' || $menu == 'profile' || $menu == 'ganti-password') { echo 'active'; } ?>">
                 <a href="#">
                     <i class="fa fa-gear"></i> <span>Setting</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -22,19 +22,19 @@
                 <ul class="treeview-menu">
                     <li <?php if($menu == 'identitas') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('identitas'); ?>"><i class="fa fa-circle-o"></i> Identitas</a></li>
                     <li <?php if($menu == 'profile') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('profile'); ?>"><i class="fa fa-circle-o"></i> Profile</a></li>
-                    <li <?php if($menu == 'gantipass') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('gantipass'); ?>"><i class="fa fa-circle-o"></i> Ganti password</a></li>
+                    <li <?php if($menu == 'ganti-password') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('ganti-password'); ?>"><i class="fa fa-circle-o"></i> Ganti password</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview <?php if($menu == 'korps' || $menu == 'pangkat' || $menu == 'satker' || $menu == 'jabatan') { echo 'active'; } ?>">
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>Master</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/forms/general.html"><i class="fa fa-circle-o"></i> Korps</a></li>
-                    <li><a href="pages/forms/advanced.html"><i class="fa fa-circle-o"></i> Pangkat</a></li>
-                    <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Satker</a></li>
-                    <li><a href="pages/forms/editors.html"><i class="fa fa-circle-o"></i> Jabatan</a></li>
+                    <li <?php if($menu == 'korps') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('korps'); ?>"><i class="fa fa-circle-o"></i> Korps</a></li>
+                    <li <?php if($menu == 'pangkat') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pangkat'); ?>"><i class="fa fa-circle-o"></i> Pangkat</a></li>
+                    <li <?php if($menu == 'satker') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('satker'); ?>"><i class="fa fa-circle-o"></i> Satker</a></li>
+                    <li <?php if($menu == 'jabatan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('jabatan'); ?>"><i class="fa fa-circle-o"></i> Jabatan</a></li>
                 </ul>
             </li>
             <li class="treeview">
