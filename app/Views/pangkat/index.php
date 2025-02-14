@@ -3,10 +3,10 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Korps <small>Maintenance data korps</small> </h1>
+        <h1>Pangkat <small>Maintenance data pangkat</small> </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('dashboard'); ?>"> Beranda</a></li>
-            <li class="active">Korps</li>
+            <li class="active">Pangkat</li>
         </ol>
     </section>
     <section class="content">
@@ -22,7 +22,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Korps</th>
+                                    <th>Pangkat</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
@@ -49,7 +49,7 @@
                 <form id="form" class="form-horizontal">
                     <input type="hidden" name="kode" id="kode">
                     <div class="form-group row">
-                        <label for="nama" class="col-sm-3 control-label">Korps</label>
+                        <label for="nama" class="col-sm-3 control-label">Pangkat</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="nama" name="nama" autocomplete="off">
                         </div>
@@ -70,7 +70,7 @@
 
     $(document).ready(function () {
         table = $('#tb').DataTable({
-            ajax: "<?php echo base_url('korps/ajaxlist'); ?>",
+            ajax: "<?php echo base_url('pangkat/ajaxlist'); ?>",
             ordering: false
         });
     });
@@ -83,7 +83,7 @@
         save_method = 'add';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah korps');
+        $('.modal-title').text('Tambah pangkat');
     }
 
     function save() {
@@ -93,7 +93,7 @@
         if (nama === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Nama korps tidak boleh kosong",
+                message: "Nama pangkat tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -102,9 +102,9 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('korps/ajax_add'); ?>";
+                url = "<?php echo base_url('pangkat/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('korps/ajax_edit'); ?>";
+                url = "<?php echo base_url('pangkat/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
@@ -158,7 +158,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus korps ' + nama + ' ?',
+            message: 'Apakah yakin menghapus pangkat ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -168,7 +168,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('korps/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('pangkat/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -203,14 +203,14 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti korps');
+        $('.modal-title').text('Ganti pangkat');
         $.ajax({
-            url: "<?php echo base_url('korps/show/'); ?>" + id,
+            url: "<?php echo base_url('pangkat/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idkorps);
-                $('[name="nama"]').val(data.nama_korps);
+                $('[name="kode"]').val(data.idpangkat);
+                $('[name="nama"]').val(data.nama_pangkat);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 alert('Error get data');
             }

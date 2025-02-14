@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Feb 10, 2025 at 03:28 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: 127.0.0.1:3306
+-- Generation Time: Feb 14, 2025 at 02:44 AM
+-- Server version: 8.3.0
+-- PHP Version: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -27,10 +27,11 @@ SET time_zone = "+00:00";
 -- Table structure for table `identitas`
 --
 
-CREATE TABLE `identitas` (
+DROP TABLE IF EXISTS `identitas`;
+CREATE TABLE IF NOT EXISTS `identitas` (
   `kode` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '0',
-  `appname` varchar(45) DEFAULT NULL,
-  `namains` varchar(45) DEFAULT NULL,
+  `appname` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `namains` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `slogan` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `tahun` float DEFAULT NULL,
   `pimpinan` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
@@ -39,16 +40,16 @@ CREATE TABLE `identitas` (
   `tlp` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `website` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `email` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `logo` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `keterangan` text DEFAULT NULL
+  `logo` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  PRIMARY KEY (`kode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `identitas`
 --
 
-INSERT INTO `identitas` (`kode`, `appname`, `namains`, `slogan`, `tahun`, `pimpinan`, `alamat`, `kdpos`, `tlp`, `website`, `email`, `logo`, `keterangan`) VALUES
-('22e0382e-8d8b-4ddb-b9be-2ada1396ad4f', ' DISBINTALAL', 'STTAL', 'DHARMA VIDYA ADHIGUNA', 1966, 'Laksamana Pertama TNI Dr. Andik Ismaryanto, S.T., M.M., CHRMP., CACA., CRMP.', 'Jl. Bumi Moro, Morokrembangan, Kec. Krembangan, Surabaya, Jawa Timur ', '60178', '031-99000581- 8', 'http://www.sttal.ac.id/', 'campus_sttal@sttal.ac.id', '1735729958_4842d823dfc732d0ae6d.png', '<p>Bedasarkan peraturan kepala Staf TNI Angkata Laut nomor 13 tahun 2020 Dinas Pembinaan Mental Tentara Nasional Indonesia. Angkatan laut atau Disnintalal adalah badan pelaksanan pusat di tingkat mabesal yang bekedudukan</p>');
+INSERT INTO `identitas` (`kode`, `appname`, `namains`, `slogan`, `tahun`, `pimpinan`, `alamat`, `kdpos`, `tlp`, `website`, `email`, `logo`) VALUES
+('22e0382e-8d8b-4ddb-b9be-2ada1396ad4f', ' SI-BKD', 'STTAL', 'DHARMA VIDYA ADHIGUNA', 1966, 'Laksamana Pertama TNI Dr. Andik Ismaryanto, S.T., M.M., CHRMP., CACA., CRMP.', 'Jl. Bumi Moro, Morokrembangan, Kec. Krembangan, Surabaya, Jawa Timur ', '60178', '031-99000581- 8', 'http://www.sttal.ac.id/', '', '1739420257_c506f03f7b3276ee4914.png');
 
 -- --------------------------------------------------------
 
@@ -56,11 +57,13 @@ INSERT INTO `identitas` (`kode`, `appname`, `namains`, `slogan`, `tahun`, `pimpi
 -- Table structure for table `jabatan`
 --
 
-CREATE TABLE `jabatan` (
+DROP TABLE IF EXISTS `jabatan`;
+CREATE TABLE IF NOT EXISTS `jabatan` (
   `idjabatan` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nama_jabatan` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idjabatan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -68,9 +71,7 @@ CREATE TABLE `jabatan` (
 --
 
 INSERT INTO `jabatan` (`idjabatan`, `nama_jabatan`, `created_at`, `updated_at`) VALUES
-('06da48a2-24a7-405a-b287-f9be4797e501', 'KADISBINTALAL', '2024-12-27 20:58:18', '2024-12-27 20:58:18'),
-('56fb6bb5-62f6-4fef-bf79-3b3df04eaea3', 'STAFF BINTALAL', '2024-12-27 20:58:26', '2024-12-27 20:58:26'),
-('dd1f4a84-d5d2-4497-8f8c-0fb1008106c4', 'PAWAS BINTALAL', '2024-12-27 20:58:33', '2024-12-28 12:12:45'),
+('96cf7ad7-644c-4e80-b964-0b712a31ac1e', 'DOSEN', '2025-02-14 08:48:22', '2025-02-14 08:48:22'),
 ('f093ffbe-41f5-42c7-a184-19226cd97a69', 'ADMINISTRATOR', '2024-12-27 20:57:39', '2024-12-27 20:57:39');
 
 -- --------------------------------------------------------
@@ -79,11 +80,13 @@ INSERT INTO `jabatan` (`idjabatan`, `nama_jabatan`, `created_at`, `updated_at`) 
 -- Table structure for table `korps`
 --
 
-CREATE TABLE `korps` (
-  `idkorps` varchar(36) NOT NULL,
-  `nama_korps` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `korps`;
+CREATE TABLE IF NOT EXISTS `korps` (
+  `idkorps` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_korps` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idkorps`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -104,11 +107,13 @@ INSERT INTO `korps` (`idkorps`, `nama_korps`, `created_at`, `updated_at`) VALUES
 -- Table structure for table `pangkat`
 --
 
-CREATE TABLE `pangkat` (
-  `idpangkat` varchar(36) NOT NULL,
-  `nama_pangkat` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `pangkat`;
+CREATE TABLE IF NOT EXISTS `pangkat` (
+  `idpangkat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_pangkat` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpangkat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -152,11 +157,13 @@ INSERT INTO `pangkat` (`idpangkat`, `nama_pangkat`, `created_at`, `updated_at`) 
 -- Table structure for table `satker`
 --
 
-CREATE TABLE `satker` (
-  `idsatker` varchar(36) NOT NULL,
-  `namasatker` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `satker`;
+CREATE TABLE IF NOT EXISTS `satker` (
+  `idsatker` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `namasatker` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idsatker`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -174,20 +181,26 @@ INSERT INTO `satker` (`idsatker`, `namasatker`, `created_at`, `updated_at`) VALU
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `idusers` varchar(36) NOT NULL,
-  `username` varchar(40) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(40) COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `pass` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `nrp` varchar(25) DEFAULT NULL,
+  `nrp` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nama` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `foto` varchar(150) DEFAULT NULL,
+  `foto` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idjabatan` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `idsatker` varchar(36) NOT NULL,
-  `idpangkat` varchar(36) NOT NULL,
-  `idkorps` varchar(36) NOT NULL,
+  `idsatker` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idpangkat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idkorps` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idusers`),
+  KEY `FK_users_jabatan` (`idjabatan`),
+  KEY `FK_users_pangkat` (`idpangkat`),
+  KEY `FK_users_satker` (`idsatker`),
+  KEY `FK_users_korps` (`idkorps`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -195,54 +208,8 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`idusers`, `username`, `email`, `pass`, `nrp`, `nama`, `foto`, `idjabatan`, `idsatker`, `idpangkat`, `idkorps`, `created_at`, `updated_at`) VALUES
-('8b27981d-e4b0-400a-8421-2f3a63ed0803', 'staff', 'staff@gmail.com', 'aGtq', 'staff', 'Staff Bintalal', '1735730009_e886f52df2e192f41345.jpg', '56fb6bb5-62f6-4fef-bf79-3b3df04eaea3', '23a0b274-6252-4d10-9387-349486727e97', 'a15ff0c3-153e-4d4c-91e4-959275da8c83', '4dedc097-e0d5-48d2-b997-53faeb13c75c', '2025-01-01 10:03:10', '2025-01-02 11:24:35'),
-('94cceadd-edce-4e09-9f8d-63c7a51f0bb9', 'kadis', 'kadis@gmail.com', 'aGtq', 'kadis', 'Kadis Bintalal', '1735729994_a4ddc026921077937611.jpg', '06da48a2-24a7-405a-b287-f9be4797e501', '23a0b274-6252-4d10-9387-349486727e97', '752ac707-c6ff-41ce-a6e8-5a8b468ec763', '19c2af36-26f2-43bf-a206-f1edc603ce23', '2025-01-01 09:22:30', '2025-01-01 18:13:14'),
-('d98a7b79-51f6-41b0-ab90-d8083c33cc91', 'pawas', 'pawas@gmail.com', 'aGtq', 'pawas', 'Pawas Bintalal', '1735730002_70a788032598ed2c3683.jpg', 'dd1f4a84-d5d2-4497-8f8c-0fb1008106c4', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '19c2af36-26f2-43bf-a206-f1edc603ce23', '2025-01-01 10:03:47', '2025-01-01 18:13:22'),
-('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1735729974_8dfa393dcbda412154c5.jpg', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '32675749-b658-4559-abdf-114440ebed4e', '2024-12-29 10:54:06', '2025-01-01 18:12:54');
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `identitas`
---
-ALTER TABLE `identitas`
-  ADD PRIMARY KEY (`kode`);
-
---
--- Indexes for table `jabatan`
---
-ALTER TABLE `jabatan`
-  ADD PRIMARY KEY (`idjabatan`);
-
---
--- Indexes for table `korps`
---
-ALTER TABLE `korps`
-  ADD PRIMARY KEY (`idkorps`);
-
---
--- Indexes for table `pangkat`
---
-ALTER TABLE `pangkat`
-  ADD PRIMARY KEY (`idpangkat`);
-
---
--- Indexes for table `satker`
---
-ALTER TABLE `satker`
-  ADD PRIMARY KEY (`idsatker`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`idusers`),
-  ADD KEY `FK_users_jabatan` (`idjabatan`),
-  ADD KEY `FK_users_pangkat` (`idpangkat`),
-  ADD KEY `FK_users_satker` (`idsatker`),
-  ADD KEY `FK_users_korps` (`idkorps`);
+('e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'rampa', 'rampapraditya@gmail.com', 'aGtq', '111/P', 'Rampa Praditya', '', '96cf7ad7-644c-4e80-b964-0b712a31ac1e', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-02-14 09:34:20', '2025-02-14 09:44:00'),
+('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1739432338_d8f676931205a36e774b.png', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '32675749-b658-4559-abdf-114440ebed4e', '2024-12-29 10:54:06', '2025-02-13 14:38:58');
 
 --
 -- Constraints for dumped tables

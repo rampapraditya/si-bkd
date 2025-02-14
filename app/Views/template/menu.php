@@ -35,20 +35,20 @@
                     <li <?php if($menu == 'jabatan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('jabatan'); ?>"><i class="fa fa-circle-o"></i> Jabatan</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview <?php if($menu == 'pengguna') { echo 'active'; } ?>">
                 <a href="#">
                     <i class="fa fa-laptop"></i>
                     <span>Administrasi</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/UI/general.html"><i class="fa fa-circle-o"></i> Pengguna</a></li>
+                <li <?php if($menu == 'pengguna') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengguna'); ?>"><i class="fa fa-circle-o"></i> Pengguna</a></li>
                 </ul>
             </li>
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
-                    <span>Charts</span>
+                    <span>Laporan</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">

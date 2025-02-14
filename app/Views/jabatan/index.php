@@ -3,10 +3,10 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Korps <small>Maintenance data korps</small> </h1>
+        <h1>Jabatan <small>Maintenance data jabatan</small> </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('dashboard'); ?>"> Beranda</a></li>
-            <li class="active">Korps</li>
+            <li class="active">Jabatan</li>
         </ol>
     </section>
     <section class="content">
@@ -22,7 +22,7 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Korps</th>
+                                    <th>Jabatan</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
@@ -49,7 +49,7 @@
                 <form id="form" class="form-horizontal">
                     <input type="hidden" name="kode" id="kode">
                     <div class="form-group row">
-                        <label for="nama" class="col-sm-3 control-label">Korps</label>
+                        <label for="nama" class="col-sm-3 control-label">Jabatan</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="nama" name="nama" autocomplete="off">
                         </div>
@@ -70,7 +70,7 @@
 
     $(document).ready(function () {
         table = $('#tb').DataTable({
-            ajax: "<?php echo base_url('korps/ajaxlist'); ?>",
+            ajax: "<?php echo base_url('jabatan/ajaxlist'); ?>",
             ordering: false
         });
     });
@@ -83,7 +83,7 @@
         save_method = 'add';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah korps');
+        $('.modal-title').text('Tambah jabatan');
     }
 
     function save() {
@@ -93,7 +93,7 @@
         if (nama === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Nama korps tidak boleh kosong",
+                message: "Nama jabatan tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -102,9 +102,9 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('korps/ajax_add'); ?>";
+                url = "<?php echo base_url('jabatan/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('korps/ajax_edit'); ?>";
+                url = "<?php echo base_url('jabatan/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
@@ -134,8 +134,9 @@
                     $('#modal_form').modal('hide');
                     reload();
 
-                    $('#btnSave').text('Save'); //change button text
-                    $('#btnSave').attr('disabled', false); //set button enable 
+                    $('#btnSave').text('Save');
+                    $('#btnSave').attr('disabled', false);
+
                 }, error: function (response, status, xhr) {
                     var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
                     $('meta[name="csrf-token"]').attr('content', csrfToken);
@@ -146,8 +147,8 @@
                         position: 'topRight'
                     });
 
-                    $('#btnSave').text('Save'); //change button text
-                    $('#btnSave').attr('disabled', false); //set button enable 
+                    $('#btnSave').text('Save');
+                    $('#btnSave').attr('disabled', false);
                 }
             });
         }
@@ -158,7 +159,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus korps ' + nama + ' ?',
+            message: 'Apakah yakin menghapus jabatan ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -168,7 +169,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('korps/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('jabatan/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -203,14 +204,14 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti korps');
+        $('.modal-title').text('Ganti jabatan');
         $.ajax({
-            url: "<?php echo base_url('korps/show/'); ?>" + id,
+            url: "<?php echo base_url('jabatan/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idkorps);
-                $('[name="nama"]').val(data.nama_korps);
+                $('[name="kode"]').val(data.idjabatan);
+                $('[name="nama"]').val(data.nama_jabatan);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 alert('Error get data');
             }
