@@ -23,7 +23,17 @@
                         </li>
                         <li class="user-footer">
                             <div class="pull-left">
+                                <?php
+                                if (session()->get("logged_admin")) {
+                                    ?>
                                 <a href="<?php echo base_url('profile'); ?>" class="btn btn-default btn-flat">Profile</a>
+                                    <?php
+                                } else if (session()->get("logged_dosen")) {
+                                    ?>
+                                <a href="<?php echo base_url('data-pribadi'); ?>" class="btn btn-default btn-flat">Profile</a>
+                                    <?php
+                                }
+                                ?>
                             </div>
                             <div class="pull-right">
                                 <a href="<?php echo base_url('login/logout'); ?>" class="btn btn-default btn-flat">Sign out</a>

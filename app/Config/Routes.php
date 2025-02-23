@@ -73,6 +73,26 @@ $routes->group('jabatan', function ($routes) {
     $routes->get('hapus/(:any)', 'Jabatan::hapus/$1');
 });
 
+$routes->group('jabatan-fungsional', function ($routes) {
+    $routes->get('', 'Jabatanfungsi::index');
+    $routes->get('showimg/(:any)', 'Jabatanfungsi::showimg/$1');
+    $routes->get('ajaxlist', 'Jabatanfungsi::ajaxlist');
+    $routes->post('ajax_add', 'Jabatanfungsi::ajax_add');
+    $routes->get('show/(:any)', 'Jabatanfungsi::show/$1');
+    $routes->post('ajax_edit', 'Jabatanfungsi::ajax_edit');
+    $routes->get('hapus/(:any)', 'Jabatanfungsi::hapus/$1');
+});
+
+$routes->group('golongan', function ($routes) {
+    $routes->get('', 'Golongan::index');
+    $routes->get('showimg/(:any)', 'Golongan::showimg/$1');
+    $routes->get('ajaxlist', 'Golongan::ajaxlist');
+    $routes->post('ajax_add', 'Golongan::ajax_add');
+    $routes->get('show/(:any)', 'Golongan::show/$1');
+    $routes->post('ajax_edit', 'Golongan::ajax_edit');
+    $routes->get('hapus/(:any)', 'Golongan::hapus/$1');
+});
+
 $routes->group('fakultas', function ($routes) {
     $routes->get('', 'Fakultas::index');
     $routes->get('showimg/(:any)', 'Fakultas::showimg/$1');
@@ -103,4 +123,9 @@ $routes->group('pengguna', function ($routes) {
     $routes->get('ajaxreload/(:any)', 'Pengguna::ajaxreload/$1');
     $routes->get('loadjurusan/(:any)', 'Pengguna::loadjurusan/$1');
     $routes->post('proses_fak_jur', 'Pengguna::proses_fak_jur');
+});
+
+$routes->group('data-pribadi', function ($routes) {
+    $routes->get('', 'Datapribadi::index');
+    $routes->get('showimg/(:any)', 'Datapribadi::showimg/$1');
 });

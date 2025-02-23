@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2025 at 05:18 AM
+-- Generation Time: Feb 23, 2025 at 08:36 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -182,6 +182,14 @@ CREATE TABLE `jabatan_fungsional` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jabatan_fungsional`
+--
+
+INSERT INTO `jabatan_fungsional` (`id_jab_fungsi`, `nama_jab_fungsi`, `nilai`, `created_at`, `updated_at`) VALUES
+('6bb37e5e-8038-4066-8e71-f1eae0ef4785', 'Asisten Ahli', 100, '2025-02-23 14:34:24', '2025-02-23 14:34:24'),
+('9b99b48e-2eaf-45da-9d16-453f799bcd66', 'Asisten Ahli', 150, '2025-02-23 14:35:08', '2025-02-23 14:35:08');
 
 -- --------------------------------------------------------
 
