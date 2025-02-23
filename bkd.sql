@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2025 at 11:46 AM
+-- Generation Time: Feb 23, 2025 at 03:33 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -43,6 +43,13 @@ CREATE TABLE `alamat_kontak` (
   `updated_at` datetime NOT NULL,
   `idusers` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `alamat_kontak`
+--
+
+INSERT INTO `alamat_kontak` (`idalamat`, `alamat`, `rt`, `rw`, `kelurahan`, `kecamatan`, `kota`, `provinsi`, `kdpos`, `tlp_rumah`, `tlp_ponsel`, `created_at`, `updated_at`, `idusers`) VALUES
+('caf39c3c-ed73-45f0-aac4-286caef067eb', 'Gunung Anyar Tambak Barat 1 No 16', '01', '05', 'Gunung Anyar', 'Gunung Anyar', 'Surabaya', 'Jawa TImur', '60588', '-', '085731803889', '2025-02-23 20:35:03', '2025-02-23 20:36:52', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886');
 
 -- --------------------------------------------------------
 
@@ -283,6 +290,13 @@ CREATE TABLE `keluarga` (
   `idusers` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `keluarga`
+--
+
+INSERT INTO `keluarga` (`idkeluarga`, `status_kawin`, `nama_suami_istri`, `nip_suami_istri`, `pekerjaan_suami_istri`, `created_at`, `updated_at`, `idusers`) VALUES
+('ddc8a420-9ce9-4d73-9b52-8b0a1b70e626', 'Belum kawin', '-', '-', '-', '2025-02-23 18:15:59', '2025-02-23 18:16:24', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886');
+
 -- --------------------------------------------------------
 
 --
@@ -306,18 +320,27 @@ CREATE TABLE `kepangkatan` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `kepegaiwan`
+-- Table structure for table `kepegawaian`
 --
 
-CREATE TABLE `kepegaiwan` (
+CREATE TABLE `kepegawaian` (
   `idkepegawaian` varchar(36) NOT NULL,
   `nomor_sk` varchar(45) NOT NULL,
   `tmmd` date NOT NULL,
   `sumber_gaji` varchar(45) NOT NULL,
+  `status_aktif` varchar(45) NOT NULL,
+  `program_studi` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `idusers` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kepegawaian`
+--
+
+INSERT INTO `kepegawaian` (`idkepegawaian`, `nomor_sk`, `tmmd`, `sumber_gaji`, `status_aktif`, `program_studi`, `created_at`, `updated_at`, `idusers`) VALUES
+('16039f05-e75f-47f2-ba1c-5584a3adf3d2', 'SK0101', '2023-01-31', 'APBN', 'Aktif', 'Sistem Informasi', '2025-02-23 21:09:18', '2025-02-23 21:10:00', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886');
 
 -- --------------------------------------------------------
 
@@ -377,10 +400,18 @@ CREATE TABLE `lain_lain` (
   `idlain` varchar(36) NOT NULL,
   `npwp` varchar(50) NOT NULL,
   `nama_npwp` varchar(50) NOT NULL,
+  `sinta_id` varchar(45) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
   `idusers` varchar(36) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `lain_lain`
+--
+
+INSERT INTO `lain_lain` (`idlain`, `npwp`, `nama_npwp`, `sinta_id`, `created_at`, `updated_at`, `idusers`) VALUES
+('d0ba6b68-988d-4d5c-9bc6-dae9470aac26', 'NPWP0101', 'Rampa Praditya', '01010101', '2025-02-23 21:31:49', '2025-02-23 21:32:34', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886');
 
 -- --------------------------------------------------------
 
@@ -501,7 +532,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`idusers`, `username`, `email`, `pass`, `nrp`, `nama`, `foto`, `idjabatan`, `idsatker`, `idpangkat`, `idkorps`, `created_at`, `updated_at`) VALUES
-('e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'rampa', 'rampapraditya@gmail.com', 'aGtq', '111/P', 'Rampa Pradityaa', '1740305568_4d451d064beee7b437f3.jpg', '96cf7ad7-644c-4e80-b964-0b712a31ac1e', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-02-14 09:34:20', '2025-02-23 17:12:48'),
+('e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'rampa', 'rampapraditya@gmail.com', 'aGtq', '111/P', 'Rampa Praditya', '1740305568_4d451d064beee7b437f3.jpg', '96cf7ad7-644c-4e80-b964-0b712a31ac1e', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-02-14 09:34:20', '2025-02-23 21:32:50'),
 ('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1739432338_d8f676931205a36e774b.png', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '32675749-b658-4559-abdf-114440ebed4e', '2024-12-29 10:54:06', '2025-02-13 14:38:58');
 
 -- --------------------------------------------------------
@@ -526,7 +557,7 @@ CREATE TABLE `users_detil` (
 --
 
 INSERT INTO `users_detil` (`idusers_detil`, `nidn`, `jkel`, `tmp_lahir`, `tgl_lahir`, `idusers`, `created_at`, `updated_at`) VALUES
-('d0e15e92-7d2a-4dbf-973e-c06953325aed', '111222', 'Laki-laki', 'Surabaya', '1993-08-02', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886', '2025-02-23 16:37:59', '2025-02-23 17:12:48');
+('d0e15e92-7d2a-4dbf-973e-c06953325aed', '111222', 'Laki-laki', 'Surabaya', '1993-08-02', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886', '2025-02-23 16:37:59', '2025-02-23 21:32:50');
 
 --
 -- Indexes for dumped tables
@@ -623,9 +654,9 @@ ALTER TABLE `kepangkatan`
   ADD KEY `idusers` (`idusers`);
 
 --
--- Indexes for table `kepegaiwan`
+-- Indexes for table `kepegawaian`
 --
-ALTER TABLE `kepegaiwan`
+ALTER TABLE `kepegawaian`
   ADD PRIMARY KEY (`idkepegawaian`),
   ADD KEY `idusers` (`idusers`);
 
@@ -737,10 +768,10 @@ ALTER TABLE `kepangkatan`
   ADD CONSTRAINT `kepangkatan_ibfk_2` FOREIGN KEY (`idgolongan`) REFERENCES `golongan` (`idgolongan`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Constraints for table `kepegaiwan`
+-- Constraints for table `kepegawaian`
 --
-ALTER TABLE `kepegaiwan`
-  ADD CONSTRAINT `kepegaiwan_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `kepegawaian`
+  ADD CONSTRAINT `kepegawaian_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `kependudukan`

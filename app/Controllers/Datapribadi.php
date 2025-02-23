@@ -551,4 +551,153 @@ class Datapribadi extends BaseController
             $this->modul->halaman('login');
         }
     }
+
+    public function loadpegawai()
+    {
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+
+            $select = ['kepegawaian.nomor_sk', 'kepegawaian.tmmd', 'date_format(kepegawaian.tmmd, "%d %M %Y") as tglf', 'kepegawaian.sumber_gaji', 'kepegawaian.status_aktif', 'kepegawaian.program_studi'];
+            $join = [
+                ['table' => 'kepegawaian', 'condition' => 'users.idusers = kepegawaian.idusers', 'type' => 'left']
+            ];
+            $users = (object) $this->mcustom->getDynamicData(true, $select, "users", $join, ['users.idusers' => $idusers]);
+            
+            $output = array(
+                'nomor_sk' => esc($users->nomor_sk),
+                'tmmd' => esc($users->tmmd),
+                'tglf' => esc($users->tglf),
+                'sumber_gaji' => esc($users->sumber_gaji),
+                'status_aktif' => esc($users->status_aktif),
+                'program_studi' => esc($users->program_studi)
+            );
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function prosespegawai(){
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+            $jml = $this->mcustom->getCount("kepegawaian", [], ['idusers' => $idusers]);
+            if($jml > 0){
+                $data = array(
+                    'nomor_sk' => strip_tags($this->request->getPost('nomor_sk')),
+                    'tmmd' => strip_tags($this->request->getPost('tmmd')),
+                    'sumber_gaji' => strip_tags($this->request->getPost('sumber_gaji')),
+                    'status_aktif' => strip_tags($this->request->getPost('status_aktif')),
+                    'program_studi' => strip_tags($this->request->getPost('program_studi')),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $kond['idusers'] = $idusers;
+                $simpan = $this->mcustom->ganti("kepegawaian", $data, $kond);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            } else {
+                $data = array(
+                    'idkepegawaian' => Uuid::uuid4()->toString(),
+                    'nomor_sk' => strip_tags($this->request->getPost('nomor_sk')),
+                    'tmmd' => strip_tags($this->request->getPost('tmmd')),
+                    'sumber_gaji' => strip_tags($this->request->getPost('sumber_gaji')),
+                    'status_aktif' => strip_tags($this->request->getPost('status_aktif')),
+                    'program_studi' => strip_tags($this->request->getPost('program_studi')),
+                    'idusers' => $idusers,
+                    'created_at' => $this->modul->TanggalWaktu(),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $simpan = $this->mcustom->tambah("kepegawaian", $data);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            }
+
+            $output = array('status' => $pesan);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function loadlain()
+    {
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+
+            $select = ['lain_lain.npwp', 'lain_lain.nama_npwp', 'lain_lain.sinta_id'];
+            $join = [
+                ['table' => 'lain_lain', 'condition' => 'users.idusers = lain_lain.idusers', 'type' => 'left']
+            ];
+            $users = (object) $this->mcustom->getDynamicData(true, $select, "users", $join, ['users.idusers' => $idusers]);
+            
+            $output = array(
+                'npwp' => esc($users->npwp),
+                'nama_npwp' => esc($users->nama_npwp),
+                'sinta_id' => esc($users->sinta_id)
+            );
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function proseslain(){
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+            $jml = $this->mcustom->getCount("lain_lain", [], ['idusers' => $idusers]);
+            if($jml > 0){
+                $data = array(
+                    'npwp' => strip_tags($this->request->getPost('npwp')),
+                    'nama_npwp' => strip_tags($this->request->getPost('nama_npwp')),
+                    'sinta_id' => strip_tags($this->request->getPost('sinta_id')),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $kond['idusers'] = $idusers;
+                $simpan = $this->mcustom->ganti("lain_lain", $data, $kond);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            } else {
+                $data = array(
+                    'idlain' => Uuid::uuid4()->toString(),
+                    'npwp' => strip_tags($this->request->getPost('npwp')),
+                    'nama_npwp' => strip_tags($this->request->getPost('nama_npwp')),
+                    'sinta_id' => strip_tags($this->request->getPost('sinta_id')),
+                    'idusers' => $idusers,
+                    'created_at' => $this->modul->TanggalWaktu(),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $simpan = $this->mcustom->tambah("lain_lain", $data);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            }
+
+            $output = array('status' => $pesan);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
 }

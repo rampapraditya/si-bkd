@@ -196,34 +196,34 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Kepegawaian</h3>
-                                <button type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+                                <button onclick="add_pegawai();" type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
                             </div>
                             <div class="box-body">
                                 <table class="table">
                                     <tr>
                                         <td style="text-align: right;">Nomor SK TMMD</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_nomor_sk"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">TMMD</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_tmmd"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Sumber Gaji</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_sumber_gaji"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Status Keaktifan</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_status_aktif"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Program Studi</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_program_studi"></label></td>
                                     </tr>
                                 </table>
                             </div>
@@ -235,24 +235,24 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Lain-lain</h3>
-                                <button type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+                                <button onclick="add_lain();" type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
                             </div>
                             <div class="box-body">
                                 <table class="table">
                                     <tr>
                                         <td style="text-align: right;">NPWP</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_npwp"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Nama Wajib Pajak</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_nama_npwp"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">SINTA ID</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_sinta_id"></label></td>
                                     </tr>
                                 </table>
                             </div>
@@ -504,6 +504,102 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal_pegawai">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4>Kepegawaian</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_pegawai" class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Nomor SK</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="nomor_sk" name="nomor_sk" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Tanggal Mulai Menjadi Dosen</label>
+                        <div class="col-sm-7">
+                            <input type="date" class="form-control" id="tmmd" name="tmmd" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Sumber Gaji</label>
+                        <div class="col-sm-7">
+                            <select class="form-control" id="sumber_gaji" name="sumber_gaji">
+                                <option value="APBN">APBN</option>
+                                <option value="APBD">APBD</option>
+                                <option value="APBD Kabupaten / Kota">APBD Kabupaten / Kota</option>
+                                <option value="Yayasan">Yayasan</option>
+                                <option value="Sekokah">Sekokah</option>
+                                <option value="Lembaga Donor">Lembaga Donor</option>
+                                <option value="Lainnya">Lainnya</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Status Keaktifan</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="status_aktif" name="status_aktif" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Program Studi</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="program_studi" name="program_studi" autocomplete="off">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSavePegawai" type="button" class="btn btn-sm btn-primary" onclick="save_pegawai();">Save</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_lain">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4>Lain - lain</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_lain" class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">NPWP</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="npwp" name="npwp" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Nama Wajib Pajak</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="nama_npwp" name="nama_npwp" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-5 control-label">Sinta ID</label>
+                        <div class="col-sm-7">
+                            <input type="text" class="form-control" id="sinta_id" name="sinta_id" autocomplete="off">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveLain" type="button" class="btn btn-sm btn-primary" onclick="save_lain();">Save</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
@@ -511,6 +607,8 @@
         reload_penduduk();
         reload_keluarga();
         reload_alamat();
+        reload_pegawai();
+        reload_lain();
     });
 
     function reload_profile(){
@@ -591,6 +689,46 @@
                 $('#display_kdpos').html(data.kdpos);
                 $('#display_tlp_rumah').html(data.tlp_rumah);
                 $('#display_tlp_ponsel').html(data.tlp_ponsel);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function reload_pegawai(){
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadpegawai'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#display_nomor_sk').html(data.nomor_sk);
+                $('#display_tmmd').html(data.tglf);
+                $('#display_sumber_gaji').html(data.sumber_gaji);
+                $('#display_status_aktif').html(data.status_aktif);
+                $('#display_program_studi').html(data.program_studi);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function reload_lain(){
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadlain'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#display_npwp').html(data.npwp);
+                $('#display_nama_npwp').html(data.nama_npwp);
+                $('#display_sinta_id').html(data.sinta_id);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',
@@ -792,8 +930,8 @@
                         position: 'topRight'
                     });
 
-                    $('#btnSavePenduduk').text('Save'); //change button text
-                    $('#btnSavePenduduk').attr('disabled', false); //set button enable 
+                    $('#btnSavePenduduk').text('Save');
+                    $('#btnSavePenduduk').attr('disabled', false);
                 }
             });
         }
@@ -978,5 +1116,163 @@
         });
     }
     
+    function add_pegawai(){
+        $('#form_pegawai')[0].reset();
+        $('#modal_pegawai').modal('show');
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadpegawai'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#nomor_sk').val(data.nomor_sk);
+                $('#tmmd').val(data.tmmd);
+                $('#sumber_gaji').val(data.sumber_gaji);
+                $('#status_aktif').val(data.status_aktif);
+                $('#program_studi').val(data.program_studi);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function save_pegawai(){
+        var nomor_sk = document.getElementById('nomor_sk').value;
+        var tmmd = document.getElementById('tmmd').value;
+        var sumber_gaji = document.getElementById('sumber_gaji').value;
+        var status_aktif = document.getElementById('status_aktif').value;
+        var program_studi = document.getElementById('program_studi').value;
+        
+        $('#btnSavePegawai').text('Saving...');
+        $('#btnSavePegawai').attr('disabled', true);
+
+        var form_data = new FormData();
+        form_data.append('nomor_sk', nomor_sk);
+        form_data.append('tmmd', tmmd);
+        form_data.append('sumber_gaji', sumber_gaji);
+        form_data.append('status_aktif', status_aktif);
+        form_data.append('program_studi', program_studi);
+
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/prosespegawai'); ?>",
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));    
+            },success: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.info({
+                    title: 'Info',
+                    message: response.status,
+                    position: 'topRight'
+                });
+
+                $('#modal_pegawai').modal('hide');
+                reload_pegawai();
+
+                $('#btnSavePegawai').text('Save');
+                $('#btnSavePegawai').attr('disabled', false);
+
+            }, error: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+
+                $('#btnSavePegawai').text('Save');
+                $('#btnSavePegawai').attr('disabled', false);
+            }
+        });
+    }
+
+    function add_lain(){
+        $('#form_lain')[0].reset();
+        $('#modal_lain').modal('show');
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadlain'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#npwp').val(data.npwp);
+                $('#nama_npwp').val(data.nama_npwp);
+                $('#sinta_id').val(data.sinta_id);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function save_lain(){
+        var npwp = document.getElementById('npwp').value;
+        var nama_npwp = document.getElementById('nama_npwp').value;
+        var sinta_id = document.getElementById('sinta_id').value;
+        
+        $('#btnSaveLain').text('Saving...');
+        $('#btnSaveLain').attr('disabled', true);
+
+        var form_data = new FormData();
+        form_data.append('npwp', npwp);
+        form_data.append('nama_npwp', nama_npwp);
+        form_data.append('sinta_id', sinta_id);
+
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/proseslain'); ?>",
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));    
+            },success: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.info({
+                    title: 'Info',
+                    message: response.status,
+                    position: 'topRight'
+                });
+
+                $('#modal_lain').modal('hide');
+                reload_lain();
+
+                $('#btnSaveLain').text('Save');
+                $('#btnSaveLain').attr('disabled', false);
+
+            }, error: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+
+                $('#btnSaveLain').text('Save');
+                $('#btnSaveLain').attr('disabled', false);
+            }
+        });
+    }
+
 </script>
 <?php echo $this->endSection(); ?>

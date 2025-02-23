@@ -132,9 +132,13 @@ $routes->group('data-pribadi', function ($routes) {
     $routes->post('prosespenduduk', 'Datapribadi::prosespenduduk');
     $routes->post('proseskeluarga', 'Datapribadi::proseskeluarga');
     $routes->post('proseskontak', 'Datapribadi::proseskontak');
+    $routes->post('prosespegawai', 'Datapribadi::prosespegawai');
+    $routes->post('proseslain', 'Datapribadi::proseslain');
 
     $routes->get('loadprofile', 'Datapribadi::loadprofile');
     $routes->get('loadpenduduk', 'Datapribadi::loadpenduduk');
     $routes->get('loadkeluarga', 'Datapribadi::loadkeluarga');
     $routes->get('loadkontak', 'Datapribadi::loadkontak');
+    $routes->get('loadpegawai', 'Datapribadi::loadpegawai');
+    $routes->get('loadlain', 'Datapribadi::loadlain');
 });
