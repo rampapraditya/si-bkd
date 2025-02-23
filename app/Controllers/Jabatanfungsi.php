@@ -122,8 +122,8 @@ class Jabatanfungsi extends BaseController
     public function show()
     {
         if (session()->get("logged_admin")) {
-            $kond['idkorps'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("korps", $kond);
+            $kond['id_jab_fungsi'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("jabatan_fungsional", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -134,11 +134,12 @@ class Jabatanfungsi extends BaseController
     {
         if (session()->get("logged_admin")) {
             $data = array(
-                'nama_korps' => esc($this->request->getPost('nama')),
+                'nama_jab_fungsi' => esc($this->request->getPost('namajab')),
+                'nilai' => esc($this->request->getPost('nilai')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idkorps'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("korps", $data, $kond);
+            $kond['id_jab_fungsi'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("jabatan_fungsional", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data terupdate";
             } else {
@@ -157,8 +158,8 @@ class Jabatanfungsi extends BaseController
     public function hapus()
     {
         if (session()->get("logged_admin")) {
-            $kond['idkorps'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("korps", $kond);
+            $kond['id_jab_fungsi'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("jabatan_fungsional", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {

@@ -53,7 +53,7 @@ class Golongan extends BaseController
                 $data['logo'] = base_url('images/logo.png');
             }
 
-            return view('korps/index', $data);
+            return view('golongan/index', $data);
         } else {
             $this->modul->halaman('login');
         }
@@ -72,14 +72,14 @@ class Golongan extends BaseController
         if (session()->get("logged_admin")) {
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, [], 'korps', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            $list = $this->mcustom->getDynamicData(false, [], 'golongan', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
-                $val[] = esc($row->nama_korps);
+                $val[] = esc($row->nama_golongan);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idkorps . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idkorps . "'" . ',' . "'" . $row->nama_korps . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idgolongan . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idgolongan . "'" . ',' . "'" . $row->nama_golongan . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                     . '</div></div>';
                 $data[] = $val;
 
@@ -96,12 +96,12 @@ class Golongan extends BaseController
     {
         if (session()->get("logged_admin")) {
             $data = array(
-                'idkorps' => Uuid::uuid4()->toString(),
-                'nama_korps' => esc($this->request->getPost('nama')),
+                'idgolongan' => Uuid::uuid4()->toString(),
+                'nama_golongan' => esc($this->request->getPost('nama')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("korps", $data);
+            $simpan = $this->mcustom->tambah("golongan", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -120,8 +120,8 @@ class Golongan extends BaseController
     public function show()
     {
         if (session()->get("logged_admin")) {
-            $kond['idkorps'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("korps", $kond);
+            $kond['idgolongan'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("golongan", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -132,11 +132,11 @@ class Golongan extends BaseController
     {
         if (session()->get("logged_admin")) {
             $data = array(
-                'nama_korps' => esc($this->request->getPost('nama')),
+                'nama_golongan' => esc($this->request->getPost('nama')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idkorps'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("korps", $data, $kond);
+            $kond['idgolongan'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("golongan", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data terupdate";
             } else {
@@ -155,8 +155,8 @@ class Golongan extends BaseController
     public function hapus()
     {
         if (session()->get("logged_admin")) {
-            $kond['idkorps'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("korps", $kond);
+            $kond['idgolongan'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("golongan", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {
