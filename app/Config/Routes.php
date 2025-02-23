@@ -128,4 +128,10 @@ $routes->group('pengguna', function ($routes) {
 $routes->group('data-pribadi', function ($routes) {
     $routes->get('', 'Datapribadi::index');
     $routes->get('showimg/(:any)', 'Datapribadi::showimg/$1');
+    $routes->post('prosesprofile', 'Datapribadi::prosesprofile');
+    $routes->post('prosespenduduk', 'Datapribadi::prosespenduduk');
+
+
+    $routes->get('loadprofile', 'Datapribadi::loadprofile');
+    $routes->get('loadpenduduk', 'Datapribadi::loadpenduduk');
 });

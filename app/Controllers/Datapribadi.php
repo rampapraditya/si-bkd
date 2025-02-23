@@ -38,7 +38,7 @@ class Datapribadi extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, $select_users, 'users', $join_users, ['idusers' => $idusers]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('datapribadi/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('data-pribadi/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -88,245 +88,223 @@ class Datapribadi extends BaseController
     }
 
     public function showimg($filename){
-        if (session()->get("logged_admin")) {
+        if (session()->get("logged_dosen")) {
             return $this->modul->serveImage($this->response, $filename);
         } else {
             $this->modul->halaman('login');
         }
     }
 
-    public function ajaxlist()
-    {
-        if (session()->get("logged_admin")) {
-            $data = array();
-            $no = 1;
-            $list = $this->mcustom->getDynamicData(false, [], 'fakultas', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
-            foreach ($list as $row) {
-                $val = array();
-                $val[] = $no;
-                $val[] = esc($row->namafakultas);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                    . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idfakultas) . "'" . ')"><i class="fa fa-fw fa-bars"></i> Detil</button>'
-                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idfakultas . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idfakultas . "'" . ',' . "'" . $row->namafakultas . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                    . '</div></div>';
-                $data[] = $val;
+    public function prosesprofile() {
+        if (session()->get("logged_dosen")) {
+            
+            $idusers = session()->get("idusers");
 
-                $no++;
-            }
-            $output = array("data" => $data);
-            echo json_encode($output);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function ajax_add()
-    {
-        if (session()->get("logged_admin")) {
-            $data = array(
-                'idfakultas' => Uuid::uuid4()->toString(),
-                'namafakultas' => esc($this->request->getPost('nama')),
-                'created_at' => $this->modul->TanggalWaktu(),
-                'updated_at' => $this->modul->TanggalWaktu()
-            );
-            $simpan = $this->mcustom->tambah("fakultas", $data);
-            if ($simpan == 1) {
-                $status = "Data tersimpan";
-            } else {
-                $status = "Data gagal tersimpan";
-            }
-            $output = array('status' => $status);
-            return $this->response
-                        ->setJSON($output)
-                        ->setStatusCode(200)
-                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function show()
-    {
-        if (session()->get("logged_admin")) {
-            $kond['idfakultas'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("fakultas", $kond);
-            echo json_encode($data);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function ajax_edit()
-    {
-        if (session()->get("logged_admin")) {
-            $data = array(
-                'namafakultas' => esc($this->request->getPost('nama')),
-                'updated_at' => $this->modul->TanggalWaktu()
-            );
-            $kond['idfakultas'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("fakultas", $data, $kond);
-            if ($simpan == 1) {
-                $status = "Data terupdate";
-            } else {
-                $status = "Data gagal terupdate";
-            }
-            $output = array('status' => $status);
-            return $this->response
-                        ->setJSON($output)
-                        ->setStatusCode(200)
-                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function hapus()
-    {
-        if (session()->get("logged_admin")) {
-            $kond['idfakultas'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("fakultas", $kond);
-            if ($hapus == 1) {
-                $status = "Data terhapus";
-            } else {
-                $status = "Data gagal terhapus";
-            }
-            $output = array('status' => $status);
-            return $this->response
-                        ->setJSON($output)
-                        ->setStatusCode(200)
-                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function jurusan()
-    {
-        if (session()->get("logged_admin")) {
-            $data['idusers'] = session()->get("idusers");
-            $data['nama'] = session()->get("nama");
-            $data['role'] = session()->get("idjabatan");
-            $data['nm_role'] = session()->get("nama_jabatan");
-            $data['menu'] = $this->request->getUri()->getSegment(1);
-
-            $def_foto = base_url('images/noimg.jpg');
-
-            $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
-            if (strlen($pro->foto) > 0) {
-                if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('fakultas/showimg/' . esc($pro->foto));
-                }
-            }
-            $data['foto'] = $def_foto;
-
-            $jml = $this->mcustom->getCount('identitas');
-            if ($jml > 0) {
-                $tersimpan = (object) $this->mcustom->getDynamicData(true, [], 'identitas');
-                $data['appname'] = esc($tersimpan->appname);
-                $data['namains'] = esc($tersimpan->namains);
-                $deflogo = base_url('images/logo.png');
-                if (strlen($tersimpan->logo) > 0) {
-                    if (file_exists($this->modul->getPublicPath() . esc($tersimpan->logo))) {
-                        $deflogo = base_url($this->modul->getPublicPath().esc($tersimpan->logo));
+            if (isset($_FILES['file']['name'])) {
+                if (0 < $_FILES['file']['error']) {
+                    $pesan = "Error during file upload " . $_FILES['file']['error'];
+                } else {
+                    $jml = $this->mcustom->getCount("users_detil", [], ['idusers' => $idusers]);
+                    if($jml > 0){
+                        $pesan = $this->ganti_profile_file();
+                    } else {
+                        $pesan = $this->tambah_profile_file();
                     }
                 }
-                $data['logo'] = $deflogo;
             } else {
-                $data['appname'] = "";
-                $data['namains'] = "";
-                $data['logo'] = base_url('images/logo.png');
+                $pesan = $this->proses_profile();
             }
+            
+            $output = array('status' => $pesan);
 
-            $idfakultas = $this->modul->dekrip_simple($this->request->getUri()->getSegment(3));
-            $data['head'] = $this->mcustom->getDynamicData(true, ['idfakultas', 'namafakultas'], "fakultas", [], ['idfakultas' => $idfakultas]);
-
-
-            return view('fakultas/jurusan', $data);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
         } else {
             $this->modul->halaman('login');
         }
     }
 
-    public function ajaxjurusan()
-    {
-        if (session()->get("logged_admin")) {
-            $idfakultas = $this->request->getUri()->getSegment(3);
-            // load data
-            $data = array();
-            $no = 1;
-            $list = $this->mcustom->getDynamicData(false, [], 'jurusan', [], ['idfakultas' => $idfakultas], [], [], [], [], null, null, ['created_at' => 'ASC']);
-            foreach ($list as $row) {
-                $val = array();
-                $val[] = $no;
-                $val[] = esc($row->namajurusan);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idjurusan . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idjurusan . "'" . ',' . "'" . $row->namajurusan . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                    . '</div></div>';
-                $data[] = $val;
+    private function tambah_profile_file() {
+        $idusers = session()->get("idusers");
 
-                $no++;
+        $file = $this->request->getFile('file');
+        $fileName = $file->getRandomName();
+        $ukuranFile = $file->getSizeByBinaryUnit();
+        $ukuranMB = $ukuranFile / 1048576; // Konversi byte ke MB
+        $extFile = $file->getClientExtension();
+        $mimeFile = $file->getMimeType();
+
+        $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+        if($ukuranMB < 3){
+            if (in_array($mimeFile, $allowedMimeTypes)) {
+                $status_upload = $file->move($this->modul->setPrivatePath(), $fileName);
+                if ($status_upload) {
+
+                    $data = array(
+                        'nama' => strip_tags($this->request->getPost('nama')),
+                        'foto' => $fileName,
+                        'updated_at' => $this->modul->TanggalWaktu()
+                    );
+                    $kond['idusers'] = $idusers;
+                    $this->mcustom->ganti("users", $data, $kond);
+
+                    $data1 = array(
+                        'idusers_detil' => Uuid::uuid4()->toString(),
+                        'nidn' => strip_tags($this->request->getPost('nidn')),
+                        'jkel' => strip_tags($this->request->getPost('jkel')),
+                        'tmp_lahir' => strip_tags($this->request->getPost('tmplahir')),
+                        'tgl_lahir' => strip_tags($this->request->getPost('tgllahir')),
+                        'created_at' => $this->modul->TanggalWaktu(),
+                        'updated_at' => $this->modul->TanggalWaktu()
+                    );
+                    $update = $this->mcustom->tambah("users_detil", $data1);
+                    if ($update == 1) {
+                        $status = "Data tersimpan";
+                    } else {
+                        $status = "Data gagal tersimpan";
+                    }
+                } else {
+                    $status = "File gagal terupload";
+                }
+            }else{
+                $status = "Hanya diperkenankan file gambar";
             }
-            $output = array("data" => $data);
-            echo json_encode($output);
-        } else {
-            $this->modul->halaman('login');
+        }else{
+            $status = "Hanya diperkenankan file dibawah 3 MB.";
         }
+        return $status;
     }
 
-    public function ajax_add_jurusan()
-    {
-        if (session()->get("logged_admin")) {
+    private function ganti_profile_file() {
+        $idusers = session()->get("idusers");
+
+        $file = $this->request->getFile('file');
+        $fileName = $file->getRandomName();
+        $ukuranFile = $file->getSizeByBinaryUnit();
+        $ukuranMB = $ukuranFile / 1048576; // Konversi byte ke MB
+        $extFile = $file->getClientExtension();
+        $mimeFile = $file->getMimeType();
+
+        $allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+
+        if($ukuranMB < 3){
+            if (in_array($mimeFile, $allowedMimeTypes)) {
+                // hapus file lama
+                $lawas = (object)$this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $idusers]);  
+                if (strlen($lawas->foto) > 0) {
+                    if (file_exists($this->modul->getPrivatePath() . $lawas->foto)) {
+                        unlink($this->modul->getPrivatePath() . $lawas->foto);
+                    }
+                }
+
+                $status_upload = $file->move($this->modul->setPrivatePath(), $fileName);
+                if ($status_upload) {
+
+                    $data = array(
+                        'nama' => strip_tags($this->request->getPost('nama')),
+                        'foto' => $fileName,
+                        'updated_at' => $this->modul->TanggalWaktu()
+                    );
+                    $kond['idusers'] = $idusers;
+                    $this->mcustom->ganti("users", $data, $kond);
+
+                    $data1 = array(
+                        'nidn' => strip_tags($this->request->getPost('nidn')),
+                        'jkel' => strip_tags($this->request->getPost('jkel')),
+                        'tmp_lahir' => strip_tags($this->request->getPost('tmplahir')),
+                        'tgl_lahir' => strip_tags($this->request->getPost('tgllahir')),
+                        'updated_at' => $this->modul->TanggalWaktu()
+                    );
+                    $kond1['idusers'] = $idusers;
+                    $update = $this->mcustom->ganti("users_detil", $data1, $kond1);
+                    if ($update == 1) {
+                        $status = "Data tersimpan";
+                    } else {
+                        $status = "Data gagal tersimpan";
+                    }
+                } else {
+                    $status = "File gagal terupload";
+                }
+            }else{
+                $status = "Hanya diperkenankan file gambar";
+            }
+        }else{
+            $status = "Hanya diperkenankan file dibawah 3 MB.";
+        }
+        return $status;
+    }
+
+    private function proses_profile() {
+        $idusers = session()->get("idusers");
+
+        $data = array(
+            'nama' => strip_tags($this->request->getPost('nama')),
+            'updated_at' => $this->modul->TanggalWaktu()
+        );
+        $kond['idusers'] = $idusers;
+        $this->mcustom->ganti("users", $data, $kond);
+
+        $jml = $this->mcustom->getCount("users_detil", [], ['idusers' => $idusers]);
+        if($jml > 0){
             $data = array(
-                'idjurusan' => Uuid::uuid4()->toString(),
-                'namajurusan' => esc($this->request->getPost('nama')),
-                'idfakultas' => esc($this->request->getPost('idfakultas')),
-                'created_at' => $this->modul->TanggalWaktu(),
+                'nidn' => strip_tags($this->request->getPost('nidn')),
+                'jkel' => strip_tags($this->request->getPost('jkel')),
+                'tmp_lahir' => strip_tags($this->request->getPost('tmplahir')),
+                'tgl_lahir' => strip_tags($this->request->getPost('tgllahir')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("jurusan", $data);
-            if ($simpan == 1) {
+            $kond['idusers'] = $idusers;
+            $update = $this->mcustom->ganti("users_detil", $data, $kond);
+            if ($update == 1) {
                 $status = "Data tersimpan";
             } else {
                 $status = "Data gagal tersimpan";
             }
-            $output = array('status' => $status);
-            return $this->response
-                        ->setJSON($output)
-                        ->setStatusCode(200)
-                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function show_jurusan()
-    {
-        if (session()->get("logged_admin")) {
-            $kond['idjurusan'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("jurusan", $kond);
-            echo json_encode($data);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function ajax_edit_jurusan()
-    {
-        if (session()->get("logged_admin")) {
+        }else{
             $data = array(
-                'namajurusan' => esc($this->request->getPost('nama')),
+                'idusers_detil' => Uuid::uuid4()->toString(),
+                'nidn' => strip_tags($this->request->getPost('nidn')),
+                'jkel' => strip_tags($this->request->getPost('jkel')),
+                'tmp_lahir' => strip_tags($this->request->getPost('tmplahir')),
+                'tgl_lahir' => strip_tags($this->request->getPost('tgllahir')),
+                'idusers' => $idusers,
+                'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idjurusan'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("jurusan", $data, $kond);
-            if ($simpan == 1) {
-                $status = "Data terupdate";
+            $update = $this->mcustom->tambah("users_detil", $data);
+            if ($update == 1) {
+                $status = "Data tersimpan";
             } else {
-                $status = "Data gagal terupdate";
+                $status = "Data gagal tersimpan";
             }
-            $output = array('status' => $status);
+        }
+        
+        return $status;
+    }
+
+    public function loadprofile()
+    {
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+
+            $select = ['users_detil.nidn', 'users_detil.jkel', 'users_detil.tmp_lahir', 'users_detil.tgl_lahir', 'date_format(users_detil.tgl_lahir, "%d-%M-%Y") as tglf','users.nama','users.foto'];
+            $join = [
+                ['table' => 'users_detil', 'condition' => 'users.idusers = users_detil.idusers', 'type' => 'left']
+            ];
+            $users = (object) $this->mcustom->getDynamicData(true, $select, "users", $join, ['users.idusers' => $idusers]);
+            
+            $output = array(
+                'nidn' => $users->nidn, 
+                'jkel' => $users->jkel,
+                'tmp_lahir' => $users->tmp_lahir,
+                'tgl_lahir' => esc($users->tgl_lahir),
+                'tglf' => esc($users->tglf),
+                'nama' => esc($users->nama),
+                'foto' => base_url('data-pribadi/showimg/' . esc($users->foto))
+            );
             return $this->response
                         ->setJSON($output)
                         ->setStatusCode(200)
@@ -336,17 +314,68 @@ class Datapribadi extends BaseController
         }
     }
 
-    public function hapus_jurusan()
+    public function loadpenduduk()
     {
-        if (session()->get("logged_admin")) {
-            $kond['idjurusan'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("jurusan", $kond);
-            if ($hapus == 1) {
-                $status = "Data terhapus";
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+
+            $select = ['kependudukan.*'];
+            $join = [
+                ['table' => 'kependudukan', 'condition' => 'users.idusers = kependudukan.idusers', 'type' => 'left']
+            ];
+            $users = (object) $this->mcustom->getDynamicData(true, $select, "users", $join, ['users.idusers' => $idusers]);
+            
+            $output = array(
+                'nik' => esc($users->nik),
+                'agama' => esc($users->agama),
+                'warganegara' => esc($users->warganegara),
+            );
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function prosespenduduk(){
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+            $jml = $this->mcustom->getCount("kependudukan", [], ['idusers' => $idusers]);
+            if($jml > 0){
+                $data = array(
+                    'nik' => strip_tags($this->request->getPost('nik')),
+                    'agama' => strip_tags($this->request->getPost('agama')),
+                    'warganegara' => strip_tags($this->request->getPost('kwn')),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $kond['idusers'] = $idusers;
+                $simpan = $this->mcustom->ganti("kependudukan", $data, $kond);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
             } else {
-                $status = "Data gagal terhapus";
+                $data = array(
+                    'idkependudukan' => Uuid::uuid4()->toString(),
+                    'nik' => strip_tags($this->request->getPost('nik')),
+                    'agama' => strip_tags($this->request->getPost('agama')),
+                    'warganegara' => strip_tags($this->request->getPost('kwn')),
+                    'idusers' => $idusers,
+                    'created_at' => $this->modul->TanggalWaktu(),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $simpan = $this->mcustom->tambah("kependudukan", $data);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
             }
-            $output = array('status' => $status);
+
+            $output = array('status' => $pesan);
             return $this->response
                         ->setJSON($output)
                         ->setStatusCode(200)
