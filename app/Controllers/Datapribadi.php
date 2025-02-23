@@ -384,4 +384,76 @@ class Datapribadi extends BaseController
             $this->modul->halaman('login');
         }
     }
+
+    public function loadkeluarga()
+    {
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+
+            $select = ['keluarga.*'];
+            $join = [
+                ['table' => 'keluarga', 'condition' => 'users.idusers = keluarga.idusers', 'type' => 'left']
+            ];
+            $users = (object) $this->mcustom->getDynamicData(true, $select, "users", $join, ['users.idusers' => $idusers]);
+            
+            $output = array(
+                'status_keluarga' => esc($users->status_kawin),
+                'nama_suami_istri' => esc($users->nama_suami_istri),
+                'nip_suami_istri' => esc($users->nip_suami_istri),
+                'pekerjaan_suami_istri' => esc($users->pekerjaan_suami_istri),
+            );
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function proseskeluarga(){
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+            $jml = $this->mcustom->getCount("keluarga", [], ['idusers' => $idusers]);
+            if($jml > 0){
+                $data = array(
+                    'nama_suami_istri' => strip_tags($this->request->getPost('keluarga_suami_istri')),
+                    'nip_suami_istri' => strip_tags($this->request->getPost('keluarga_nip')),
+                    'pekerjaan_suami_istri' => strip_tags($this->request->getPost('keluarga_pekerjaan')),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $kond['idusers'] = $idusers;
+                $simpan = $this->mcustom->ganti("keluarga", $data, $kond);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            } else {
+                $data = array(
+                    'idkeluarga' => Uuid::uuid4()->toString(),
+                    'nama_suami_istri' => strip_tags($this->request->getPost('keluarga_suami_istri')),
+                    'nip_suami_istri' => strip_tags($this->request->getPost('keluarga_nip')),
+                    'pekerjaan_suami_istri' => strip_tags($this->request->getPost('keluarga_pekerjaan')),
+                    'idusers' => $idusers,
+                    'created_at' => $this->modul->TanggalWaktu(),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $simpan = $this->mcustom->tambah("keluarga", $data);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            }
+
+            $output = array('status' => $pesan);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 23, 2025 at 08:36 AM
+-- Generation Time: Feb 23, 2025 at 11:46 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -99,6 +99,24 @@ CREATE TABLE `golongan` (
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `golongan`
+--
+
+INSERT INTO `golongan` (`idgolongan`, `nama_golongan`, `created_at`, `updated_at`) VALUES
+('100613a7-44d8-4373-9205-f29d32720b28', 'III/d (Penata Tk. I)', '2025-02-23 16:15:19', '2025-02-23 16:15:19'),
+('40962882-5154-4781-965b-843bb8a16000', 'III/b (Penata Muda Tk. I)', '2025-02-23 16:15:08', '2025-02-23 16:15:08'),
+('4249f0f5-f09b-4907-946e-e6568cd2be28', 'IV/b (Pembina Tk. I)', '2025-02-23 16:15:31', '2025-02-23 16:15:31'),
+('721196c9-524b-4e48-b260-816837d3c0c6', 'IV/d (Pembina Utama Madya)', '2025-02-23 16:15:44', '2025-02-23 16:15:44'),
+('72bcf136-6d0a-4c48-bf29-959029f46918', 'IV/e (Pembina Utama)', '2025-02-23 16:15:50', '2025-02-23 16:15:50'),
+('87c51a54-e58e-46db-a1f8-a363880ff1d0', 'IV/a (Pembina)', '2025-02-23 16:15:25', '2025-02-23 16:15:25'),
+('8b27b22d-fc7c-46bd-9e34-d37a28fe6d51', 'II/b (Pengatur Muda Tk. I)', '2025-02-23 16:13:27', '2025-02-23 16:14:32'),
+('8e7eabba-064c-4316-bf1d-7f0b1aa1fbdb', 'III/c (Penata)', '2025-02-23 16:15:13', '2025-02-23 16:15:13'),
+('d315d58f-708e-424d-8cd6-de64af162467', 'II/c (Pengatur)', '2025-02-23 16:14:45', '2025-02-23 16:14:45'),
+('e8d23216-22a9-49f1-9e7d-61c913c4d7f0', 'II/d (Pengatur Tk. I)', '2025-02-23 16:14:56', '2025-02-23 16:14:56'),
+('e9bb8ee6-bb3f-4da4-97e9-fae98897d7f7', 'III/a (Penata Muda)', '2025-02-23 16:15:01', '2025-02-23 16:15:01'),
+('f4007f5a-e1c1-418a-9922-429c709e319f', 'IV/c (Pembina Utama Muda)', '2025-02-23 16:15:37', '2025-02-23 16:15:37');
+
 -- --------------------------------------------------------
 
 --
@@ -188,8 +206,15 @@ CREATE TABLE `jabatan_fungsional` (
 --
 
 INSERT INTO `jabatan_fungsional` (`id_jab_fungsi`, `nama_jab_fungsi`, `nilai`, `created_at`, `updated_at`) VALUES
+('3d7b29a3-a710-48b2-b03e-5df165856d8c', 'Lektor Kepala', 700, '2025-02-23 16:07:49', '2025-02-23 16:07:49'),
+('444fa574-bc6a-45ed-ad47-f96da8b2da2a', 'Profesor', 1050, '2025-02-23 16:08:05', '2025-02-23 16:09:28'),
 ('6bb37e5e-8038-4066-8e71-f1eae0ef4785', 'Asisten Ahli', 100, '2025-02-23 14:34:24', '2025-02-23 14:34:24'),
-('9b99b48e-2eaf-45da-9d16-453f799bcd66', 'Asisten Ahli', 150, '2025-02-23 14:35:08', '2025-02-23 14:35:08');
+('84204b29-f898-4746-bcf8-7364f3e5fd9d', 'Lektor', 200, '2025-02-23 16:07:22', '2025-02-23 16:07:22'),
+('9b99b48e-2eaf-45da-9d16-453f799bcd66', 'Asisten Ahli', 150, '2025-02-23 14:35:08', '2025-02-23 14:35:08'),
+('b20c3bb8-bab7-4674-a63e-e4cb36cabbd7', 'Lektor Kepala', 400, '2025-02-23 16:07:37', '2025-02-23 16:07:37'),
+('e3b9553e-65d9-45d0-a709-b70a98979f85', 'Lektor Kepala', 550, '2025-02-23 16:07:43', '2025-02-23 16:07:43'),
+('e3da2238-223d-43e5-b80b-2e08a80db2b1', 'Profesor', 850, '2025-02-23 16:07:58', '2025-02-23 16:07:58'),
+('eca44943-158a-4c64-b739-1b8b73e1e8f8', 'Lektor', 300, '2025-02-23 16:07:26', '2025-02-23 16:07:26');
 
 -- --------------------------------------------------------
 
@@ -249,6 +274,7 @@ INSERT INTO `jurusan` (`idjurusan`, `namajurusan`, `idfakultas`, `created_at`, `
 
 CREATE TABLE `keluarga` (
   `idkeluarga` varchar(36) NOT NULL,
+  `status_kawin` varchar(45) NOT NULL,
   `nama_suami_istri` varchar(56) NOT NULL,
   `nip_suami_istri` varchar(56) NOT NULL,
   `pekerjaan_suami_istri` varchar(65) NOT NULL,
@@ -308,6 +334,13 @@ CREATE TABLE `kependudukan` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `kependudukan`
+--
+
+INSERT INTO `kependudukan` (`idkependudukan`, `nik`, `agama`, `warganegara`, `idusers`, `created_at`, `updated_at`) VALUES
+('9c14da02-c94c-433e-a739-d880598f8c5c', '121212', 'Islam', 'Indonesia', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886', '2025-02-23 17:39:55', '2025-02-23 17:39:55');
 
 -- --------------------------------------------------------
 
@@ -468,7 +501,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`idusers`, `username`, `email`, `pass`, `nrp`, `nama`, `foto`, `idjabatan`, `idsatker`, `idpangkat`, `idkorps`, `created_at`, `updated_at`) VALUES
-('e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'rampa', 'rampapraditya@gmail.com', 'aGtq', '111/P', 'Rampa Praditya', '', '96cf7ad7-644c-4e80-b964-0b712a31ac1e', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-02-14 09:34:20', '2025-02-23 08:03:48'),
+('e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'rampa', 'rampapraditya@gmail.com', 'aGtq', '111/P', 'Rampa Pradityaa', '1740305568_4d451d064beee7b437f3.jpg', '96cf7ad7-644c-4e80-b964-0b712a31ac1e', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-02-14 09:34:20', '2025-02-23 17:12:48'),
 ('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1739432338_d8f676931205a36e774b.png', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '32675749-b658-4559-abdf-114440ebed4e', '2024-12-29 10:54:06', '2025-02-13 14:38:58');
 
 -- --------------------------------------------------------
@@ -487,6 +520,13 @@ CREATE TABLE `users_detil` (
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users_detil`
+--
+
+INSERT INTO `users_detil` (`idusers_detil`, `nidn`, `jkel`, `tmp_lahir`, `tgl_lahir`, `idusers`, `created_at`, `updated_at`) VALUES
+('d0e15e92-7d2a-4dbf-973e-c06953325aed', '111222', 'Laki-laki', 'Surabaya', '1993-08-02', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886', '2025-02-23 16:37:59', '2025-02-23 17:12:48');
 
 --
 -- Indexes for dumped tables

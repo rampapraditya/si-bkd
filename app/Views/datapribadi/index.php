@@ -90,29 +90,29 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Keluarga</h3>
-                                <button type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+                                <button onclick="add_keluarga();" type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
                             </div>
                             <div class="box-body">
                                 <table class="table">
                                     <tr>
                                         <td style="text-align: right;">Status Perkawinan</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_keluarga_status"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Nama Suami/Istri</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_keluarga_suami_istri"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">NIP Suami/Istri</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_keluarga_nip"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Pekerjaan Suami/Istri</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_keluarga_pekerjaan"></label></td>
                                     </tr>
                                 </table>
                             </div>
@@ -363,11 +363,62 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal_keluarga">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4>Keluarga</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_keluarga" class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Status Perkawinan</label>
+                        <div class="col-sm-8">
+                            <select id="keluarga_status" name="keluarga_status" class="form-control">
+                                <option>Belum kawin</option>
+                                <option>Kawin belum tercatat</option>
+                                <option>Kawin tercatat</option>
+                                <option>Cerai hidup</option>
+                                <option>Cerai mati</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Nama Suami / Istri</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="keluarga_suami_istri" name="keluarga_suami_istri" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">NIP Suami / Istri</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="keluarga_nip" name="keluarga_nip" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Pekerjaan Suami / Istri</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="keluarga_pekerjaan" name="keluarga_pekerjaan" autocomplete="off">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveKeluarga" type="button" class="btn btn-sm btn-primary" onclick="save_keluarga();">Save</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
         reload_profile();
         reload_penduduk();
+        reload_keluarga();
     });
 
     function reload_profile(){
@@ -401,6 +452,26 @@
                 $('#display_nik').html(data.nik);
                 $('#display_agama').html(data.agama);
                 $('#display_kwn').html(data.warganegara);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function reload_keluarga(){
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadkeluarga'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#display_keluarga_status').html(data.status_keluarga);
+                $('#display_keluarga_suami_istri').html(data.nama_suami_istri);
+                $('#display_keluarga_nip').html(data.nip_suami_istri);
+                $('#display_keluarga_pekerjaan').html(data.pekerjaan_suami_istri);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',
@@ -607,6 +678,82 @@
                 }
             });
         }
+    }
+
+    function add_keluarga() {
+        $('#form_keluarga')[0].reset();
+        $('#modal_keluarga').modal('show');
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadkeluarga'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#keluarga_status').val(data.status_keluarga);
+                $('#keluarga_suami_istri').val(data.nama_suami_istri);
+                $('#keluarga_nip').val(data.nip_suami_istri);
+                $('#keluarga_pekerjaan').val(data.pekerjaan_suami_istri);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function save_keluarga(){
+        var nik = document.getElementById('nik').value;
+        var agama = document.getElementById('agama').value;
+        var kwn = document.getElementById('kwn').value;
+        
+        $('#btnSavePenduduk').text('Saving...');
+        $('#btnSavePenduduk').attr('disabled', true);
+
+        var form_data = new FormData();
+        form_data.append('nik', nik);
+        form_data.append('agama', agama);
+        form_data.append('kwn', kwn);
+        
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/prosespenduduk'); ?>",
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));    
+            },success: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.info({
+                    title: 'Info',
+                    message: response.status,
+                    position: 'topRight'
+                });
+
+                $('#modal_penduduk').modal('hide');
+                reload_penduduk();
+
+                $('#btnSavePenduduk').text('Save');
+                $('#btnSavePenduduk').attr('disabled', false);
+            }, error: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+
+                $('#btnSavePenduduk').text('Save'); //change button text
+                $('#btnSavePenduduk').attr('disabled', false); //set button enable 
+            }
+        });
     }
     
 </script>

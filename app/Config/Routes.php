@@ -130,8 +130,9 @@ $routes->group('data-pribadi', function ($routes) {
     $routes->get('showimg/(:any)', 'Datapribadi::showimg/$1');
     $routes->post('prosesprofile', 'Datapribadi::prosesprofile');
     $routes->post('prosespenduduk', 'Datapribadi::prosespenduduk');
-
+    $routes->post('proseskeluarga', 'Datapribadi::proseskeluarga');
 
     $routes->get('loadprofile', 'Datapribadi::loadprofile');
     $routes->get('loadpenduduk', 'Datapribadi::loadpenduduk');
+    $routes->get('loadkeluarga', 'Datapribadi::loadkeluarga');
 });
