@@ -359,6 +359,10 @@
             }
         });
     }
+
+    function detil(id){
+        window.location.href = "<?php echo base_url('pengguna/detil/') ?>" + id;
+    }
     
 </script>
 <?php echo $this->endSection(); ?>

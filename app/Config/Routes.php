@@ -98,4 +98,9 @@ $routes->group('pengguna', function ($routes) {
     $routes->get('show/(:any)', 'Pengguna::show/$1');
     $routes->post('ajax_edit', 'Pengguna::ajax_edit');
     $routes->get('hapus/(:any)', 'Pengguna::hapus/$1');
+
+    $routes->get('detil/(:any)', 'Pengguna::detil/$1');
+    $routes->get('ajaxreload/(:any)', 'Pengguna::ajaxreload/$1');
+    $routes->get('loadjurusan/(:any)', 'Pengguna::loadjurusan/$1');
+    $routes->post('proses_fak_jur', 'Pengguna::proses_fak_jur');
 });
