@@ -458,4 +458,97 @@ class Datapribadi extends BaseController
             $this->modul->halaman('login');
         }
     }
+
+    public function loadkontak()
+    {
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+
+            $select = ['alamat_kontak.*', 'users.email'];
+            $join = [
+                ['table' => 'alamat_kontak', 'condition' => 'users.idusers = alamat_kontak.idusers', 'type' => 'left']
+            ];
+            $users = (object) $this->mcustom->getDynamicData(true, $select, "users", $join, ['users.idusers' => $idusers]);
+            
+            $output = array(
+                'email' => esc($users->email),
+                'alamat' => esc($users->alamat),
+                'rt' => esc($users->rt),
+                'rw' => esc($users->rw),
+                'kelurahan' => esc($users->kelurahan),
+                'kecamatan' => esc($users->kecamatan),
+                'kota' => esc($users->kota),
+                'provinsi' => esc($users->provinsi),
+                'kdpos' => esc($users->kdpos),
+                'tlp_rumah' => esc($users->tlp_rumah),
+                'tlp_ponsel' => esc($users->tlp_ponsel)
+            );
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function proseskontak(){
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
+            $jml = $this->mcustom->getCount("alamat_kontak", [], ['idusers' => $idusers]);
+            if($jml > 0){
+                $data = array(
+                    'alamat' => strip_tags($this->request->getPost('alamat')),
+                    'rt' => strip_tags($this->request->getPost('rt')),
+                    'rw' => strip_tags($this->request->getPost('rw')),
+                    'kelurahan' => strip_tags($this->request->getPost('kelurahan')),
+                    'kecamatan' => strip_tags($this->request->getPost('kecamatan')),
+                    'kota' => strip_tags($this->request->getPost('kota')),
+                    'provinsi' => strip_tags($this->request->getPost('provinsi')),
+                    'kdpos' => strip_tags($this->request->getPost('kdpos')),
+                    'tlp_rumah' => strip_tags($this->request->getPost('tlp_rumah')),
+                    'tlp_ponsel' => strip_tags($this->request->getPost('tlp_ponsel')),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $kond['idusers'] = $idusers;
+                $simpan = $this->mcustom->ganti("alamat_kontak", $data, $kond);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            } else {
+                $data = array(
+                    'idalamat' => Uuid::uuid4()->toString(),
+                    'alamat' => strip_tags($this->request->getPost('alamat')),
+                    'rt' => strip_tags($this->request->getPost('rt')),
+                    'rw' => strip_tags($this->request->getPost('rw')),
+                    'kelurahan' => strip_tags($this->request->getPost('kelurahan')),
+                    'kecamatan' => strip_tags($this->request->getPost('kecamatan')),
+                    'kota' => strip_tags($this->request->getPost('kota')),
+                    'provinsi' => strip_tags($this->request->getPost('provinsi')),
+                    'kdpos' => strip_tags($this->request->getPost('kdpos')),
+                    'tlp_rumah' => strip_tags($this->request->getPost('tlp_rumah')),
+                    'tlp_ponsel' => strip_tags($this->request->getPost('tlp_ponsel')),
+                    'idusers' => $idusers,
+                    'created_at' => $this->modul->TanggalWaktu(),
+                    'updated_at' => $this->modul->TanggalWaktu()
+                );
+                $simpan = $this->mcustom->tambah("alamat_kontak", $data);
+                if ($simpan == 1) {
+                    $pesan = "Data tersimpan";
+                } else {
+                    $pesan = "Data gagal tersimpan";
+                }
+            }
+
+            $output = array('status' => $pesan);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
 }

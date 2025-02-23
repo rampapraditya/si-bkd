@@ -127,59 +127,64 @@
                         <div class="box box-primary">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Alamat dan Kontak</h3>
-                                <button type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
+                                <button onclick="add_alamat();" type="button" class="btn btn-primary btn-sm pull-right"><i class="fa fa-fw fa-pencil"></i> Edit</button>
                             </div>
                             <div class="box-body">
                                 <table class="table">
                                     <tr>
                                         <td style="text-align: right;">Email</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_email"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Alamat</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_alamat"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">RT</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_rt"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">RW</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_rw"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Desa / Kelurahan</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_kelurahan"></label></td>
                                     </tr>
                                     <tr>
-                                        <td style="text-align: right;">Kecamatan / Kota / Kabupaten</td>
+                                        <td style="text-align: right;">Kecamatan</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_kecamatan"></label></td>
+                                    </tr>
+                                    <tr>
+                                        <td style="text-align: right;">Kota / Kabupaten</td>
+                                        <td style="text-align: center;">&nbsp; : &nbsp;</td>
+                                        <td><label id="display_kota"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Provinsi</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_provinsi"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">Kode Pos</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_kdpos"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">No. Telepon Rumah</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_tlp_rumah"></label></td>
                                     </tr>
                                     <tr>
                                         <td style="text-align: right;">No Ponsel</td>
                                         <td style="text-align: center;">&nbsp; : &nbsp;</td>
-                                        <td></td>
+                                        <td><label id="display_tlp_ponsel"></label></td>
                                     </tr>
                                 </table>
                             </div>
@@ -413,12 +418,99 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal_alamat">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4>Alamat dan Kontak</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_alamat" class="form-horizontal">
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Email</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="email" name="email" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Alamat</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="alamat" name="alamat" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">RT</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="rt" name="rt" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">RW</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="rw" name="rw" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Kelurahan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="kelurahan" name="kelurahan" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Kecamatan</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="kecamatan" name="kecamatan" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Kota</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="kota" name="kota" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Provinsi</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="provinsi" name="provinsi" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">KD POS</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="kdpos" name="kdpos" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Telp Rumah</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="tlp_rumah" name="tlp_rumah" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-3 control-label">Telp Ponsel</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="tlp_ponsel" name="tlp_ponsel" autocomplete="off">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSaveAlamat" type="button" class="btn btn-sm btn-primary" onclick="save_alamat();">Save</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
     $(document).ready(function () {
         reload_profile();
         reload_penduduk();
         reload_keluarga();
+        reload_alamat();
     });
 
     function reload_profile(){
@@ -472,6 +564,33 @@
                 $('#display_keluarga_suami_istri').html(data.nama_suami_istri);
                 $('#display_keluarga_nip').html(data.nip_suami_istri);
                 $('#display_keluarga_pekerjaan').html(data.pekerjaan_suami_istri);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function reload_alamat(){
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadkontak'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#display_email').html(data.email);
+                $('#display_alamat').html(data.alamat);
+                $('#display_rt').html(data.rt);
+                $('#display_rw').html(data.rw);
+                $('#display_kelurahan').html(data.kelurahan);
+                $('#display_kecamatan').html(data.kecamatan);
+                $('#display_kota').html(data.kota);
+                $('#display_provinsi').html(data.provinsi);
+                $('#display_kdpos').html(data.kdpos);
+                $('#display_tlp_rumah').html(data.tlp_rumah);
+                $('#display_tlp_ponsel').html(data.tlp_ponsel);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',
@@ -755,6 +874,106 @@
 
                 $('#btnSaveKeluarga').text('Save');
                 $('#btnSaveKeluarga').attr('disabled', false);
+            }
+        });
+    }
+
+    function add_alamat() {
+        $('#form_alamat')[0].reset();
+        $('#modal_alamat').modal('show');
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/loadkontak'); ?>",
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('#email').val(data.email);
+                $('#alamat').val(data.alamat);
+                $('#rt').val(data.rt);
+                $('#rw').val(data.rw);
+                $('#kelurahan').val(data.kelurahan);
+                $('#kecamatan').val(data.kecamatan);
+                $('#kota').val(data.kota);
+                $('#provinsi').val(data.provinsi);
+                $('#kdpos').val(data.kdpos);
+                $('#tlp_rumah').val(data.tlp_rumah);
+                $('#tlp_ponsel').val(data.tlp_ponsel);
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
+
+    function save_alamat(){
+        var email = document.getElementById('email').value;
+        var alamat = document.getElementById('alamat').value;
+        var rt = document.getElementById('rt').value;
+        var rw = document.getElementById('rw').value;
+        var kelurahan = document.getElementById('kelurahan').value;
+        var kecamatan = document.getElementById('kecamatan').value;
+        var kota = document.getElementById('kota').value;
+        var provinsi = document.getElementById('provinsi').value;
+        var kdpos = document.getElementById('kdpos').value;
+        var tlp_rumah = document.getElementById('tlp_rumah').value;
+        var tlp_ponsel = document.getElementById('tlp_ponsel').value;
+        
+        $('#btnSaveAlamat').text('Saving...');
+        $('#btnSaveAlamat').attr('disabled', true);
+
+        var form_data = new FormData();
+        form_data.append('email', email);
+        form_data.append('alamat', alamat);
+        form_data.append('rt', rt);
+        form_data.append('rw', rw);
+        form_data.append('kelurahan', kelurahan);
+        form_data.append('kecamatan', kecamatan);
+        form_data.append('kota', kota);
+        form_data.append('provinsi', provinsi);
+        form_data.append('kdpos', kdpos);
+        form_data.append('tlp_rumah', tlp_rumah);
+        form_data.append('tlp_ponsel', tlp_ponsel);
+        
+        $.ajax({
+            url: "<?php echo base_url('data-pribadi/proseskontak'); ?>",
+            dataType: 'JSON',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'POST',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));    
+            },success: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.info({
+                    title: 'Info',
+                    message: response.status,
+                    position: 'topRight'
+                });
+
+                $('#modal_alamat').modal('hide');
+                reload_alamat();
+
+                $('#btnSaveAlamat').text('Save');
+                $('#btnSaveAlamat').attr('disabled', false);
+
+            }, error: function (response, status, xhr) {
+                var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+
+                $('#btnSaveAlamat').text('Save');
+                $('#btnSaveAlamat').attr('disabled', false);
             }
         });
     }

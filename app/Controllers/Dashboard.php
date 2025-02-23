@@ -65,6 +65,7 @@ class Dashboard extends BaseController
 
             if (session()->get("logged_admin")) {
                 return view('dashboard/index', $data);
+
             } else if (session()->get("logged_dosen")) {
 
                 $jml_fak_jur_dosen = $this->mcustom->getCount("dosen_jurusan",[], ['idusers' => $idusers], [], []);
@@ -95,7 +96,7 @@ class Dashboard extends BaseController
     }
 
     public function showimg($filename){
-        if (session()->get("logged_admin")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             return $this->modul->serveImage($this->response, $filename);
         } else {
             $this->modul->halaman('login');
