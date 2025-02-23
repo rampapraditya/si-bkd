@@ -18,7 +18,8 @@ class Dashboard extends BaseController
     public function index()
     {
         if (session()->get("logged_admin") || session()->get("logged_dosen")) {
-            $data['idusers'] = session()->get("idusers");
+            $idusers = session()->get("idusers");
+            $data['idusers'] = $idusers;
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
             $data['nm_role'] = session()->get("nama_jabatan");
@@ -62,7 +63,32 @@ class Dashboard extends BaseController
                 $data['logo'] = base_url('images/logo.png');
             }
 
-            return view('dashboard/index', $data);
+            if (session()->get("logged_admin")) {
+                return view('dashboard/index', $data);
+            } else if (session()->get("logged_dosen")) {
+
+                $jml_fak_jur_dosen = $this->mcustom->getCount("dosen_jurusan",[], ['idusers' => $idusers], [], []);
+                if($jml_fak_jur_dosen > 0){
+                    $select_fak_jur = ['dosen_jurusan.*','fakultas.namafakultas', 'jurusan.namajurusan'];
+                    $join_fak_jur = [
+                        ['table' => 'fakultas', 'condition' => 'fakultas.idfakultas = dosen_jurusan.idfakultas', 'type' => 'inner'],
+                        ['table' => 'jurusan', 'condition' => 'jurusan.idjurusan = dosen_jurusan.idjurusan', 'type' => 'inner'],
+                    ];
+                    $fak_jur_dosen = (object) $this->mcustom->getDynamicData(true, $select_fak_jur, "dosen_jurusan", $join_fak_jur, ['idusers' => $idusers]);
+                    $data['idfakultas'] = $fak_jur_dosen->idfakultas;
+                    $data['namafakultas'] = $fak_jur_dosen->namafakultas;
+                    $data['idjurusan'] = $fak_jur_dosen->idjurusan;
+                    $data['namajurusan'] = $fak_jur_dosen->namajurusan;
+                } else {
+                    $data['idfakultas'] = "";
+                    $data['namafakultas'] = "";
+                    $data['idjurusan'] = "";
+                    $data['namajurusan'] = "";
+                }
+
+                return view('dashboard/dashdosen', $data);
+            }
+            
         } else {
             $this->modul->halaman('login');
         }
