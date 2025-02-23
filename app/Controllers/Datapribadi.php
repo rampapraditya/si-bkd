@@ -417,6 +417,7 @@ class Datapribadi extends BaseController
             $jml = $this->mcustom->getCount("keluarga", [], ['idusers' => $idusers]);
             if($jml > 0){
                 $data = array(
+                    'status_kawin' => strip_tags($this->request->getPost('keluarga_status')),
                     'nama_suami_istri' => strip_tags($this->request->getPost('keluarga_suami_istri')),
                     'nip_suami_istri' => strip_tags($this->request->getPost('keluarga_nip')),
                     'pekerjaan_suami_istri' => strip_tags($this->request->getPost('keluarga_pekerjaan')),
@@ -432,6 +433,7 @@ class Datapribadi extends BaseController
             } else {
                 $data = array(
                     'idkeluarga' => Uuid::uuid4()->toString(),
+                    'status_kawin' => strip_tags($this->request->getPost('keluarga_status')),
                     'nama_suami_istri' => strip_tags($this->request->getPost('keluarga_suami_istri')),
                     'nip_suami_istri' => strip_tags($this->request->getPost('keluarga_nip')),
                     'pekerjaan_suami_istri' => strip_tags($this->request->getPost('keluarga_pekerjaan')),

@@ -703,20 +703,22 @@
     }
 
     function save_keluarga(){
-        var nik = document.getElementById('nik').value;
-        var agama = document.getElementById('agama').value;
-        var kwn = document.getElementById('kwn').value;
+        var keluarga_status = document.getElementById('keluarga_status').value;
+        var keluarga_suami_istri = document.getElementById('keluarga_suami_istri').value;
+        var keluarga_nip = document.getElementById('keluarga_nip').value;
+        var keluarga_pekerjaan = document.getElementById('keluarga_pekerjaan').value;
         
-        $('#btnSavePenduduk').text('Saving...');
-        $('#btnSavePenduduk').attr('disabled', true);
+        $('#btnSaveKeluarga').text('Saving...');
+        $('#btnSaveKeluarga').attr('disabled', true);
 
         var form_data = new FormData();
-        form_data.append('nik', nik);
-        form_data.append('agama', agama);
-        form_data.append('kwn', kwn);
+        form_data.append('keluarga_status', keluarga_status);
+        form_data.append('keluarga_suami_istri', keluarga_suami_istri);
+        form_data.append('keluarga_nip', keluarga_nip);
+        form_data.append('keluarga_pekerjaan', keluarga_pekerjaan);
         
         $.ajax({
-            url: "<?php echo base_url('data-pribadi/prosespenduduk'); ?>",
+            url: "<?php echo base_url('data-pribadi/proseskeluarga'); ?>",
             dataType: 'JSON',
             cache: false,
             contentType: false,
@@ -735,11 +737,12 @@
                     position: 'topRight'
                 });
 
-                $('#modal_penduduk').modal('hide');
-                reload_penduduk();
+                $('#modal_keluarga').modal('hide');
+                reload_keluarga();
 
-                $('#btnSavePenduduk').text('Save');
-                $('#btnSavePenduduk').attr('disabled', false);
+                $('#btnSaveKeluarga').text('Save');
+                $('#btnSaveKeluarga').attr('disabled', false);
+
             }, error: function (response, status, xhr) {
                 var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
                 $('meta[name="csrf-token"]').attr('content', csrfToken);
@@ -750,8 +753,8 @@
                     position: 'topRight'
                 });
 
-                $('#btnSavePenduduk').text('Save'); //change button text
-                $('#btnSavePenduduk').attr('disabled', false); //set button enable 
+                $('#btnSaveKeluarga').text('Save');
+                $('#btnSaveKeluarga').attr('disabled', false);
             }
         });
     }
