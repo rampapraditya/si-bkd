@@ -23,7 +23,7 @@
                     <li <?php if($menu == 'ganti-password') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('ganti-password'); ?>"><i class="fa fa-circle-o"></i> Ganti password</a></li>
                 </ul>
             </li>
-            <li class="treeview <?php if($menu == 'korps' || $menu == 'pangkat' || $menu == 'satker' || $menu == 'jabatan') { echo 'active'; } ?>">
+            <li class="treeview <?php if($menu == 'korps' || $menu == 'pangkat' || $menu == 'satker' || $menu == 'jabatan' || $menu == 'fakultas') { echo 'active'; } ?>">
                 <a href="#">
                     <i class="fa fa-edit"></i> <span>Master</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -33,6 +33,7 @@
                     <li <?php if($menu == 'pangkat') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pangkat'); ?>"><i class="fa fa-circle-o"></i> Pangkat</a></li>
                     <li <?php if($menu == 'satker') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('satker'); ?>"><i class="fa fa-circle-o"></i> Satker</a></li>
                     <li <?php if($menu == 'jabatan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('jabatan'); ?>"><i class="fa fa-circle-o"></i> Jabatan</a></li>
+                    <li <?php if($menu == 'fakultas') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('fakultas'); ?>"><i class="fa fa-circle-o"></i> Fakultas dan Jurusan</a></li>
                 </ul>
             </li>
             <li class="treeview <?php if($menu == 'pengguna') { echo 'active'; } ?>">

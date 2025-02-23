@@ -28,7 +28,13 @@
     <body class="hold-transition skin-blue sidebar-mini">
         <div class="wrapper">
             <?php echo $this->include('template/header'); ?>
-            <?php echo $this->include('template/menu'); ?>
+            <?php
+            if (session()->get("logged_admin")) {
+                echo $this->include('template/menu');
+            } else if (session()->get("logged_dosen")) {
+                echo $this->include('template/menudosen');
+            }
+            ?>
             <?php echo $this->renderSection('content'); ?>
             <?php echo $this->include('template/footer'); ?>
         </div>

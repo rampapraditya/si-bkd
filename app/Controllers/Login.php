@@ -87,6 +87,17 @@ class Login extends BaseController {
                             'logged_admin' => TRUE
                         ]);
                         $output['pesan'] = "ok";
+                    } else if ($data->nama_jabatan == "DOSEN") {
+                        // DOSEN
+                        session()->set([
+                            'idusers' => $data->idusers,
+                            'nama' => $data->nama,
+                            'idjabatan' => $data->idjabatan,
+                            'nama_jabatan' => $data->nama_jabatan,
+                            'email' => $data->email,
+                            'logged_dosen' => TRUE
+                        ]);
+                        $output['pesan'] = "okdosen";
                     }
                 } else {
                     $output['pesan'] = "Anda tidak berhak mengakses !";

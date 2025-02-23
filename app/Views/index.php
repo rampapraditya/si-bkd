@@ -116,9 +116,9 @@
                             $('meta[name="csrf-token"]').attr('content', csrfToken);
                             
                             if (response.pesan === "ok") {
-                                window.location.href = "<?php echo base_url(); ?>dashboard";
-                            } else if (response.pesan === "ok_ketua_bidang") {
-                                window.location.href = "<?php echo base_url(); ?>dashboard";
+                                window.location.href = "<?php echo base_url('dashboard'); ?>";
+                            } else if (response.pesan === "okdosen") {
+                                window.location.href = "<?php echo base_url('dashboard'); ?>";
                             } else {
                                 iziToast.info({
                                     title: 'Info',

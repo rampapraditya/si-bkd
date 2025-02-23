@@ -17,7 +17,7 @@ class Dashboard extends BaseController
 
     public function index()
     {
-        if (session()->get("logged_admin")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $data['idusers'] = session()->get("idusers");
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
