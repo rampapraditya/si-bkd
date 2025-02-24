@@ -3,7 +3,7 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Jabatan Fungsional <small>Maintenance data korps</small> </h1>
+        <h1>Jabatan Fungsional <small>Maintenance data jabatan fungsional</small> </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('dashboard'); ?>"> Beranda</a></li>
             <li class="active">Jabatan Fungsional</li>

@@ -3,10 +3,10 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Jabatan Fungsional <small>Maintenance data jabatan fungsional</small> </h1>
+        <h1>Kepangkatan <small>Maintenance data kepangkatan</small> </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('dashboard'); ?>"> Beranda</a></li>
-            <li class="active">Jabatan Fungsional</li>
+            <li class="active">Kepangkatan</li>
         </ol>
     </section>
     <section class="content">
@@ -22,9 +22,12 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Jabatan<br>Fungsional</th>
+                                    <th>Golongan</th>
                                     <th>No SK</th>
+                                    <th>Tgl SK</th>
                                     <th>Tgl Mulai</th>
+                                    <th>Masa Kerja<br>Tahun</th>
+                                    <th>Masa Kerja<br>Bulan</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
@@ -51,14 +54,14 @@
                 <form id="form" class="form-horizontal">
                     <input type="hidden" name="kode" id="kode">
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Jabatan Fungsional</label>
+                        <label class="col-sm-4 control-label">Golongan</label>
                         <div class="col-sm-8">
-                            <select id="jabatan" name="jabatan" class="form-control">
-                                <option value="-">- Pilih Jabatan -</option>
+                            <select id="golongan" name="golongan" class="form-control">
+                                <option value="-">- Pilih Golongan -</option>
                                 <?php
-                                foreach ($jabfungsi as $row) {
+                                foreach ($golongan as $row) {
                                     ?>
-                                <option value="<?php echo $row->id_jab_fungsi; ?>"><?php echo $row->nama_jab_fungsi; ?></option>
+                                <option value="<?php echo $row->idgolongan; ?>"><?php echo $row->nama_golongan; ?></option>
                                     <?php
                                 }
                                 ?>
@@ -66,15 +69,33 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">No SK</label>
+                        <label class="col-sm-4 control-label">Nomor SK</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="nomor_sk" name="nomor_sk" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Terhitung Mulai</label>
+                        <label class="col-sm-4 control-label">Tanggal SK</label>
                         <div class="col-sm-8">
-                            <input type="date" class="form-control" id="mulai" name="mulai" autocomplete="off" value="<?php echo $curdate; ?>">
+                            <input type="date" class="form-control" id="tgl_sk" name="tgl_sk" autocomplete="off" value="<?php echo $curdate; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Tanggal Mulai</label>
+                        <div class="col-sm-8">
+                            <input type="date" class="form-control" id="tgl_mulai" name="tgl_mulai" autocomplete="off" value="<?php echo $curdate; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Masa Kerja (Tahun)</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="kerja_tahun" name="kerja_tahun" autocomplete="off" onkeypress="return hanyaAngka(event, false);">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Masa Kerja (Bulan)</label>
+                        <div class="col-sm-8">
+                            <input type="number" class="form-control" id="kerja_bulan" name="kerja_bulan" autocomplete="off" onkeypress="return hanyaAngka(event, false);">
                         </div>
                     </div>
                 </form>
@@ -93,7 +114,7 @@
 
     $(document).ready(function () {
         table = $('#tb').DataTable({
-            ajax: "<?php echo base_url('jab-fungsi-dosen/ajaxlist'); ?>",
+            ajax: "<?php echo base_url('kepangkatan/ajaxlist'); ?>",
             ordering: false
         });
     });
@@ -106,31 +127,52 @@
         save_method = 'add';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah jabatan fungsional');
+        $('.modal-title').text('Tambah kepangkatan');
     }
 
     function save() {
         var kode = document.getElementById('kode').value;
-        var jabatan = document.getElementById('jabatan').value;
+        var golongan = document.getElementById('golongan').value;
         var nomor_sk = document.getElementById('nomor_sk').value;
-        var mulai = document.getElementById('mulai').value;
+        var tgl_sk = document.getElementById('tgl_sk').value;
+        var tgl_mulai = document.getElementById('tgl_mulai').value;
+        var kerja_tahun = document.getElementById('kerja_tahun').value;
+        var kerja_bulan = document.getElementById('kerja_bulan').value;
         
-        if (jabatan === '-') {
+        if (golongan === "-") {
             iziToast.error({
                 title: 'Error',
-                message: "Pilih jabatan fungsional terlebih dahulu",
+                message: "Pilih golongan terlebih dahulu",
                 position: 'topRight'
             });
-        } else if(nomor_sk === ""){
+        } else if (nomor_sk === "") {
             iziToast.error({
                 title: 'Error',
                 message: "Nomor SK tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if(mulai === ""){
+        } else if (tgl_sk === "") {
+            iziToast.error({
+                title: 'Error',
+                message: "Tanggal SK tidak boleh kosong",
+                position: 'topRight'
+            });
+        } else if (tgl_mulai === "") {
             iziToast.error({
                 title: 'Error',
                 message: "Tanggal mulai tidak boleh kosong",
+                position: 'topRight'
+            });
+        } else if (kerja_tahun === "") {
+            iziToast.error({
+                title: 'Error',
+                message: "Masa kerja (tahun) tidak boleh kosong",
+                position: 'topRight'
+            });
+        } else if (kerja_bulan === "") {
+            iziToast.error({
+                title: 'Error',
+                message: "Masa kerja (bulan) tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -139,16 +181,19 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('jab-fungsi-dosen/ajax_add'); ?>";
+                url = "<?php echo base_url('kepangkatan/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('jab-fungsi-dosen/ajax_edit'); ?>";
+                url = "<?php echo base_url('kepangkatan/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
             form_data.append('kode', kode);
-            form_data.append('jabatan', jabatan);
+            form_data.append('golongan', golongan);
             form_data.append('nomor_sk', nomor_sk);
-            form_data.append('mulai', mulai);
+            form_data.append('tgl_sk', tgl_sk);
+            form_data.append('tgl_mulai', tgl_mulai);
+            form_data.append('kerja_tahun', kerja_tahun);
+            form_data.append('kerja_bulan', kerja_bulan);
             
             $.ajax({
                 url: url,
@@ -173,7 +218,7 @@
                     $('#modal_form').modal('hide');
                     reload();
 
-                    $('#btnSave').text('Save');
+                    $('#btnSave').text('Save'); 
                     $('#btnSave').attr('disabled', false);
                 }, error: function (response, status, xhr) {
                     var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
@@ -197,7 +242,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus jabatan fungsional nomor ' + nama + ' ?',
+            message: 'Apakah yakin menghapus kepangkatan nomor ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -207,7 +252,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('jab-fungsi-dosen/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('kepangkatan/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -242,16 +287,19 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti jabatan fungsional');
+        $('.modal-title').text('Ganti kepangkatan');
         $.ajax({
-            url: "<?php echo base_url('jab-fungsi-dosen/show/'); ?>" + id,
+            url: "<?php echo base_url('kepangkatan/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idjab_fungsi_dosen);
-                $('[name="jabatan"]').val(data.id_jab_fungsi);
+                $('[name="kode"]').val(data.idkepangkatan);
+                $('[name="golongan"]').val(data.idgolongan);
                 $('[name="nomor_sk"]').val(data.nomor_sk);
-                $('[name="mulai"]').val(data.mulai);
+                $('[name="tgl_sk"]').val(data.tgl_sk);
+                $('[name="mulai_tgl"]').val(data.mulai_tgl);
+                $('[name="kerja_tahun"]').val(data.masa_kerja_gol_tahun);
+                $('[name="kerja_bulan"]').val(data.masa_kerja_gol_bulan);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 alert('Error get data');
             }

@@ -162,3 +162,13 @@ $routes->group('jab-fungsi-dosen', function ($routes) {
     $routes->post('ajax_edit', 'Jabfungsidosen::ajax_edit');
     $routes->get('hapus/(:any)', 'Jabfungsidosen::hapus/$1');
 });
+
+$routes->group('kepangkatan', function ($routes) {
+    $routes->get('', 'Kepangkatan::index');
+    $routes->get('showimg/(:any)', 'Kepangkatan::showimg/$1');
+    $routes->get('ajaxlist', 'Kepangkatan::ajaxlist');
+    $routes->post('ajax_add', 'Kepangkatan::ajax_add');
+    $routes->get('show/(:any)', 'Kepangkatan::show/$1');
+    $routes->post('ajax_edit', 'Kepangkatan::ajax_edit');
+    $routes->get('hapus/(:any)', 'Kepangkatan::hapus/$1');
+});
