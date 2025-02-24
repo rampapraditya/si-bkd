@@ -142,3 +142,23 @@ $routes->group('data-pribadi', function ($routes) {
     $routes->get('loadpegawai', 'Datapribadi::loadpegawai');
     $routes->get('loadlain', 'Datapribadi::loadlain');
 });
+
+$routes->group('inpasing', function ($routes) {
+    $routes->get('', 'Inpasing::index');
+    $routes->get('showimg/(:any)', 'Inpasing::showimg/$1');
+    $routes->get('ajaxlist', 'Inpasing::ajaxlist');
+    $routes->post('ajax_add', 'Inpasing::ajax_add');
+    $routes->get('show/(:any)', 'Inpasing::show/$1');
+    $routes->post('ajax_edit', 'Inpasing::ajax_edit');
+    $routes->get('hapus/(:any)', 'Inpasing::hapus/$1');
+});
+
+$routes->group('jab-fungsi-dosen', function ($routes) {
+    $routes->get('', 'Jabfungsidosen::index');
+    $routes->get('showimg/(:any)', 'Jabfungsidosen::showimg/$1');
+    $routes->get('ajaxlist', 'Jabfungsidosen::ajaxlist');
+    $routes->post('ajax_add', 'Jabfungsidosen::ajax_add');
+    $routes->get('show/(:any)', 'Jabfungsidosen::show/$1');
+    $routes->post('ajax_edit', 'Jabfungsidosen::ajax_edit');
+    $routes->get('hapus/(:any)', 'Jabfungsidosen::hapus/$1');
+});
