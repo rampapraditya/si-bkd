@@ -49,7 +49,7 @@
                 <form id="form" class="form-horizontal">
                     <input type="hidden" name="kode" id="kode">
                     <div class="form-group row">
-                        <label for="nama" class="col-sm-3 control-label">Korps</label>
+                        <label class="col-sm-3 control-label">Korps</label>
                         <div class="col-sm-9">
                             <input type="text" class="form-control" id="nama" name="nama" autocomplete="off">
                         </div>

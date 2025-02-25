@@ -172,3 +172,13 @@ $routes->group('kepangkatan', function ($routes) {
     $routes->post('ajax_edit', 'Kepangkatan::ajax_edit');
     $routes->get('hapus/(:any)', 'Kepangkatan::hapus/$1');
 });
+
+$routes->group('penempatan', function ($routes) {
+    $routes->get('', 'Penempatan::index');
+    $routes->get('showimg/(:any)', 'Penempatan::showimg/$1');
+    $routes->get('ajaxlist', 'Penempatan::ajaxlist');
+    $routes->post('ajax_add', 'Penempatan::ajax_add');
+    $routes->get('show/(:any)', 'Penempatan::show/$1');
+    $routes->post('ajax_edit', 'Penempatan::ajax_edit');
+    $routes->get('hapus/(:any)', 'Penempatan::hapus/$1');
+});
