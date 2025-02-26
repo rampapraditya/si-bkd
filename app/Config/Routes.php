@@ -182,3 +182,33 @@ $routes->group('penempatan', function ($routes) {
     $routes->post('ajax_edit', 'Penempatan::ajax_edit');
     $routes->get('hapus/(:any)', 'Penempatan::hapus/$1');
 });
+
+$routes->group('pend-formal', function ($routes) {
+    $routes->get('', 'Pendformal::index');
+    $routes->get('showimg/(:any)', 'Pendformal::showimg/$1');
+    $routes->get('ajaxlist', 'Pendformal::ajaxlist');
+    $routes->post('ajax_add', 'Pendformal::ajax_add');
+    $routes->get('show/(:any)', 'Pendformal::show/$1');
+    $routes->post('ajax_edit', 'Pendformal::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pendformal::hapus/$1');
+});
+
+$routes->group('diklat', function ($routes) {
+    $routes->get('', 'Diklat::index');
+    $routes->get('showimg/(:any)', 'Diklat::showimg/$1');
+    $routes->get('ajaxlist', 'Diklat::ajaxlist');
+    $routes->post('ajax_add', 'Diklat::ajax_add');
+    $routes->get('show/(:any)', 'Diklat::show/$1');
+    $routes->post('ajax_edit', 'Diklat::ajax_edit');
+    $routes->get('hapus/(:any)', 'Diklat::hapus/$1');
+});
+
+$routes->group('riwayat-kerja', function ($routes) {
+    $routes->get('', 'Riwayatkerja::index');
+    $routes->get('showimg/(:any)', 'Riwayatkerja::showimg/$1');
+    $routes->get('ajaxlist', 'Riwayatkerja::ajaxlist');
+    $routes->post('ajax_add', 'Riwayatkerja::ajax_add');
+    $routes->get('show/(:any)', 'Riwayatkerja::show/$1');
+    $routes->post('ajax_edit', 'Riwayatkerja::ajax_edit');
+    $routes->get('hapus/(:any)', 'Riwayatkerja::hapus/$1');
+});

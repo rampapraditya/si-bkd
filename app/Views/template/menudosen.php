@@ -25,7 +25,35 @@
                     <li <?php if($menu == 'penempatan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('penempatan'); ?>"><i class="fa fa-circle-o"></i> Penempatan</a></li>
                 </ul>
             </li>
-            
+            <li class="treeview <?php if($menu == 'pend-formal' || $menu == 'diklat' || $menu == 'riwayat-kerja') { echo 'active'; } ?>">
+                <a href="#">
+                    <i class="fa fa-graduation-cap"></i> <span>Kualifikasi</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li <?php if($menu == 'pend-formal') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pend-formal'); ?>"><i class="fa fa-circle-o"></i> Pendidikan Formal</a></li>
+                    <li <?php if($menu == 'diklat') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('diklat'); ?>"><i class="fa fa-circle-o"></i> Diklat</a></li>
+                    <li <?php if($menu == 'riwayat-kerja') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('riwayat-kerja'); ?>"><i class="fa fa-circle-o"></i> Riwayat Pekerjaan</a></li>
+                </ul>
+            </li>
+            <li class="treeview <?php if($menu == 'pengajaran' || $menu == 'bim-mhs' || $menu == 'pengujian-mhs' || $menu == 'bahan-ajar' || $menu == 'pembinaan-mhs' || $menu == 'visit-sci' || $menu == 'datasering' || $menu == 'orasi' || $menu == 'pemb-dosen' || $menu == 'tugas-tambahan') { echo 'active'; } ?>">
+                <a href="#">
+                    <i class="fa fa-book"></i> <span>Pelaks Pendidikan</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li <?php if($menu == 'pengajaran') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengajaran'); ?>"><i class="fa fa-circle-o"></i> Pengajaran</a></li>
+                    <li <?php if($menu == 'bim-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('bim-mhs'); ?>"><i class="fa fa-circle-o"></i> Bimbingan Mahasiswa</a></li>
+                    <li <?php if($menu == 'pengujian-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengujian-mhs'); ?>"><i class="fa fa-circle-o"></i> Pengujian Mahasiswa</a></li>
+                    <li <?php if($menu == 'bahan-ajar') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('bahan-ajar'); ?>"><i class="fa fa-circle-o"></i> Bahan Ajar</a></li>
+                    <li <?php if($menu == 'pembinaan-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pembinaan-mhs'); ?>"><i class="fa fa-circle-o"></i> Pembinaan Mahasiswa</a></li>
+                    <li <?php if($menu == 'visit-sci') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('visit-sci'); ?>"><i class="fa fa-circle-o"></i> Visiting Scientist</a></li>
+                    <li <?php if($menu == 'datasering') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('datasering'); ?>"><i class="fa fa-circle-o"></i> Datasering</a></li>
+                    <li <?php if($menu == 'orasi') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('orasi'); ?>"><i class="fa fa-circle-o"></i> Orasi Ilmiah</a></li>
+                    <li <?php if($menu == 'pemb-dosen') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pemb-dosen'); ?>"><i class="fa fa-circle-o"></i> Pembimbing dosen</a></li>
+                    <li <?php if($menu == 'tugas-tambahan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('tugas-tambahan'); ?>"><i class="fa fa-circle-o"></i> Tugas tambahan</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
 </aside>

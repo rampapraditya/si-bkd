@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Feb 25, 2025 at 04:09 AM
+-- Generation Time: Feb 26, 2025 at 04:31 AM
 -- Server version: 8.3.0
 -- PHP Version: 8.2.18
 
@@ -53,6 +53,36 @@ CREATE TABLE IF NOT EXISTS `alamat_kontak` (
 
 INSERT INTO `alamat_kontak` (`idalamat`, `alamat`, `rt`, `rw`, `kelurahan`, `kecamatan`, `kota`, `provinsi`, `kdpos`, `tlp_rumah`, `tlp_ponsel`, `created_at`, `updated_at`, `idusers`) VALUES
 ('caf39c3c-ed73-45f0-aac4-286caef067eb', 'Gunung Anyar Tambak Barat 1 No 16', '01', '05', 'Gunung Anyar', 'Gunung Anyar', 'Surabaya', 'Jawa TImur', '60588', '-', '085731803889', '2025-02-23 20:35:03', '2025-02-23 20:36:52', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `diklat`
+--
+
+DROP TABLE IF EXISTS `diklat`;
+CREATE TABLE IF NOT EXISTS `diklat` (
+  `iddiklat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenisdiklat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `namadiklat` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `penyelengara` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `peran` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `tingkat` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `jmljam` int NOT NULL,
+  `no_sert` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_sert` date NOT NULL,
+  `tahun_selenggara` int NOT NULL,
+  `tempat` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_mulai` date NOT NULL,
+  `tgl_selesai` date NOT NULL,
+  `no_sk_penugasan` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_sk_penugasan` date NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`iddiklat`),
+  KEY `idusers` (`idusers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -529,6 +559,40 @@ INSERT INTO `pangkat` (`idpangkat`, `nama_pangkat`, `created_at`, `updated_at`) 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pendidikan_formal`
+--
+
+DROP TABLE IF EXISTS `pendidikan_formal`;
+CREATE TABLE IF NOT EXISTS `pendidikan_formal` (
+  `idpendformal` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenjang` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `pt` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `noinduk` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `program_studi` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `gelar` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun_masuk` int NOT NULL,
+  `tgl_lulus` date NOT NULL,
+  `ipk` float NOT NULL,
+  `no_ijazah` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul_tesis` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpendformal`),
+  KEY `idusers` (`idusers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pendidikan_formal`
+--
+
+INSERT INTO `pendidikan_formal` (`idpendformal`, `idusers`, `jenjang`, `pt`, `noinduk`, `program_studi`, `gelar`, `bidang`, `tahun_masuk`, `tgl_lulus`, `ipk`, `no_ijazah`, `judul_tesis`, `created_at`, `updated_at`) VALUES
+('2cd58d56-030a-42c3-b0f5-2be912bcc059', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'S1', 'Universitas Dinamika', '010101', '2770e10c-132f-4feb-96f5-9c97295466ae', 'S.Kom', 'Rekayasa Perangkat Lunak', 2011, '2016-02-26', 3.25, 'IJZ0101', 'Kemera J2ME', '2025-02-26 11:11:55', '2025-02-26 11:16:43');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `penempatan`
 --
 
@@ -557,6 +621,31 @@ CREATE TABLE IF NOT EXISTS `penempatan` (
 
 INSERT INTO `penempatan` (`idpenempatan`, `idusers`, `status`, `ikatan_kerja`, `jenjang`, `unit`, `pt`, `mulai`, `keluar`, `selesai`, `home_base`, `created_at`, `updated_at`) VALUES
 ('311dec6b-2bf9-40e4-9acf-18a0fae4e5cb', 'e7d62ef3-c395-4d7e-a70c-5e3d26868886', 'NON PNS', 'Dosen Tetap', 'S1', 'Sistem Informasi', 'Universitas Dinamika', '2025-02-25', '0000-00-00', '0000-00-00', 'Ya', '2025-02-25 11:02:47', '2025-02-25 11:09:29');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `riwayat_kerja`
+--
+
+DROP TABLE IF EXISTS `riwayat_kerja`;
+CREATE TABLE IF NOT EXISTS `riwayat_kerja` (
+  `idriwayat_kerja` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang_usaha` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_pekerjaan` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jabatan` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `instansi` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `divisi` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `mulai_kerja` date NOT NULL,
+  `selesai_kerja` date NOT NULL,
+  `area` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idriwayat_kerja`),
+  KEY `idusers` (`idusers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -656,6 +745,12 @@ ALTER TABLE `alamat_kontak`
   ADD CONSTRAINT `alamat_kontak_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `diklat`
+--
+ALTER TABLE `diklat`
+  ADD CONSTRAINT `diklat_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `dosen_jurusan`
 --
 ALTER TABLE `dosen_jurusan`
@@ -715,10 +810,22 @@ ALTER TABLE `lain_lain`
   ADD CONSTRAINT `lain_lain_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `pendidikan_formal`
+--
+ALTER TABLE `pendidikan_formal`
+  ADD CONSTRAINT `pendidikan_formal_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `penempatan`
 --
 ALTER TABLE `penempatan`
   ADD CONSTRAINT `penempatan_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `riwayat_kerja`
+--
+ALTER TABLE `riwayat_kerja`
+  ADD CONSTRAINT `riwayat_kerja_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
