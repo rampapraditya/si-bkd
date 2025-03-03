@@ -105,26 +105,21 @@ class Riwayatkerja extends BaseController
             $idusers = session()->get("idusers");
 
             $data = array(
-                'iddiklat' => Uuid::uuid4()->toString(),
+                'idriwayat_kerja' => Uuid::uuid4()->toString(),
                 'idusers' => $idusers,
-                'jenisdiklat' => esc($this->request->getPost('jenisdiklat')),
-                'namadiklat' => esc($this->request->getPost('namadiklat')),
-                'penyelengara' => esc($this->request->getPost('penyelengara')),
-                'peran' => esc($this->request->getPost('peran')),
-                'tingkat' => esc($this->request->getPost('tingkat')),
-                'jmljam' => esc($this->request->getPost('jmljam')),
-                'no_sert' => esc($this->request->getPost('no_sert')),
-                'tgl_sert' => esc($this->request->getPost('tgl_sert')),
-                'tahun_selenggara' => esc($this->request->getPost('tahun_selenggara')),
-                'tempat' => esc($this->request->getPost('tempat')),
-                'tgl_mulai' => esc($this->request->getPost('tgl_mulai')),
-                'tgl_selesai' => esc($this->request->getPost('tgl_selesai')),
-                'no_sk_penugasan' => esc($this->request->getPost('no_sk_penugasan')),
-                'tgl_sk_penugasan' => esc($this->request->getPost('tgl_sk_penugasan')),
+                'bidang_usaha' => esc($this->request->getPost('bidang_usaha')),
+                'jenis_pekerjaan' => esc($this->request->getPost('jenis_pekerjaan')),
+                'jabatan' => esc($this->request->getPost('jabatan')),
+                'instansi' => esc($this->request->getPost('instansi')),
+                'divisi' => esc($this->request->getPost('divisi')),
+                'deskripsi' => esc($this->request->getPost('deskripsi')),
+                'mulai_kerja' => esc($this->request->getPost('mulai_kerja')),
+                'selesai_kerja' => esc($this->request->getPost('selesai_kerja')),
+                'area' => esc($this->request->getPost('area')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("diklat", $data);
+            $simpan = $this->mcustom->tambah("riwayat_kerja", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -143,8 +138,8 @@ class Riwayatkerja extends BaseController
     public function show()
     {
         if (session()->get("logged_dosen")) {
-            $kond['iddiklat'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("diklat", $kond);
+            $kond['idriwayat_kerja'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("riwayat_kerja", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -155,24 +150,19 @@ class Riwayatkerja extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $data = array(
-                'jenisdiklat' => esc($this->request->getPost('jenisdiklat')),
-                'namadiklat' => esc($this->request->getPost('namadiklat')),
-                'penyelengara' => esc($this->request->getPost('penyelengara')),
-                'peran' => esc($this->request->getPost('peran')),
-                'tingkat' => esc($this->request->getPost('tingkat')),
-                'jmljam' => esc($this->request->getPost('jmljam')),
-                'no_sert' => esc($this->request->getPost('no_sert')),
-                'tgl_sert' => esc($this->request->getPost('tgl_sert')),
-                'tahun_selenggara' => esc($this->request->getPost('tahun_selenggara')),
-                'tempat' => esc($this->request->getPost('tempat')),
-                'tgl_mulai' => esc($this->request->getPost('tgl_mulai')),
-                'tgl_selesai' => esc($this->request->getPost('tgl_selesai')),
-                'no_sk_penugasan' => esc($this->request->getPost('no_sk_penugasan')),
-                'tgl_sk_penugasan' => esc($this->request->getPost('tgl_sk_penugasan')),
+                'bidang_usaha' => esc($this->request->getPost('bidang_usaha')),
+                'jenis_pekerjaan' => esc($this->request->getPost('jenis_pekerjaan')),
+                'jabatan' => esc($this->request->getPost('jabatan')),
+                'instansi' => esc($this->request->getPost('instansi')),
+                'divisi' => esc($this->request->getPost('divisi')),
+                'deskripsi' => esc($this->request->getPost('deskripsi')),
+                'mulai_kerja' => esc($this->request->getPost('mulai_kerja')),
+                'selesai_kerja' => esc($this->request->getPost('selesai_kerja')),
+                'area' => esc($this->request->getPost('area')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['iddiklat'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("diklat", $data, $kond);
+            $kond['idriwayat_kerja'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("riwayat_kerja", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data terupdate";
             } else {
@@ -191,8 +181,8 @@ class Riwayatkerja extends BaseController
     public function hapus()
     {
         if (session()->get("logged_dosen")) {
-            $kond['iddiklat'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("diklat", $kond);
+            $kond['idriwayat_kerja'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("riwayat_kerja", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {
