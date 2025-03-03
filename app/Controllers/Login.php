@@ -48,7 +48,7 @@ class Login extends BaseController {
         $password = strip_tags($this->request->getPost('password'));
 
         $validation->setRules([
-            'username' => 'required|alpha_numeric|min_length[3]',
+            'username' => 'required|min_length[3]',
             'password' => 'required|min_length[3]',
         ]);
 
