@@ -170,67 +170,50 @@
 
     function save() {
         var kode = document.getElementById('kode').value;
-        var jenisdiklat = document.getElementById('jenisdiklat').value;
-        var namadiklat = document.getElementById('namadiklat').value;
-        var penyelengara = document.getElementById('penyelengara').value;
-        var peran = document.getElementById('peran').value;
-        var tingkat = document.getElementById('tingkat').value;
-        var jmljam = document.getElementById('jmljam').value;
-        var no_sert = document.getElementById('no_sert').value;
-        var tgl_sert = document.getElementById('tgl_sert').value;
-        var tahun_selenggara = document.getElementById('tahun_selenggara').value;
-        var tempat = document.getElementById('tempat').value;
-        var tgl_mulai = document.getElementById('tgl_mulai').value;
-        var tgl_selesai = document.getElementById('tgl_selesai').value;
-        var no_sk_penugasan = document.getElementById('no_sk_penugasan').value;
-        var tgl_sk_penugasan = document.getElementById('tgl_sk_penugasan').value;
+        var bidang_usaha = document.getElementById('bidang_usaha').value;
+        var jenis_pekerjaan = document.getElementById('jenis_pekerjaan').value;
+        var jabatan = document.getElementById('jabatan').value;
+        var instansi = document.getElementById('instansi').value;
+        var divisi = document.getElementById('divisi').value;
+        var deskripsi = document.getElementById('deskripsi').value;
+        var mulai_kerja = document.getElementById('mulai_kerja').value;
+        var selesai_kerja = document.getElementById('selesai_kerja').value;
+        var area = document.getElementById('area').value;
         
-        if (jenisdiklat === '') {
+        if (bidang_usaha === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Jenis diklat tidak boleh kosong",
+                message: "Bidang usaha tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if (namadiklat === '') {
+        } else if (jenis_pekerjaan === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Nama diklat tidak boleh kosong",
+                message: "Jenis pekerjaan tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if (penyelengara === '') {
+        } else if (jabatan === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Penyelengara tidak boleh kosong",
+                message: "Jabatan tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if (no_sert === '') {
+        } else if (instansi === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Nomor sertifikat tidak boleh kosong",
+                message: "Instansi tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if (tgl_sert === '') {
+        } else if (mulai_kerja === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Tanggal sertifikat tidak boleh kosong",
+                message: "Mulai bekerja tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if (tahun_selenggara === '') {
+        } else if (selesai_kerja === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Tahun penyelenggaraan tidak boleh kosong",
-                position: 'topRight'
-            });
-        } else if (tgl_mulai === '') {
-            iziToast.error({
-                title: 'Error',
-                message: "Tanggal mulai tidak boleh kosong",
-                position: 'topRight'
-            });
-        } else if (tgl_selesai === '') {
-            iziToast.error({
-                title: 'Error',
-                message: "Tanggal selesai tidak boleh kosong",
+                message: "Selesai bekerja tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -239,27 +222,22 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('diklat/ajax_add'); ?>";
+                url = "<?php echo base_url('riwayat-kerja/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('diklat/ajax_edit'); ?>";
+                url = "<?php echo base_url('riwayat-kerja/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
             form_data.append('kode', kode);
-            form_data.append('jenisdiklat', jenisdiklat);
-            form_data.append('namadiklat', namadiklat);
-            form_data.append('penyelengara', penyelengara);
-            form_data.append('peran', peran);
-            form_data.append('tingkat', tingkat);
-            form_data.append('jmljam', jmljam);
-            form_data.append('no_sert', no_sert);
-            form_data.append('tgl_sert', tgl_sert);
-            form_data.append('tahun_selenggara', tahun_selenggara);
-            form_data.append('tempat', tempat);
-            form_data.append('tgl_mulai', tgl_mulai);
-            form_data.append('tgl_selesai', tgl_selesai);
-            form_data.append('no_sk_penugasan', no_sk_penugasan);
-            form_data.append('tgl_sk_penugasan', tgl_sk_penugasan);
+            form_data.append('bidang_usaha', bidang_usaha);
+            form_data.append('jenis_pekerjaan', jenis_pekerjaan);
+            form_data.append('jabatan', jabatan);
+            form_data.append('instansi', instansi);
+            form_data.append('divisi', divisi);
+            form_data.append('deskripsi', deskripsi);
+            form_data.append('mulai_kerja', mulai_kerja);
+            form_data.append('selesai_kerja', selesai_kerja);
+            form_data.append('area', area);
             
             $.ajax({
                 url: url,
@@ -309,7 +287,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus diklat nomor ' + nama + ' ?',
+            message: 'Apakah yakin menghapus riwayat kerja nomor ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -319,7 +297,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('diklat/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('riwayat-kerja/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -356,28 +334,27 @@
         $('#modal_form').modal('show');
         $('.modal-title').text('Ganti diklat');
         $.ajax({
-            url: "<?php echo base_url('diklat/show/'); ?>" + id,
+            url: "<?php echo base_url('riwayat-kerja/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.iddiklat);
-                $('[name="jenisdiklat"]').val(data.jenisdiklat);
-                $('[name="namadiklat"]').val(data.namadiklat);
-                $('[name="penyelengara"]').val(data.penyelengara);
-                $('[name="peran"]').val(data.peran);
-                $('[name="tingkat"]').val(data.tingkat);
-                $('[name="jmljam"]').val(data.jmljam);
-                $('[name="no_sert"]').val(data.no_sert);
-                $('[name="tgl_sert"]').val(data.tgl_sert);
-                $('[name="tahun_selenggara"]').val(data.tahun_selenggara);
-                $('[name="tempat"]').val(data.tempat);
-                $('[name="tgl_mulai"]').val(data.tgl_mulai);
-                $('[name="tgl_selesai"]').val(data.tgl_selesai);
-                $('[name="no_sk_penugasan"]').val(data.no_sk_penugasan);
-                $('[name="tgl_sk_penugasan"]').val(data.tgl_sk_penugasan);
+                $('[name="kode"]').val(data.idriwayat_kerja);
+                $('[name="bidang_usaha"]').val(data.bidang_usaha);
+                $('[name="jenis_pekerjaan"]').val(data.jenis_pekerjaan);
+                $('[name="jabatan"]').val(data.jabatan);
+                $('[name="instansi"]').val(data.instansi);
+                $('[name="divisi"]').val(data.divisi);
+                $('[name="deskripsi"]').val(data.deskripsi);
+                $('[name="mulai_kerja"]').val(data.mulai_kerja);
+                $('[name="selesai_kerja"]').val(data.selesai_kerja);
+                $('[name="area"]').val(data.area);
 
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

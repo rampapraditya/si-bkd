@@ -229,7 +229,11 @@
                 $('[name="namajab"]').val(data.nama_jab_fungsi);
                 $('[name="nilai"]').val(data.nilai);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

@@ -212,7 +212,11 @@
                 $('[name="kode"]').val(data.idkorps);
                 $('[name="nama"]').val(data.nama_korps);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

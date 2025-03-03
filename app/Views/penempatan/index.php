@@ -298,7 +298,11 @@
                 $('[name="homebase"]').val(data.home_base);
 
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

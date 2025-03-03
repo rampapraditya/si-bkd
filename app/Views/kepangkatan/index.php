@@ -301,7 +301,11 @@
                 $('[name="kerja_tahun"]').val(data.masa_kerja_gol_tahun);
                 $('[name="kerja_bulan"]').val(data.masa_kerja_gol_bulan);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

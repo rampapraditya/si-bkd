@@ -212,7 +212,11 @@
                 $('[name="kode"]').val(data.idgolongan);
                 $('[name="nama"]').val(data.nama_golongan);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

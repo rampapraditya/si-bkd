@@ -387,7 +387,11 @@
                 $('[name="tgl_sk_penugasan"]').val(data.tgl_sk_penugasan);
 
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

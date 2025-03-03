@@ -213,7 +213,11 @@
                 $('[name="kode"]').val(data.idjabatan);
                 $('[name="nama"]').val(data.nama_jabatan);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

@@ -355,7 +355,11 @@
                 $('[name="pangkat"]').val(data.idpangkat);
                 $('[name="korps"]').val(data.idkorps);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

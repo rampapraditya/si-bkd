@@ -253,7 +253,11 @@
                 $('[name="nomor_sk"]').val(data.nomor_sk);
                 $('[name="mulai"]').val(data.mulai);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }

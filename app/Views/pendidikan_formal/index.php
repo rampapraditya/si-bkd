@@ -332,7 +332,11 @@
                 $('[name="no_ijazah"]').val(data.no_ijazah);
                 $('[name="judul_tesis"]').val(data.judul_tesis);
             }, error: function (jqXHR, textStatus, errorThrown) {
-                alert('Error get data');
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
             }
         });
     }
