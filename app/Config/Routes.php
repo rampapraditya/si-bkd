@@ -212,3 +212,29 @@ $routes->group('riwayat-kerja', function ($routes) {
     $routes->post('ajax_edit', 'Riwayatkerja::ajax_edit');
     $routes->get('hapus/(:any)', 'Riwayatkerja::hapus/$1');
 });
+
+$routes->group('pengajaran', function ($routes) {
+    $routes->get('', 'Pengajaran::index');
+    $routes->get('showimg/(:any)', 'Pengajaran::showimg/$1');
+    $routes->get('ajaxlist', 'Pengajaran::ajaxlist');
+    $routes->get('ajaxdosen', 'Pengajaran::ajaxdosen');
+    $routes->get('ajaxlistadmin/(:any)', 'Pengajaran::ajaxlistadmin/$1');
+    $routes->get('aktivitasdosen/(:any)', 'Pengajaran::aktivitasdosen/$1');
+    $routes->post('ajax_add', 'Pengajaran::ajax_add');
+    $routes->get('show/(:any)', 'Pengajaran::show/$1');
+    $routes->post('ajax_edit', 'Pengajaran::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pengajaran::hapus/$1');
+});
+
+$routes->group('bim-mhs', function ($routes) {
+    $routes->get('', 'Bimbinganmhs::index');
+    $routes->get('showimg/(:any)', 'Bimbinganmhs::showimg/$1');
+    $routes->get('ajaxlist', 'Bimbinganmhs::ajaxlist');
+    $routes->get('ajaxdosen', 'Bimbinganmhs::ajaxdosen');
+    $routes->get('ajaxlistadmin/(:any)', 'Bimbinganmhs::ajaxlistadmin/$1');
+    $routes->get('aktivitasdosen/(:any)', 'Bimbinganmhs::aktivitasdosen/$1');
+    $routes->post('ajax_add', 'Bimbinganmhs::ajax_add');
+    $routes->get('show/(:any)', 'Bimbinganmhs::show/$1');
+    $routes->post('ajax_edit', 'Bimbinganmhs::ajax_edit');
+    $routes->get('hapus/(:any)', 'Bimbinganmhs::hapus/$1');
+});
