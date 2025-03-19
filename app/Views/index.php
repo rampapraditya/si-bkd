@@ -15,8 +15,22 @@
         <link rel="stylesheet" href="<?php echo base_url(); ?>plugins/iCheck/square/blue.css">
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
         <link rel="stylesheet" href="<?php echo base_url(); ?>izitoast/css/iziToast.min.css">
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+            }
+            
+            .stretch-background {
+                width: 100vw;
+                height: 100vh;
+                background: url('images/back.jpeg') no-repeat center center fixed;
+                background-size: cover;
+            }
+        </style>
     </head>
-    <body class="hold-transition login-page">
+    <body class="hold-transition login-page stretch-background">
         <div class="login-box">
             <div class="login-logo">
                 <img src="<?php echo $logo; ?>" style="width: 80px;">
