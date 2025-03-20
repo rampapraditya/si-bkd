@@ -64,6 +64,10 @@ class Dashboard extends BaseController
             }
 
             if (session()->get("logged_admin")) {
+
+                // mencari info jumlah dosen
+                $data['jmldosen'] = $this->mcustom->getCount("users", [], ['idjabatan' => '96cf7ad7-644c-4e80-b964-0b712a31ac1e']);
+
                 return view('dashboard/index', $data);
 
             } else if (session()->get("logged_dosen")) {

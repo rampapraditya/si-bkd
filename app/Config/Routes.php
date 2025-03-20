@@ -238,3 +238,26 @@ $routes->group('bim-mhs', function ($routes) {
     $routes->post('ajax_edit', 'Bimbinganmhs::ajax_edit');
     $routes->get('hapus/(:any)', 'Bimbinganmhs::hapus/$1');
 });
+
+$routes->group('pengujian-mhs', function ($routes) {
+    $routes->get('', 'Pengujianmhs::index');
+    $routes->get('showimg/(:any)', 'Pengujianmhs::showimg/$1');
+    $routes->get('ajaxlist', 'Pengujianmhs::ajaxlist');
+    $routes->get('ajaxdosen', 'Pengujianmhs::ajaxdosen');
+    $routes->get('ajaxlistadmin/(:any)', 'Pengujianmhs::ajaxlistadmin/$1');
+    $routes->get('aktivitasdosen/(:any)', 'Pengujianmhs::aktivitasdosen/$1');
+    $routes->post('ajax_add', 'Pengujianmhs::ajax_add');
+    $routes->get('show/(:any)', 'Pengujianmhs::show/$1');
+    $routes->post('ajax_edit', 'Pengujianmhs::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pengujianmhs::hapus/$1');
+});
+
+$routes->group('bahan-ajar', function ($routes) {
+    $routes->get('', 'Bahanajar::index');
+    $routes->get('showimg/(:any)', 'Bahanajar::showimg/$1');
+    $routes->get('ajaxlist', 'Bahanajar::ajaxlist');
+    $routes->post('ajax_add', 'Bahanajar::ajax_add');
+    $routes->get('show/(:any)', 'Bahanajar::show/$1');
+    $routes->post('ajax_edit', 'Bahanajar::ajax_edit');
+    $routes->get('hapus/(:any)', 'Bahanajar::hapus/$1');
+});

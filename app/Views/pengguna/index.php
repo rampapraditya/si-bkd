@@ -24,7 +24,7 @@
                                     <th>#</th>
                                     <th>NRP</th>
                                     <th>Personil</th>
-                                    <th>Jabatan</th>
+                                    <th>Hak Akses</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>

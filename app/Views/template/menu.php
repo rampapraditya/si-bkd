@@ -34,7 +34,7 @@
                     <li <?php if($menu == 'korps') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('korps'); ?>"><i class="fa fa-circle-o"></i> Korps</a></li>
                     <li <?php if($menu == 'pangkat') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pangkat'); ?>"><i class="fa fa-circle-o"></i> Pangkat</a></li>
                     <li <?php if($menu == 'satker') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('satker'); ?>"><i class="fa fa-circle-o"></i> Satker</a></li>
-                    <li <?php if($menu == 'jabatan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('jabatan'); ?>"><i class="fa fa-circle-o"></i> Jabatan</a></li>
+                    <li <?php if($menu == 'jabatan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('jabatan'); ?>"><i class="fa fa-circle-o"></i> Hak Akses</a></li>
                     <li <?php if($menu == 'fakultas') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('fakultas'); ?>"><i class="fa fa-circle-o"></i> Fakultas dan Jurusan</a></li>
                 </ul>
             </li>
@@ -48,7 +48,7 @@
                 <li <?php if($menu == 'pengguna') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengguna'); ?>"><i class="fa fa-circle-o"></i> Pengguna</a></li>
                 </ul>
             </li>
-            <li class="treeview <?php if($menu == 'pengajaran' || $menu == 'bim-mhs' || $menu == 'pengujian-mhs' || $menu == 'bahan-ajar' || $menu == 'pembinaan-mhs' || $menu == 'visit-sci' || $menu == 'datasering' || $menu == 'orasi' || $menu == 'pemb-dosen' || $menu == 'tugas-tambahan') { echo 'active'; } ?>">
+            <li class="treeview <?php if($menu == 'pengajaran' || $menu == 'bim-mhs' || $menu == 'pengujian-mhs' || $menu == 'pembinaan-mhs' || $menu == 'visit-sci' || $menu == 'datasering' || $menu == 'orasi' || $menu == 'pemb-dosen' || $menu == 'tugas-tambahan') { echo 'active'; } ?>">
                 <a href="#">
                     <i class="fa fa-book"></i> <span>Pelaks Pendidikan</span>
                     <i class="fa fa-angle-left pull-right"></i>
@@ -57,7 +57,6 @@
                     <li <?php if($menu == 'pengajaran') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengajaran'); ?>"><i class="fa fa-circle-o"></i> Pengajaran</a></li>
                     <li <?php if($menu == 'bim-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('bim-mhs'); ?>"><i class="fa fa-circle-o"></i> Bimbingan Mahasiswa</a></li>
                     <li <?php if($menu == 'pengujian-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengujian-mhs'); ?>"><i class="fa fa-circle-o"></i> Pengujian Mahasiswa</a></li>
-                    <li <?php if($menu == 'bahan-ajar') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('bahan-ajar'); ?>"><i class="fa fa-circle-o"></i> Bahan Ajar</a></li>
                     <li <?php if($menu == 'pembinaan-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pembinaan-mhs'); ?>"><i class="fa fa-circle-o"></i> Pembinaan Mahasiswa</a></li>
                 </ul>
             </li>

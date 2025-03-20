@@ -3,10 +3,10 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Hak Akses <small>Maintenance data hak akses</small> </h1>
+        <h1>Bahan Ajar <small>View data bahan ajar</small> </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('dashboard'); ?>"> Beranda</a></li>
-            <li class="active">Hak Akses</li>
+            <li class="active">Bahan Ajar</li>
         </ol>
     </section>
     <section class="content">
@@ -22,7 +22,11 @@
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Jabatan</th>
+                                    <th>Judul</th>
+                                    <th>Tanggal<br>Terbit</th>
+                                    <th>Penerbit</th>
+                                    <th>SK<br>Penugasan</th>
+                                    <th>Tanggal<br>Penugasan</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
@@ -49,9 +53,33 @@
                 <form id="form" class="form-horizontal">
                     <input type="hidden" name="kode" id="kode">
                     <div class="form-group row">
-                        <label for="nama" class="col-sm-3 control-label">Hak Akses</label>
-                        <div class="col-sm-9">
-                            <input type="text" class="form-control" id="nama" name="nama" autocomplete="off">
+                        <label class="col-sm-4 control-label">Judul Bahan Ajar</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="judul" name="judul" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Tanggal Terbit</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="tgl_terbit" name="tgl_terbit" autocomplete="off" value="<?php echo $curdate; ?>">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Penerbit</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="penerbit" name="penerbit" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">SK Penugasan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="sk_penugasan" name="sk_penugasan" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Tanggal SK</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="tgl_sk" name="tgl_sk" autocomplete="off" value="<?php echo $curdate; ?>">
                         </div>
                     </div>
                 </form>
@@ -63,6 +91,7 @@
         </div>
     </div>
 </div>
+
 <script type="text/javascript">
 
     var save_method;
@@ -70,7 +99,7 @@
 
     $(document).ready(function () {
         table = $('#tb').DataTable({
-            ajax: "<?php echo base_url('jabatan/ajaxlist'); ?>",
+            ajax: "<?php echo base_url('bahan-ajar/ajaxlist'); ?>",
             ordering: false
         });
     });
@@ -83,17 +112,21 @@
         save_method = 'add';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah hak akses');
+        $('.modal-title').text('Tambah bahan ajar');
     }
 
     function save() {
         var kode = document.getElementById('kode').value;
-        var nama = document.getElementById('nama').value;
-        
-        if (nama === '') {
+        var judul = document.getElementById('judul').value;
+        var tgl_terbit
+        var penerbit
+        var sk_penugasan
+        var tgl_sk
+
+        if (judul === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Nama jabatan tidak boleh kosong",
+                message: "Judul bahan ajar tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -102,9 +135,9 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('jabatan/ajax_add'); ?>";
+                url = "<?php echo base_url('bahanajar/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('jabatan/ajax_edit'); ?>";
+                url = "<?php echo base_url('bahanajar/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
@@ -134,9 +167,8 @@
                     $('#modal_form').modal('hide');
                     reload();
 
-                    $('#btnSave').text('Save');
-                    $('#btnSave').attr('disabled', false);
-
+                    $('#btnSave').text('Save'); //change button text
+                    $('#btnSave').attr('disabled', false); //set button enable 
                 }, error: function (response, status, xhr) {
                     var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
                     $('meta[name="csrf-token"]').attr('content', csrfToken);
@@ -147,8 +179,8 @@
                         position: 'topRight'
                     });
 
-                    $('#btnSave').text('Save');
-                    $('#btnSave').attr('disabled', false);
+                    $('#btnSave').text('Save'); //change button text
+                    $('#btnSave').attr('disabled', false); //set button enable 
                 }
             });
         }
@@ -159,7 +191,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus hak akses ' + nama + ' ?',
+            message: 'Apakah yakin menghapus korps ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -169,7 +201,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('jabatan/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('korps/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -204,14 +236,14 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti hak akses');
+        $('.modal-title').text('Ganti korps');
         $.ajax({
-            url: "<?php echo base_url('jabatan/show/'); ?>" + id,
+            url: "<?php echo base_url('korps/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idjabatan);
-                $('[name="nama"]').val(data.nama_jabatan);
+                $('[name="kode"]').val(data.idkorps);
+                $('[name="nama"]').val(data.nama_korps);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',
