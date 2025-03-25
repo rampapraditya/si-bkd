@@ -61,7 +61,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Tanggal Terbit</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="tgl_terbit" name="tgl_terbit" autocomplete="off" value="<?php echo $curdate; ?>">
+                            <input type="date" class="form-control" id="tgl_terbit" name="tgl_terbit" autocomplete="off" value="<?php echo $curdate; ?>">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -79,7 +79,7 @@
                     <div class="form-group row">
                         <label class="col-sm-4 control-label">Tanggal SK</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="tgl_sk" name="tgl_sk" autocomplete="off" value="<?php echo $curdate; ?>">
+                            <input type="date" class="form-control" id="tgl_sk" name="tgl_sk" autocomplete="off" value="<?php echo $curdate; ?>">
                         </div>
                     </div>
                 </form>
@@ -135,9 +135,9 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('bahanajar/ajax_add'); ?>";
+                url = "<?php echo base_url('bahan-ajar/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('bahanajar/ajax_edit'); ?>";
+                url = "<?php echo base_url('bahan-ajar/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
@@ -195,7 +195,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus korps ' + nama + ' ?',
+            message: 'Apakah yakin menghapus bahan ajar nomor ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -205,7 +205,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('korps/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('bahan-ajar/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -240,14 +240,18 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti korps');
+        $('.modal-title').text('Ganti bahan ajar');
         $.ajax({
-            url: "<?php echo base_url('korps/show/'); ?>" + id,
+            url: "<?php echo base_url('bahan-ajar/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idkorps);
-                $('[name="nama"]').val(data.nama_korps);
+                $('[name="kode"]').val(data.idbahanajar);
+                $('[name="judul"]').val(data.judul);
+                $('[name="tgl_terbit"]').val(data.tgl_terbit);
+                $('[name="penerbit"]').val(data.penerbit);
+                $('[name="sk_penugasan"]').val(data.sk_penugasan);
+                $('[name="tgl_sk"]').val(data.tgl_sk);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',

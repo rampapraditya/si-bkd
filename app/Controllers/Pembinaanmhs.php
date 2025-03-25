@@ -55,7 +55,12 @@ class Pembinaanmhs extends BaseController
 
             $data['jurusan'] = $this->mcustom->getDynamicData(false, [], 'jurusan', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
             
-            return view('pembinaan_mhs/index', $data);
+            if (session()->get("logged_admin")) {
+                return view('pembinaan_mhs/dosen', $data);
+            } else if (session()->get("logged_dosen")) {
+                return view('pembinaan_mhs/index', $data);
+            }
+            
             
         } else {
             $this->modul->halaman('login');
@@ -64,7 +69,7 @@ class Pembinaanmhs extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+        if (session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
             $data = array();
             $no = 1;
@@ -138,7 +143,7 @@ class Pembinaanmhs extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('pengujian-mhs/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -174,7 +179,7 @@ class Pembinaanmhs extends BaseController
 
             $data['jurusan'] = $this->mcustom->getDynamicData(false, [], 'jurusan', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
 
-            return view('pengujian_mhs/aktivitasdosen', $data);
+            return view('pembinaan_mhs/aktivitasdosen', $data);
         } else {
             $this->modul->halaman('login');
         }
@@ -184,25 +189,25 @@ class Pembinaanmhs extends BaseController
     {
         if (session()->get("logged_admin")) {
             $idusers = $this->request->getUri()->getSegment(3);
-            
+
             $data = array();
             $no = 1;
-            $select = ['pengujian.*','jurusan.namajurusan'];
             $join = [
-                ['table' => 'jurusan', 'condition' => 'pengujian.idjurusan = jurusan.idjurusan', 'type' => 'inner'],  
+                ['table' => 'jurusan', 'condition' => 'pembinaan.idjurusan = jurusan.idjurusan', 'type' => 'inner']
             ];
-            $list = $this->mcustom->getDynamicData(false, $select, 'pengujian', $join, ['idusers' => $idusers], [], [], [], [], null, null, ['pengujian.created_at' => 'ASC']);
+            $list = $this->mcustom->getDynamicData(false, ['pembinaan.*', 'jurusan.namajurusan'], 'pembinaan', $join, ['pembinaan.idusers' => $idusers], [], [], [], [], null, null, ['pembinaan.created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
-                $val[] = esc($row->judul);
-                $val[] = esc($row->bidang);
-                $val[] = esc($row->jenis);
-                $val[] = esc($row->namajurusan);    
+                $val[] = esc($row->tahun_ajar).'<br>'.esc($row->semester);
+                $val[] = esc($row->kegiatan);
+                $val[] = esc($row->judul_bimbingan);
+                $val[] = esc($row->jenis_bimbingan);
+                $val[] = esc($row->namajurusan);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpengujian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengujian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                    . '</div></div>';
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpembinaan . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpembinaan . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '</div></div>';
                 $data[] = $val;
                 $no++;
             }
@@ -217,16 +222,18 @@ class Pembinaanmhs extends BaseController
     {
         if (session()->get("logged_admin")) {
             $data = array(
-                'idpengujian' => Uuid::uuid4()->toString(),
+                'idpembinaan' => Uuid::uuid4()->toString(),
                 'idusers' => esc($this->request->getPost('idusers')),
-                'judul' => esc($this->request->getPost('judul')),
-                'bidang' => esc($this->request->getPost('bidang')),
-                'jenis' => esc($this->request->getPost('jenis')),
-                'idjurusan' => esc($this->request->getPost('idjurusan')),
+                'tahun_ajar' => esc($this->request->getPost('tahun_ajar')),
+                'semester' => esc($this->request->getPost('semester')),
+                'kegiatan' => esc($this->request->getPost('kegiatan')),
+                'judul_bimbingan' => esc($this->request->getPost('judul')),
+                'jenis_bimbingan' => esc($this->request->getPost('jenis')),
+                'idjurusan' => esc($this->request->getPost('jurusan')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("pengujian", $data);
+            $simpan = $this->mcustom->tambah("pembinaan", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -245,8 +252,8 @@ class Pembinaanmhs extends BaseController
     public function show()
     {
         if (session()->get("logged_admin")) {
-            $kond['idpengujian'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("pengujian", $kond);
+            $kond['idpembinaan'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("pembinaan", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -257,14 +264,16 @@ class Pembinaanmhs extends BaseController
     {
         if (session()->get("logged_admin")) {
             $data = array(
-                'judul' => esc($this->request->getPost('judul')),
-                'bidang' => esc($this->request->getPost('bidang')),
-                'jenis' => esc($this->request->getPost('jenis')),
-                'idjurusan' => esc($this->request->getPost('idjurusan')),
+                'tahun_ajar' => esc($this->request->getPost('tahun_ajar')),
+                'semester' => esc($this->request->getPost('semester')),
+                'kegiatan' => esc($this->request->getPost('kegiatan')),
+                'judul_bimbingan' => esc($this->request->getPost('judul')),
+                'jenis_bimbingan' => esc($this->request->getPost('jenis')),
+                'idjurusan' => esc($this->request->getPost('jurusan')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idpengujian'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("pengujian", $data, $kond);
+            $kond['idpembinaan'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("pembinaan", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -283,8 +292,8 @@ class Pembinaanmhs extends BaseController
     public function hapus()
     {
         if (session()->get("logged_admin")) {
-            $kond['idpengujian'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("pengujian", $kond);
+            $kond['idpembinaan'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("pembinaan", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {

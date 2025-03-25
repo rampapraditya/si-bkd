@@ -258,6 +258,9 @@ $routes->group('bahan-ajar', function ($routes) {
 $routes->group('pembinaan-mhs', function ($routes) {
     $routes->get('', 'Pembinaanmhs::index');
     $routes->get('ajaxlist', 'Pembinaanmhs::ajaxlist');
+    $routes->get('ajaxdosen', 'Pembinaanmhs::ajaxdosen');
+    $routes->get('aktivitasdosen/(:any)', 'Pembinaanmhs::aktivitasdosen/$1');
+    $routes->get('ajaxlistadmin/(:any)', 'Pembinaanmhs::ajaxlistadmin/$1');
     $routes->post('ajax_add', 'Pembinaanmhs::ajax_add');
     $routes->get('show/(:any)', 'Pembinaanmhs::show/$1');
     $routes->post('ajax_edit', 'Pembinaanmhs::ajax_edit');

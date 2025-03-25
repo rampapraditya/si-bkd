@@ -68,14 +68,15 @@ class Bahanajar extends BaseController
             $idusers = session()->get("idusers");
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, [], 'bahanajar', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_terbit, "%d-%m-%Y") as tgl_terbit_f', 'date_format(tgl_sk, "%d-%m-%Y") as tgl_sk_f'], 'bahanajar', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
                 $val[] = esc($row->judul);
-                $val[] = esc($row->tgl_terbit);
+                $val[] = esc($row->tgl_terbit_f);
+                $val[] = esc($row->penerbit);
                 $val[] = esc($row->sk_penugasan);
-                $val[] = esc($row->tgl_sk);
+                $val[] = esc($row->tgl_sk_f);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
                 . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idbahanajar . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idbahanajar . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
@@ -92,18 +93,20 @@ class Bahanajar extends BaseController
 
     public function ajax_add()
     {
-        if (session()->get("logged_admin")) {
+        if (session()->get("logged_dosen")) {
+            $idusers = session()->get("idusers");
             $data = array(
-                'idpengujian' => Uuid::uuid4()->toString(),
-                'idusers' => esc($this->request->getPost('idusers')),
+                'idbahanajar' => Uuid::uuid4()->toString(),
+                'idusers' => $idusers,
                 'judul' => esc($this->request->getPost('judul')),
-                'bidang' => esc($this->request->getPost('bidang')),
-                'jenis' => esc($this->request->getPost('jenis')),
-                'idjurusan' => esc($this->request->getPost('idjurusan')),
+                'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
+                'penerbit' => esc($this->request->getPost('penerbit')),
+                'sk_penugasan' => esc($this->request->getPost('sk_penugasan')),
+                'tgl_sk' => esc($this->request->getPost('tgl_sk')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("pengujian", $data);
+            $simpan = $this->mcustom->tambah("bahanajar", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -121,9 +124,9 @@ class Bahanajar extends BaseController
 
     public function show()
     {
-        if (session()->get("logged_admin")) {
-            $kond['idpengujian'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("pengujian", $kond);
+        if (session()->get("logged_dosen")) {
+            $kond['idbahanajar'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("bahanajar", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -132,16 +135,17 @@ class Bahanajar extends BaseController
 
     public function ajax_edit()
     {
-        if (session()->get("logged_admin")) {
+        if (session()->get("logged_dosen")) {
             $data = array(
                 'judul' => esc($this->request->getPost('judul')),
-                'bidang' => esc($this->request->getPost('bidang')),
-                'jenis' => esc($this->request->getPost('jenis')),
-                'idjurusan' => esc($this->request->getPost('idjurusan')),
+                'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
+                'penerbit' => esc($this->request->getPost('penerbit')),
+                'sk_penugasan' => esc($this->request->getPost('sk_penugasan')),
+                'tgl_sk' => esc($this->request->getPost('tgl_sk')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idpengujian'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("pengujian", $data, $kond);
+            $kond['idbahanajar'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("bahanajar", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -159,9 +163,9 @@ class Bahanajar extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_admin")) {
-            $kond['idpengujian'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("pengujian", $kond);
+        if (session()->get("logged_dosen")) {
+            $kond['idbahanajar'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("bahanajar", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {
