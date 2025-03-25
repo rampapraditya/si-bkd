@@ -127,7 +127,6 @@ $routes->group('pengguna', function ($routes) {
 
 $routes->group('data-pribadi', function ($routes) {
     $routes->get('', 'Datapribadi::index');
-    $routes->get('showimg/(:any)', 'Datapribadi::showimg/$1');
     $routes->post('prosesprofile', 'Datapribadi::prosesprofile');
     $routes->post('prosespenduduk', 'Datapribadi::prosespenduduk');
     $routes->post('proseskeluarga', 'Datapribadi::proseskeluarga');
@@ -143,9 +142,13 @@ $routes->group('data-pribadi', function ($routes) {
     $routes->get('loadlain', 'Datapribadi::loadlain');
 });
 
+$routes->group('privateimg', function ($routes) {
+    $routes->get('', 'Privateimg::index');
+    $routes->get('showimg/(:any)', 'Privateimg::showimg/$1');
+});
+
 $routes->group('inpasing', function ($routes) {
     $routes->get('', 'Inpasing::index');
-    $routes->get('showimg/(:any)', 'Inpasing::showimg/$1');
     $routes->get('ajaxlist', 'Inpasing::ajaxlist');
     $routes->post('ajax_add', 'Inpasing::ajax_add');
     $routes->get('show/(:any)', 'Inpasing::show/$1');
@@ -155,7 +158,6 @@ $routes->group('inpasing', function ($routes) {
 
 $routes->group('jab-fungsi-dosen', function ($routes) {
     $routes->get('', 'Jabfungsidosen::index');
-    $routes->get('showimg/(:any)', 'Jabfungsidosen::showimg/$1');
     $routes->get('ajaxlist', 'Jabfungsidosen::ajaxlist');
     $routes->post('ajax_add', 'Jabfungsidosen::ajax_add');
     $routes->get('show/(:any)', 'Jabfungsidosen::show/$1');
@@ -165,7 +167,6 @@ $routes->group('jab-fungsi-dosen', function ($routes) {
 
 $routes->group('kepangkatan', function ($routes) {
     $routes->get('', 'Kepangkatan::index');
-    $routes->get('showimg/(:any)', 'Kepangkatan::showimg/$1');
     $routes->get('ajaxlist', 'Kepangkatan::ajaxlist');
     $routes->post('ajax_add', 'Kepangkatan::ajax_add');
     $routes->get('show/(:any)', 'Kepangkatan::show/$1');
@@ -175,7 +176,6 @@ $routes->group('kepangkatan', function ($routes) {
 
 $routes->group('penempatan', function ($routes) {
     $routes->get('', 'Penempatan::index');
-    $routes->get('showimg/(:any)', 'Penempatan::showimg/$1');
     $routes->get('ajaxlist', 'Penempatan::ajaxlist');
     $routes->post('ajax_add', 'Penempatan::ajax_add');
     $routes->get('show/(:any)', 'Penempatan::show/$1');
@@ -185,7 +185,6 @@ $routes->group('penempatan', function ($routes) {
 
 $routes->group('pend-formal', function ($routes) {
     $routes->get('', 'Pendformal::index');
-    $routes->get('showimg/(:any)', 'Pendformal::showimg/$1');
     $routes->get('ajaxlist', 'Pendformal::ajaxlist');
     $routes->post('ajax_add', 'Pendformal::ajax_add');
     $routes->get('show/(:any)', 'Pendformal::show/$1');
@@ -195,7 +194,6 @@ $routes->group('pend-formal', function ($routes) {
 
 $routes->group('diklat', function ($routes) {
     $routes->get('', 'Diklat::index');
-    $routes->get('showimg/(:any)', 'Diklat::showimg/$1');
     $routes->get('ajaxlist', 'Diklat::ajaxlist');
     $routes->post('ajax_add', 'Diklat::ajax_add');
     $routes->get('show/(:any)', 'Diklat::show/$1');
@@ -205,7 +203,6 @@ $routes->group('diklat', function ($routes) {
 
 $routes->group('riwayat-kerja', function ($routes) {
     $routes->get('', 'Riwayatkerja::index');
-    $routes->get('showimg/(:any)', 'Riwayatkerja::showimg/$1');
     $routes->get('ajaxlist', 'Riwayatkerja::ajaxlist');
     $routes->post('ajax_add', 'Riwayatkerja::ajax_add');
     $routes->get('show/(:any)', 'Riwayatkerja::show/$1');
@@ -215,7 +212,6 @@ $routes->group('riwayat-kerja', function ($routes) {
 
 $routes->group('pengajaran', function ($routes) {
     $routes->get('', 'Pengajaran::index');
-    $routes->get('showimg/(:any)', 'Pengajaran::showimg/$1');
     $routes->get('ajaxlist', 'Pengajaran::ajaxlist');
     $routes->get('ajaxdosen', 'Pengajaran::ajaxdosen');
     $routes->get('ajaxlistadmin/(:any)', 'Pengajaran::ajaxlistadmin/$1');
@@ -228,7 +224,6 @@ $routes->group('pengajaran', function ($routes) {
 
 $routes->group('bim-mhs', function ($routes) {
     $routes->get('', 'Bimbinganmhs::index');
-    $routes->get('showimg/(:any)', 'Bimbinganmhs::showimg/$1');
     $routes->get('ajaxlist', 'Bimbinganmhs::ajaxlist');
     $routes->get('ajaxdosen', 'Bimbinganmhs::ajaxdosen');
     $routes->get('ajaxlistadmin/(:any)', 'Bimbinganmhs::ajaxlistadmin/$1');
@@ -241,7 +236,6 @@ $routes->group('bim-mhs', function ($routes) {
 
 $routes->group('pengujian-mhs', function ($routes) {
     $routes->get('', 'Pengujianmhs::index');
-    $routes->get('showimg/(:any)', 'Pengujianmhs::showimg/$1');
     $routes->get('ajaxlist', 'Pengujianmhs::ajaxlist');
     $routes->get('ajaxdosen', 'Pengujianmhs::ajaxdosen');
     $routes->get('ajaxlistadmin/(:any)', 'Pengujianmhs::ajaxlistadmin/$1');
@@ -254,10 +248,18 @@ $routes->group('pengujian-mhs', function ($routes) {
 
 $routes->group('bahan-ajar', function ($routes) {
     $routes->get('', 'Bahanajar::index');
-    $routes->get('showimg/(:any)', 'Bahanajar::showimg/$1');
     $routes->get('ajaxlist', 'Bahanajar::ajaxlist');
     $routes->post('ajax_add', 'Bahanajar::ajax_add');
     $routes->get('show/(:any)', 'Bahanajar::show/$1');
     $routes->post('ajax_edit', 'Bahanajar::ajax_edit');
     $routes->get('hapus/(:any)', 'Bahanajar::hapus/$1');
+});
+
+$routes->group('pembinaan-mhs', function ($routes) {
+    $routes->get('', 'Pembinaanmhs::index');
+    $routes->get('ajaxlist', 'Pembinaanmhs::ajaxlist');
+    $routes->post('ajax_add', 'Pembinaanmhs::ajax_add');
+    $routes->get('show/(:any)', 'Pembinaanmhs::show/$1');
+    $routes->post('ajax_edit', 'Pembinaanmhs::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pembinaanmhs::hapus/$1');
 });

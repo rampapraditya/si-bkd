@@ -30,7 +30,7 @@ class Bimbinganmhs extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('bim-mhs/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -59,14 +59,6 @@ class Bimbinganmhs extends BaseController
                 return view('bimbingan_mhs/index', $data);
             }
             
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function showimg($filename){
-        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
-            return $this->modul->serveImage($this->response, $filename);
         } else {
             $this->modul->halaman('login');
         }

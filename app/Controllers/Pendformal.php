@@ -30,7 +30,7 @@ class Pendformal extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('pend-formal/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -57,14 +57,6 @@ class Pendformal extends BaseController
             $data['jurusan'] = $this->mcustom->getDynamicData(false, [], 'jurusan', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
 
             return view('pendidikan_formal/index', $data);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function showimg($filename){
-        if (session()->get("logged_dosen")) {
-            return $this->modul->serveImage($this->response, $filename);
         } else {
             $this->modul->halaman('login');
         }

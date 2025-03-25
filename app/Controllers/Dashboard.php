@@ -66,7 +66,10 @@ class Dashboard extends BaseController
             if (session()->get("logged_admin")) {
 
                 // mencari info jumlah dosen
-                $data['jmldosen'] = $this->mcustom->getCount("users", [], ['idjabatan' => '96cf7ad7-644c-4e80-b964-0b712a31ac1e']);
+                $join = [
+                    ['table' => 'jabatan', 'condition' => 'users.idjabatan = jabatan.idjabatan', 'type' => 'inner']
+                ];
+                $data['jmldosen'] = $this->mcustom->getCount("users", $join, ['jabatan.nama_jabatan' => 'DOSEN']);
 
                 return view('dashboard/index', $data);
 

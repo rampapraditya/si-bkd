@@ -30,7 +30,7 @@ class Inpasing extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('inpasing/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -57,14 +57,6 @@ class Inpasing extends BaseController
             $data['curdate'] = $this->modul->TanggalSekarang();
 
             return view('inpasing/index', $data);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function showimg($filename){
-        if (session()->get("logged_dosen")) {
-            return $this->modul->serveImage($this->response, $filename);
         } else {
             $this->modul->halaman('login');
         }

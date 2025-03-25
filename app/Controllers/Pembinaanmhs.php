@@ -6,7 +6,7 @@ use App\Models\Mcustom;
 use App\Libraries\Modul;
 use Ramsey\Uuid\Uuid;
 
-class Pengujianmhs extends BaseController
+class Pembinaanmhs extends BaseController
 {
     private $mcustom;
     private $modul;
@@ -53,11 +53,9 @@ class Pengujianmhs extends BaseController
                 $data['logo'] = base_url('images/logo.png');
             }
 
-            if (session()->get("logged_admin")) {
-                return view('pengujian_mhs/dosen', $data);
-            } else if (session()->get("logged_dosen")) {
-                return view('pengujian_mhs/index', $data);
-            }
+            $data['jurusan'] = $this->mcustom->getDynamicData(false, [], 'jurusan', [], [], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            
+            return view('pembinaan_mhs/index', $data);
             
         } else {
             $this->modul->halaman('login');
@@ -66,22 +64,22 @@ class Pengujianmhs extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
             $data = array();
             $no = 1;
-            $select = ['pengujian.*','jurusan.namajurusan'];
-            $join = [
-                ['table' => 'jurusan', 'condition' => 'pengujian.idjurusan = jurusan.idjurusan', 'type' => 'inner'],  
-            ];
-            $list = $this->mcustom->getDynamicData(false, $select, 'pengujian', $join, ['idusers' => $idusers], [], [], [], [], null, null, ['pengujian.created_at' => 'ASC']);
+            $list = $this->mcustom->getDynamicData(false, [], 'bahanajar', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
                 $val[] = esc($row->judul);
-                $val[] = esc($row->bidang);
-                $val[] = esc($row->jenis);
-                $val[] = esc($row->namajurusan);    
+                $val[] = esc($row->tgl_terbit);
+                $val[] = esc($row->sk_penugasan);
+                $val[] = esc($row->tgl_sk);
+                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idbahanajar . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idbahanajar . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '</div></div>';
                 $data[] = $val;
                 $no++;
             }

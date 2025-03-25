@@ -38,7 +38,7 @@ class Datapribadi extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, $select_users, 'users', $join_users, ['idusers' => $idusers]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('data-pribadi/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -87,19 +87,9 @@ class Datapribadi extends BaseController
         }
     }
 
-    public function showimg($filename){
-        if (session()->get("logged_dosen")) {
-            return $this->modul->serveImage($this->response, $filename);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
     public function prosesprofile() {
-        if (session()->get("logged_dosen")) {
-            
+        if (session()->get("logged_dosen")) {        
             $idusers = session()->get("idusers");
-
             if (isset($_FILES['file']['name'])) {
                 if (0 < $_FILES['file']['error']) {
                     $pesan = "Error during file upload " . $_FILES['file']['error'];
@@ -303,7 +293,7 @@ class Datapribadi extends BaseController
                 'tgl_lahir' => esc($users->tgl_lahir),
                 'tglf' => esc($users->tglf),
                 'nama' => esc($users->nama),
-                'foto' => base_url('data-pribadi/showimg/' . esc($users->foto))
+                'foto' => base_url('privateimg/showimg/' . esc($users->foto))
             );
             return $this->response
                         ->setJSON($output)

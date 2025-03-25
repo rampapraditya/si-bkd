@@ -30,7 +30,7 @@ class Pengajaran extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('pengajaran/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -64,14 +64,6 @@ class Pengajaran extends BaseController
         }
     }
 
-    public function showimg($filename){
-        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
-            return $this->modul->serveImage($this->response, $filename);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
     public function ajaxlist()
     {
         if (session()->get("logged_dosen")) {
@@ -99,8 +91,6 @@ class Pengajaran extends BaseController
             $this->modul->halaman('login');
         }
     }
-
-    
 
     public function ajaxdosen()
     {

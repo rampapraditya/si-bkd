@@ -30,7 +30,7 @@ class Jabatanfungsi extends BaseController
             $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
             if (strlen($pro->foto) > 0) {
                 if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
-                    $def_foto = base_url('jabatan-fungsional/showimg/' . esc($pro->foto));
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
                 }
             }
             $data['foto'] = $def_foto;
@@ -54,14 +54,6 @@ class Jabatanfungsi extends BaseController
             }
 
             return view('jabatan_fungsi/index', $data);
-        } else {
-            $this->modul->halaman('login');
-        }
-    }
-
-    public function showimg($filename){
-        if (session()->get("logged_admin")) {
-            return $this->modul->serveImage($this->response, $filename);
         } else {
             $this->modul->halaman('login');
         }
