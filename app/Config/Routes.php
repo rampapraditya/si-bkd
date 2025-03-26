@@ -266,3 +266,12 @@ $routes->group('pembinaan-mhs', function ($routes) {
     $routes->post('ajax_edit', 'Pembinaanmhs::ajax_edit');
     $routes->get('hapus/(:any)', 'Pembinaanmhs::hapus/$1');
 });
+
+$routes->group('visit-sci', function ($routes) {
+    $routes->get('', 'Visit::index');
+    $routes->get('ajaxlist', 'Visit::ajaxlist');
+    $routes->post('ajax_add', 'Visit::ajax_add');
+    $routes->get('show/(:any)', 'Visit::show/$1');
+    $routes->post('ajax_edit', 'Visit::ajax_edit');
+    $routes->get('hapus/(:any)', 'Visit::hapus/$1');
+});

@@ -71,20 +71,21 @@ class Pembinaanmhs extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
+            
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, [], 'bahanajar', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            $join = [
+                ['table' => 'jurusan', 'condition' => 'pembinaan.idjurusan = jurusan.idjurusan', 'type' => 'inner']
+            ];
+            $list = $this->mcustom->getDynamicData(false, ['pembinaan.*', 'jurusan.namajurusan'], 'pembinaan', $join, ['pembinaan.idusers' => $idusers], [], [], [], [], null, null, ['pembinaan.created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
-                $val[] = esc($row->judul);
-                $val[] = esc($row->tgl_terbit);
-                $val[] = esc($row->sk_penugasan);
-                $val[] = esc($row->tgl_sk);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idbahanajar . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idbahanajar . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                . '</div></div>';
+                $val[] = esc($row->tahun_ajar).'<br>'.esc($row->semester);
+                $val[] = esc($row->kegiatan);
+                $val[] = esc($row->judul_bimbingan);
+                $val[] = esc($row->jenis_bimbingan);
+                $val[] = esc($row->namajurusan);
                 $data[] = $val;
                 $no++;
             }

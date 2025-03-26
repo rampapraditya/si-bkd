@@ -33,7 +33,6 @@
                                     <th>Judul Bimbingan</th>
                                     <th>Jenis Bimbingan</th>
                                     <th>Program Studi</th>
-                                    <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
