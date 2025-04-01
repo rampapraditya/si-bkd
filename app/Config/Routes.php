@@ -293,3 +293,12 @@ $routes->group('orasi', function ($routes) {
     $routes->post('ajax_edit', 'Orasi::ajax_edit');
     $routes->get('hapus/(:any)', 'Orasi::hapus/$1');
 });
+
+$routes->group('pemb-dosen', function ($routes) {
+    $routes->get('', 'Pembdosen::index');
+    $routes->get('ajaxlist', 'Pembdosen::ajaxlist');
+    $routes->post('ajax_add', 'Pembdosen::ajax_add');
+    $routes->get('show/(:any)', 'Pembdosen::show/$1');
+    $routes->post('ajax_edit', 'Pembdosen::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pembdosen::hapus/$1');
+});
