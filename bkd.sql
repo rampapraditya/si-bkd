@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Mar 20, 2025 at 11:26 AM
--- Server version: 10.6.17-MariaDB-cll-lve
--- PHP Version: 8.3.17
+-- Host: 127.0.0.1:3306
+-- Generation Time: Apr 01, 2025 at 06:18 AM
+-- Server version: 9.1.0
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `sttalin1_bkd`
+-- Database: `bkd`
 --
 
 -- --------------------------------------------------------
@@ -27,21 +27,24 @@ SET time_zone = "+00:00";
 -- Table structure for table `alamat_kontak`
 --
 
-CREATE TABLE `alamat_kontak` (
-  `idalamat` varchar(36) NOT NULL,
-  `alamat` varchar(150) NOT NULL,
-  `rt` varchar(5) NOT NULL,
-  `rw` varchar(5) NOT NULL,
-  `kelurahan` varchar(25) NOT NULL,
-  `kecamatan` varchar(25) NOT NULL,
-  `kota` varchar(25) NOT NULL,
-  `provinsi` varchar(25) NOT NULL,
-  `kdpos` varchar(15) NOT NULL,
-  `tlp_rumah` varchar(15) NOT NULL,
-  `tlp_ponsel` varchar(15) NOT NULL,
+DROP TABLE IF EXISTS `alamat_kontak`;
+CREATE TABLE IF NOT EXISTS `alamat_kontak` (
+  `idalamat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `alamat` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `rt` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `rw` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `kelurahan` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `kecamatan` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `kota` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `provinsi` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `kdpos` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tlp_rumah` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tlp_ponsel` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `idusers` varchar(36) NOT NULL
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`idalamat`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -50,16 +53,19 @@ CREATE TABLE `alamat_kontak` (
 -- Table structure for table `bahanajar`
 --
 
-CREATE TABLE `bahanajar` (
-  `idbahanajar` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `judul` varchar(250) NOT NULL,
+DROP TABLE IF EXISTS `bahanajar`;
+CREATE TABLE IF NOT EXISTS `bahanajar` (
+  `idbahanajar` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_terbit` date NOT NULL,
-  `penerbit` varchar(70) NOT NULL,
-  `sk_penugasan` varchar(100) NOT NULL,
+  `penerbit` varchar(70) COLLATE utf8mb4_general_ci NOT NULL,
+  `sk_penugasan` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk` date NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idbahanajar`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -68,17 +74,65 @@ CREATE TABLE `bahanajar` (
 -- Table structure for table `bimbingan`
 --
 
-CREATE TABLE `bimbingan` (
-  `idbimbingan` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `semester` varchar(45) NOT NULL,
-  `ket_kegiatan` varchar(100) NOT NULL,
-  `judul_bimbingan` varchar(150) NOT NULL,
-  `bidang` varchar(56) NOT NULL,
-  `jenis_bimbingan` varchar(45) NOT NULL,
-  `idjurusan` varchar(36) NOT NULL,
+DROP TABLE IF EXISTS `bimbingan`;
+CREATE TABLE IF NOT EXISTS `bimbingan` (
+  `idbimbingan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `semester` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `ket_kegiatan` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul_bimbingan` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_bimbingan` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `idjurusan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idbimbingan`),
+  KEY `idusers` (`idusers`),
+  KEY `idjurusan` (`idjurusan`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `bimbingan_dosen`
+--
+
+DROP TABLE IF EXISTS `bimbingan_dosen`;
+CREATE TABLE IF NOT EXISTS `bimbingan_dosen` (
+  `idbimbingan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_pembimbing` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_bimbingan` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_bimbingan` date NOT NULL,
+  `tgl_selesai` date NOT NULL,
+  `created_at` datetime NOT NULL,
+  `update_at` datetime NOT NULL,
+  PRIMARY KEY (`idusers`),
+  KEY `nama_pembimbing` (`nama_pembimbing`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `datasering`
+--
+
+DROP TABLE IF EXISTS `datasering`;
+CREATE TABLE IF NOT EXISTS `datasering` (
+  `iddatasering` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `pt_sasaran` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_mulai` date NOT NULL,
+  `tgl_selesai` date NOT NULL,
+  `bidang_tugas` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi` varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
+  `metode` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `no_sk` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_sk` date NOT NULL,
+  `date_created` datetime NOT NULL,
+  `date_updated` datetime NOT NULL,
+  PRIMARY KEY (`iddatasering`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -87,25 +141,28 @@ CREATE TABLE `bimbingan` (
 -- Table structure for table `diklat`
 --
 
-CREATE TABLE `diklat` (
-  `iddiklat` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `jenisdiklat` varchar(36) NOT NULL,
-  `namadiklat` varchar(45) NOT NULL,
-  `penyelengara` varchar(50) NOT NULL,
-  `peran` varchar(50) NOT NULL,
-  `tingkat` varchar(20) NOT NULL,
-  `jmljam` int(11) NOT NULL,
-  `no_sert` varchar(50) NOT NULL,
+DROP TABLE IF EXISTS `diklat`;
+CREATE TABLE IF NOT EXISTS `diklat` (
+  `iddiklat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenisdiklat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `namadiklat` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `penyelengara` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `peran` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `tingkat` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `jmljam` int NOT NULL,
+  `no_sert` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sert` date NOT NULL,
-  `tahun_selenggara` int(11) NOT NULL,
-  `tempat` varchar(100) NOT NULL,
+  `tahun_selenggara` int NOT NULL,
+  `tempat` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_mulai` date NOT NULL,
   `tgl_selesai` date NOT NULL,
-  `no_sk_penugasan` varchar(50) NOT NULL,
+  `no_sk_penugasan` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk_penugasan` date NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`iddiklat`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -114,13 +171,18 @@ CREATE TABLE `diklat` (
 -- Table structure for table `dosen_jurusan`
 --
 
-CREATE TABLE `dosen_jurusan` (
-  `idjurusandosen` varchar(36) NOT NULL,
-  `idfakultas` varchar(36) NOT NULL,
-  `idjurusan` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
+DROP TABLE IF EXISTS `dosen_jurusan`;
+CREATE TABLE IF NOT EXISTS `dosen_jurusan` (
+  `idjurusandosen` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idfakultas` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idjurusan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idjurusandosen`),
+  KEY `idfakultas` (`idfakultas`),
+  KEY `idjurusan` (`idjurusan`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -136,11 +198,13 @@ INSERT INTO `dosen_jurusan` (`idjurusandosen`, `idfakultas`, `idjurusan`, `iduse
 -- Table structure for table `fakultas`
 --
 
-CREATE TABLE `fakultas` (
-  `idfakultas` varchar(36) NOT NULL,
-  `namafakultas` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `fakultas`;
+CREATE TABLE IF NOT EXISTS `fakultas` (
+  `idfakultas` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `namafakultas` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idfakultas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -160,11 +224,13 @@ INSERT INTO `fakultas` (`idfakultas`, `namafakultas`, `created_at`, `updated_at`
 -- Table structure for table `golongan`
 --
 
-CREATE TABLE `golongan` (
-  `idgolongan` varchar(36) NOT NULL,
-  `nama_golongan` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `golongan`;
+CREATE TABLE IF NOT EXISTS `golongan` (
+  `idgolongan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_golongan` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idgolongan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -192,10 +258,11 @@ INSERT INTO `golongan` (`idgolongan`, `nama_golongan`, `created_at`, `updated_at
 -- Table structure for table `identitas`
 --
 
-CREATE TABLE `identitas` (
+DROP TABLE IF EXISTS `identitas`;
+CREATE TABLE IF NOT EXISTS `identitas` (
   `kode` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT '0',
-  `appname` varchar(45) DEFAULT NULL,
-  `namains` varchar(45) DEFAULT NULL,
+  `appname` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `namains` varchar(45) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `slogan` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `tahun` float DEFAULT NULL,
   `pimpinan` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
@@ -204,7 +271,8 @@ CREATE TABLE `identitas` (
   `tlp` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `website` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
   `email` varchar(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `logo` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL
+  `logo` longtext CHARACTER SET latin1 COLLATE latin1_swedish_ci,
+  PRIMARY KEY (`kode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -220,19 +288,23 @@ INSERT INTO `identitas` (`kode`, `appname`, `namains`, `slogan`, `tahun`, `pimpi
 -- Table structure for table `inpassing`
 --
 
-CREATE TABLE `inpassing` (
-  `id_inpassing` varchar(36) NOT NULL,
-  `idgolongan` varchar(36) NOT NULL,
-  `nomor_sk` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `inpassing`;
+CREATE TABLE IF NOT EXISTS `inpassing` (
+  `id_inpassing` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idgolongan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_sk` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk` date NOT NULL,
   `mulai_tgl` date NOT NULL,
-  `angka_kredit` int(11) NOT NULL,
-  `masa_kerja_tahun` int(11) NOT NULL,
-  `masa_kerja_bulan` int(11) NOT NULL,
-  `bukti` varchar(150) NOT NULL,
+  `angka_kredit` int NOT NULL,
+  `masa_kerja_tahun` int NOT NULL,
+  `masa_kerja_bulan` int NOT NULL,
+  `bukti` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `idusers` varchar(36) NOT NULL
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`id_inpassing`),
+  KEY `idusers` (`idusers`),
+  KEY `idgolongan` (`idgolongan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -241,11 +313,13 @@ CREATE TABLE `inpassing` (
 -- Table structure for table `jabatan`
 --
 
-CREATE TABLE `jabatan` (
+DROP TABLE IF EXISTS `jabatan`;
+CREATE TABLE IF NOT EXISTS `jabatan` (
   `idjabatan` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `nama_jabatan` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idjabatan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -262,12 +336,14 @@ INSERT INTO `jabatan` (`idjabatan`, `nama_jabatan`, `created_at`, `updated_at`) 
 -- Table structure for table `jabatan_fungsional`
 --
 
-CREATE TABLE `jabatan_fungsional` (
-  `id_jab_fungsi` varchar(36) NOT NULL,
-  `nama_jab_fungsi` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `jabatan_fungsional`;
+CREATE TABLE IF NOT EXISTS `jabatan_fungsional` (
+  `id_jab_fungsi` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_jab_fungsi` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `nilai` double NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`id_jab_fungsi`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -291,15 +367,19 @@ INSERT INTO `jabatan_fungsional` (`id_jab_fungsi`, `nama_jab_fungsi`, `nilai`, `
 -- Table structure for table `jabatan_fungsional_dosen`
 --
 
-CREATE TABLE `jabatan_fungsional_dosen` (
-  `idjab_fungsi_dosen` varchar(36) NOT NULL,
-  `id_jab_fungsi` varchar(36) NOT NULL,
-  `nomor_sk` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `jabatan_fungsional_dosen`;
+CREATE TABLE IF NOT EXISTS `jabatan_fungsional_dosen` (
+  `idjab_fungsi_dosen` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `id_jab_fungsi` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_sk` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `mulai` date NOT NULL,
-  `bukti` varchar(150) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
+  `bukti` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idjab_fungsi_dosen`),
+  KEY `id_jab_fungsi` (`id_jab_fungsi`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -308,9 +388,11 @@ CREATE TABLE `jabatan_fungsional_dosen` (
 -- Table structure for table `jenis_dokumen`
 --
 
-CREATE TABLE `jenis_dokumen` (
-  `idjenis_dok` varchar(36) NOT NULL,
-  `nama_jenis_dok` varchar(55) NOT NULL
+DROP TABLE IF EXISTS `jenis_dokumen`;
+CREATE TABLE IF NOT EXISTS `jenis_dokumen` (
+  `idjenis_dok` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_jenis_dok` varchar(55) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`idjenis_dok`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -319,12 +401,15 @@ CREATE TABLE `jenis_dokumen` (
 -- Table structure for table `jurusan`
 --
 
-CREATE TABLE `jurusan` (
-  `idjurusan` varchar(36) NOT NULL,
-  `namajurusan` varchar(45) NOT NULL,
-  `idfakultas` varchar(36) NOT NULL,
+DROP TABLE IF EXISTS `jurusan`;
+CREATE TABLE IF NOT EXISTS `jurusan` (
+  `idjurusan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `namajurusan` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `idfakultas` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idjurusan`),
+  KEY `idfakultas` (`idfakultas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -341,15 +426,18 @@ INSERT INTO `jurusan` (`idjurusan`, `namajurusan`, `idfakultas`, `created_at`, `
 -- Table structure for table `keluarga`
 --
 
-CREATE TABLE `keluarga` (
-  `idkeluarga` varchar(36) NOT NULL,
-  `status_kawin` varchar(45) NOT NULL,
-  `nama_suami_istri` varchar(56) NOT NULL,
-  `nip_suami_istri` varchar(56) NOT NULL,
-  `pekerjaan_suami_istri` varchar(65) NOT NULL,
+DROP TABLE IF EXISTS `keluarga`;
+CREATE TABLE IF NOT EXISTS `keluarga` (
+  `idkeluarga` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `status_kawin` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_suami_istri` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `nip_suami_istri` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `pekerjaan_suami_istri` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `idusers` varchar(36) NOT NULL
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`idkeluarga`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -358,18 +446,22 @@ CREATE TABLE `keluarga` (
 -- Table structure for table `kepangkatan`
 --
 
-CREATE TABLE `kepangkatan` (
-  `idkepangkatan` varchar(36) NOT NULL,
-  `idgolongan` varchar(36) NOT NULL,
-  `nomor_sk` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `kepangkatan`;
+CREATE TABLE IF NOT EXISTS `kepangkatan` (
+  `idkepangkatan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idgolongan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_sk` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk` date NOT NULL,
   `mulai_tgl` date NOT NULL,
-  `masa_kerja_gol_tahun` int(11) NOT NULL,
-  `masa_kerja_gol_bulan` int(11) NOT NULL,
-  `bukti` varchar(150) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
+  `masa_kerja_gol_tahun` int NOT NULL,
+  `masa_kerja_gol_bulan` int NOT NULL,
+  `bukti` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idkepangkatan`),
+  KEY `idgolongan` (`idgolongan`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -378,16 +470,19 @@ CREATE TABLE `kepangkatan` (
 -- Table structure for table `kepegawaian`
 --
 
-CREATE TABLE `kepegawaian` (
-  `idkepegawaian` varchar(36) NOT NULL,
-  `nomor_sk` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `kepegawaian`;
+CREATE TABLE IF NOT EXISTS `kepegawaian` (
+  `idkepegawaian` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_sk` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `tmmd` date NOT NULL,
-  `sumber_gaji` varchar(45) NOT NULL,
-  `status_aktif` varchar(45) NOT NULL,
-  `program_studi` varchar(45) NOT NULL,
+  `sumber_gaji` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `status_aktif` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `program_studi` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `idusers` varchar(36) NOT NULL
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`idkepegawaian`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -396,14 +491,17 @@ CREATE TABLE `kepegawaian` (
 -- Table structure for table `kependudukan`
 --
 
-CREATE TABLE `kependudukan` (
-  `idkependudukan` varchar(36) NOT NULL,
-  `nik` varchar(56) NOT NULL,
-  `agama` varchar(15) NOT NULL,
-  `warganegara` varchar(25) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
+DROP TABLE IF EXISTS `kependudukan`;
+CREATE TABLE IF NOT EXISTS `kependudukan` (
+  `idkependudukan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nik` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `agama` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `warganegara` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idkependudukan`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -412,11 +510,13 @@ CREATE TABLE `kependudukan` (
 -- Table structure for table `korps`
 --
 
-CREATE TABLE `korps` (
-  `idkorps` varchar(36) NOT NULL,
-  `nama_korps` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `korps`;
+CREATE TABLE IF NOT EXISTS `korps` (
+  `idkorps` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_korps` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idkorps`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -437,14 +537,38 @@ INSERT INTO `korps` (`idkorps`, `nama_korps`, `created_at`, `updated_at`) VALUES
 -- Table structure for table `lain_lain`
 --
 
-CREATE TABLE `lain_lain` (
-  `idlain` varchar(36) NOT NULL,
-  `npwp` varchar(50) NOT NULL,
-  `nama_npwp` varchar(50) NOT NULL,
-  `sinta_id` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `lain_lain`;
+CREATE TABLE IF NOT EXISTS `lain_lain` (
+  `idlain` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `npwp` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_npwp` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `sinta_id` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL,
-  `idusers` varchar(36) NOT NULL
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  PRIMARY KEY (`idlain`),
+  KEY `idusers` (`idusers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orasi_ilmiah`
+--
+
+DROP TABLE IF EXISTS `orasi_ilmiah`;
+CREATE TABLE IF NOT EXISTS `orasi_ilmiah` (
+  `idorasi` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `kategori` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_temu` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `penyelenggara` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_laksana` date NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idorasi`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -453,11 +577,13 @@ CREATE TABLE `lain_lain` (
 -- Table structure for table `pangkat`
 --
 
-CREATE TABLE `pangkat` (
-  `idpangkat` varchar(36) NOT NULL,
-  `nama_pangkat` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `pangkat`;
+CREATE TABLE IF NOT EXISTS `pangkat` (
+  `idpangkat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_pangkat` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpangkat`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -494,17 +620,21 @@ INSERT INTO `pangkat` (`idpangkat`, `nama_pangkat`, `created_at`, `updated_at`) 
 -- Table structure for table `pembinaan`
 --
 
-CREATE TABLE `pembinaan` (
-  `idpembinaan` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `tahun_ajar` varchar(9) NOT NULL,
-  `semester` varchar(6) NOT NULL,
-  `kegiatan` varchar(250) NOT NULL,
-  `judul_bimbingan` varchar(150) NOT NULL,
-  `jenis_bimbingan` varchar(100) NOT NULL,
-  `idjurusan` varchar(36) NOT NULL,
+DROP TABLE IF EXISTS `pembinaan`;
+CREATE TABLE IF NOT EXISTS `pembinaan` (
+  `idpembinaan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun_ajar` varchar(9) COLLATE utf8mb4_general_ci NOT NULL,
+  `semester` varchar(6) COLLATE utf8mb4_general_ci NOT NULL,
+  `kegiatan` varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul_bimbingan` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_bimbingan` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `idjurusan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpembinaan`),
+  KEY `idusers` (`idusers`),
+  KEY `idjurusan` (`idjurusan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -513,22 +643,25 @@ CREATE TABLE `pembinaan` (
 -- Table structure for table `pendidikan_formal`
 --
 
-CREATE TABLE `pendidikan_formal` (
-  `idpendformal` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `jenjang` varchar(5) NOT NULL,
-  `pt` varchar(45) NOT NULL,
-  `noinduk` varchar(45) NOT NULL,
-  `program_studi` varchar(45) NOT NULL,
-  `gelar` varchar(45) NOT NULL,
-  `bidang` varchar(45) NOT NULL,
-  `tahun_masuk` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pendidikan_formal`;
+CREATE TABLE IF NOT EXISTS `pendidikan_formal` (
+  `idpendformal` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenjang` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
+  `pt` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `noinduk` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `program_studi` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `gelar` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun_masuk` int NOT NULL,
   `tgl_lulus` date NOT NULL,
   `ipk` float NOT NULL,
-  `no_ijazah` varchar(56) NOT NULL,
-  `judul_tesis` varchar(65) NOT NULL,
+  `no_ijazah` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul_tesis` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpendformal`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -537,20 +670,23 @@ CREATE TABLE `pendidikan_formal` (
 -- Table structure for table `penempatan`
 --
 
-CREATE TABLE `penempatan` (
-  `idpenempatan` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `status` varchar(45) NOT NULL,
-  `ikatan_kerja` varchar(45) NOT NULL,
-  `jenjang` varchar(15) NOT NULL,
-  `unit` varchar(45) NOT NULL,
-  `pt` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `penempatan`;
+CREATE TABLE IF NOT EXISTS `penempatan` (
+  `idpenempatan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `status` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `ikatan_kerja` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenjang` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `unit` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `pt` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `mulai` date NOT NULL,
   `keluar` date NOT NULL,
   `selesai` date NOT NULL,
-  `home_base` varchar(5) NOT NULL,
+  `home_base` varchar(5) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpenempatan`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -559,17 +695,19 @@ CREATE TABLE `penempatan` (
 -- Table structure for table `pengajaran`
 --
 
-CREATE TABLE `pengajaran` (
-  `idpengajaran` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `matkul` varchar(56) NOT NULL,
-  `jenismatkul` varchar(56) NOT NULL,
-  `bidang` varchar(56) NOT NULL,
-  `kelas` varchar(56) NOT NULL,
-  `jml_mhs` int(11) NOT NULL,
+DROP TABLE IF EXISTS `pengajaran`;
+CREATE TABLE IF NOT EXISTS `pengajaran` (
+  `idpengajaran` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `matkul` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenismatkul` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `kelas` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jml_mhs` int NOT NULL,
   `sks` float NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -585,15 +723,19 @@ INSERT INTO `pengajaran` (`idpengajaran`, `idusers`, `matkul`, `jenismatkul`, `b
 -- Table structure for table `pengujian`
 --
 
-CREATE TABLE `pengujian` (
-  `idpengujian` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `judul` varchar(45) NOT NULL,
-  `bidang` varchar(45) NOT NULL,
-  `jenis` varchar(45) NOT NULL,
-  `idjurusan` varchar(36) NOT NULL,
+DROP TABLE IF EXISTS `pengujian`;
+CREATE TABLE IF NOT EXISTS `pengujian` (
+  `idpengujian` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `idjurusan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpengujian`),
+  KEY `idusers` (`idusers`),
+  KEY `idjurusan` (`idjurusan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -602,20 +744,23 @@ CREATE TABLE `pengujian` (
 -- Table structure for table `riwayat_kerja`
 --
 
-CREATE TABLE `riwayat_kerja` (
-  `idriwayat_kerja` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `bidang_usaha` varchar(56) NOT NULL,
-  `jenis_pekerjaan` varchar(56) NOT NULL,
-  `jabatan` varchar(25) NOT NULL,
-  `instansi` varchar(56) NOT NULL,
-  `divisi` varchar(45) NOT NULL,
-  `deskripsi` varchar(150) NOT NULL,
+DROP TABLE IF EXISTS `riwayat_kerja`;
+CREATE TABLE IF NOT EXISTS `riwayat_kerja` (
+  `idriwayat_kerja` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang_usaha` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_pekerjaan` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `jabatan` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
+  `instansi` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `divisi` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `deskripsi` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `mulai_kerja` date NOT NULL,
   `selesai_kerja` date NOT NULL,
-  `area` varchar(25) NOT NULL,
+  `area` varchar(25) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idriwayat_kerja`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -624,11 +769,13 @@ CREATE TABLE `riwayat_kerja` (
 -- Table structure for table `satker`
 --
 
-CREATE TABLE `satker` (
-  `idsatker` varchar(36) NOT NULL,
-  `namasatker` varchar(45) NOT NULL,
+DROP TABLE IF EXISTS `satker`;
+CREATE TABLE IF NOT EXISTS `satker` (
+  `idsatker` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `namasatker` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idsatker`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -654,17 +801,20 @@ INSERT INTO `satker` (`idsatker`, `namasatker`, `created_at`, `updated_at`) VALU
 -- Table structure for table `sertifikasi`
 --
 
-CREATE TABLE `sertifikasi` (
-  `idsertifikasi` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `jenis` varchar(45) NOT NULL,
-  `bidang` varchar(56) NOT NULL,
-  `nomor_sk` varchar(56) NOT NULL,
-  `tahun` int(11) NOT NULL,
-  `nomor_peserta` int(11) NOT NULL,
-  `nomor_regis` int(11) NOT NULL,
+DROP TABLE IF EXISTS `sertifikasi`;
+CREATE TABLE IF NOT EXISTS `sertifikasi` (
+  `idsertifikasi` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `bidang` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `nomor_sk` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun` int NOT NULL,
+  `nomor_peserta` int NOT NULL,
+  `nomor_regis` int NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idsertifikasi`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -673,17 +823,41 @@ CREATE TABLE `sertifikasi` (
 -- Table structure for table `tes`
 --
 
-CREATE TABLE `tes` (
-  `idtes` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `jenis_tes` text NOT NULL,
-  `nama_tes` varchar(45) NOT NULL,
-  `penyelenggara` varchar(56) NOT NULL,
+DROP TABLE IF EXISTS `tes`;
+CREATE TABLE IF NOT EXISTS `tes` (
+  `idtes` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_tes` text COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_tes` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `penyelenggara` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_tes` date NOT NULL,
-  `tahun` int(11) NOT NULL,
-  `skor` int(11) NOT NULL,
+  `tahun` int NOT NULL,
+  `skor` int NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idtes`),
+  KEY `idusers` (`idusers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tugas_tambahan`
+--
+
+DROP TABLE IF EXISTS `tugas_tambahan`;
+CREATE TABLE IF NOT EXISTS `tugas_tambahan` (
+  `idtugas` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `tugas` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `unit` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `instansi` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_mulai` date NOT NULL,
+  `tgl_selesai` date NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idtugas`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -692,20 +866,26 @@ CREATE TABLE `tes` (
 -- Table structure for table `users`
 --
 
-CREATE TABLE `users` (
-  `idusers` varchar(36) NOT NULL,
-  `username` varchar(40) NOT NULL,
+DROP TABLE IF EXISTS `users`;
+CREATE TABLE IF NOT EXISTS `users` (
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `username` varchar(40) COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(40) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `pass` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
-  `nrp` varchar(25) DEFAULT NULL,
+  `nrp` varchar(25) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `nama` varchar(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `foto` varchar(150) DEFAULT NULL,
+  `foto` varchar(150) COLLATE utf8mb4_general_ci DEFAULT NULL,
   `idjabatan` varchar(36) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
-  `idsatker` varchar(36) NOT NULL,
-  `idpangkat` varchar(36) NOT NULL,
-  `idkorps` varchar(36) NOT NULL,
+  `idsatker` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idpangkat` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idkorps` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idusers`),
+  KEY `FK_users_jabatan` (`idjabatan`),
+  KEY `FK_users_pangkat` (`idpangkat`),
+  KEY `FK_users_satker` (`idsatker`),
+  KEY `FK_users_korps` (`idkorps`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -713,6 +893,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`idusers`, `username`, `email`, `pass`, `nrp`, `nama`, `foto`, `idjabatan`, `idsatker`, `idpangkat`, `idkorps`, `created_at`, `updated_at`) VALUES
+('0b589209-958f-472b-ad71-9a7793b441b8', 'rampa', 'rampa@gmail.com', 'aGtq', '111/P', 'Rampa Praditya', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-04-01 12:23:01', '2025-04-01 12:23:01'),
 ('d53e6d1e-36f8-4854-a597-4fd2afc812ac', 'zainalsyahlan', 'zainalsyahlan@gmail.com', 'aGtq', '17813/P', 'Zainal Syahlan, S.T., M.Kom., M.Tr.Opsla', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5c8da38b-1e92-4f3b-aad5-02276c4de86a', '2025-03-20 10:29:34', '2025-03-20 11:22:17'),
 ('eb3012cf-2eb9-4a2a-a3b1-5e98018b9796', 'arifsudaryoko', 'arifsudaryoko@gmail.com', 'aGtq', '16284/P', 'Arif Sudaryoko.S.pd', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '6b49d143-2129-4472-8fdc-5d204f189395', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5c8da38b-1e92-4f3b-aad5-02276c4de86a', '2025-03-20 11:25:17', '2025-03-20 11:25:17'),
 ('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1739432338_d8f676931205a36e774b.png', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '32675749-b658-4559-abdf-114440ebed4e', '2024-12-29 10:54:06', '2025-02-13 14:38:58');
@@ -723,15 +904,18 @@ INSERT INTO `users` (`idusers`, `username`, `email`, `pass`, `nrp`, `nama`, `fot
 -- Table structure for table `users_detil`
 --
 
-CREATE TABLE `users_detil` (
-  `idusers_detil` varchar(36) NOT NULL,
-  `nidn` varchar(45) NOT NULL,
-  `jkel` varchar(15) NOT NULL,
-  `tmp_lahir` varchar(55) NOT NULL,
+DROP TABLE IF EXISTS `users_detil`;
+CREATE TABLE IF NOT EXISTS `users_detil` (
+  `idusers_detil` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nidn` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `jkel` varchar(15) COLLATE utf8mb4_general_ci NOT NULL,
+  `tmp_lahir` varchar(55) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_lahir` date NOT NULL,
-  `idusers` varchar(36) NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idusers_detil`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -740,255 +924,22 @@ CREATE TABLE `users_detil` (
 -- Table structure for table `visiting`
 --
 
-CREATE TABLE `visiting` (
-  `idvisiting` varchar(36) NOT NULL,
-  `idusers` varchar(36) NOT NULL,
-  `pt_pengundang` varchar(55) NOT NULL,
-  `lama_kegiatan` int(3) NOT NULL,
-  `kategori_kegiatan` varchar(45) NOT NULL,
-  `kegiatan_penting` varchar(150) NOT NULL,
+DROP TABLE IF EXISTS `visiting`;
+CREATE TABLE IF NOT EXISTS `visiting` (
+  `idvisiting` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `pt_pengundang` varchar(55) COLLATE utf8mb4_general_ci NOT NULL,
+  `lama_kegiatan` int NOT NULL,
+  `kategori_kegiatan` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `kegiatan_penting` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_pelaksanaan` date NOT NULL,
-  `sk_penugasan` varchar(55) NOT NULL,
+  `sk_penugasan` varchar(55) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk` date NOT NULL,
   `created_at` datetime NOT NULL,
-  `updated_at` datetime NOT NULL
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idvisiting`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `alamat_kontak`
---
-ALTER TABLE `alamat_kontak`
-  ADD PRIMARY KEY (`idalamat`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `bahanajar`
---
-ALTER TABLE `bahanajar`
-  ADD PRIMARY KEY (`idbahanajar`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `bimbingan`
---
-ALTER TABLE `bimbingan`
-  ADD PRIMARY KEY (`idbimbingan`),
-  ADD KEY `idusers` (`idusers`),
-  ADD KEY `idjurusan` (`idjurusan`);
-
---
--- Indexes for table `diklat`
---
-ALTER TABLE `diklat`
-  ADD PRIMARY KEY (`iddiklat`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `dosen_jurusan`
---
-ALTER TABLE `dosen_jurusan`
-  ADD PRIMARY KEY (`idjurusandosen`),
-  ADD KEY `idfakultas` (`idfakultas`),
-  ADD KEY `idjurusan` (`idjurusan`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `fakultas`
---
-ALTER TABLE `fakultas`
-  ADD PRIMARY KEY (`idfakultas`);
-
---
--- Indexes for table `golongan`
---
-ALTER TABLE `golongan`
-  ADD PRIMARY KEY (`idgolongan`);
-
---
--- Indexes for table `identitas`
---
-ALTER TABLE `identitas`
-  ADD PRIMARY KEY (`kode`);
-
---
--- Indexes for table `inpassing`
---
-ALTER TABLE `inpassing`
-  ADD PRIMARY KEY (`id_inpassing`),
-  ADD KEY `idusers` (`idusers`),
-  ADD KEY `idgolongan` (`idgolongan`);
-
---
--- Indexes for table `jabatan`
---
-ALTER TABLE `jabatan`
-  ADD PRIMARY KEY (`idjabatan`);
-
---
--- Indexes for table `jabatan_fungsional`
---
-ALTER TABLE `jabatan_fungsional`
-  ADD PRIMARY KEY (`id_jab_fungsi`);
-
---
--- Indexes for table `jabatan_fungsional_dosen`
---
-ALTER TABLE `jabatan_fungsional_dosen`
-  ADD PRIMARY KEY (`idjab_fungsi_dosen`),
-  ADD KEY `id_jab_fungsi` (`id_jab_fungsi`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `jenis_dokumen`
---
-ALTER TABLE `jenis_dokumen`
-  ADD PRIMARY KEY (`idjenis_dok`);
-
---
--- Indexes for table `jurusan`
---
-ALTER TABLE `jurusan`
-  ADD PRIMARY KEY (`idjurusan`),
-  ADD KEY `idfakultas` (`idfakultas`);
-
---
--- Indexes for table `keluarga`
---
-ALTER TABLE `keluarga`
-  ADD PRIMARY KEY (`idkeluarga`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `kepangkatan`
---
-ALTER TABLE `kepangkatan`
-  ADD PRIMARY KEY (`idkepangkatan`),
-  ADD KEY `idgolongan` (`idgolongan`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `kepegawaian`
---
-ALTER TABLE `kepegawaian`
-  ADD PRIMARY KEY (`idkepegawaian`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `kependudukan`
---
-ALTER TABLE `kependudukan`
-  ADD PRIMARY KEY (`idkependudukan`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `korps`
---
-ALTER TABLE `korps`
-  ADD PRIMARY KEY (`idkorps`);
-
---
--- Indexes for table `lain_lain`
---
-ALTER TABLE `lain_lain`
-  ADD PRIMARY KEY (`idlain`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `pangkat`
---
-ALTER TABLE `pangkat`
-  ADD PRIMARY KEY (`idpangkat`);
-
---
--- Indexes for table `pembinaan`
---
-ALTER TABLE `pembinaan`
-  ADD PRIMARY KEY (`idpembinaan`),
-  ADD KEY `idusers` (`idusers`),
-  ADD KEY `idjurusan` (`idjurusan`);
-
---
--- Indexes for table `pendidikan_formal`
---
-ALTER TABLE `pendidikan_formal`
-  ADD PRIMARY KEY (`idpendformal`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `penempatan`
---
-ALTER TABLE `penempatan`
-  ADD PRIMARY KEY (`idpenempatan`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `pengajaran`
---
-ALTER TABLE `pengajaran`
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `pengujian`
---
-ALTER TABLE `pengujian`
-  ADD PRIMARY KEY (`idpengujian`),
-  ADD KEY `idusers` (`idusers`),
-  ADD KEY `idjurusan` (`idjurusan`);
-
---
--- Indexes for table `riwayat_kerja`
---
-ALTER TABLE `riwayat_kerja`
-  ADD PRIMARY KEY (`idriwayat_kerja`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `satker`
---
-ALTER TABLE `satker`
-  ADD PRIMARY KEY (`idsatker`);
-
---
--- Indexes for table `sertifikasi`
---
-ALTER TABLE `sertifikasi`
-  ADD PRIMARY KEY (`idsertifikasi`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `tes`
---
-ALTER TABLE `tes`
-  ADD PRIMARY KEY (`idtes`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `users`
---
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`idusers`),
-  ADD KEY `FK_users_jabatan` (`idjabatan`),
-  ADD KEY `FK_users_pangkat` (`idpangkat`),
-  ADD KEY `FK_users_satker` (`idsatker`),
-  ADD KEY `FK_users_korps` (`idkorps`);
-
---
--- Indexes for table `users_detil`
---
-ALTER TABLE `users_detil`
-  ADD PRIMARY KEY (`idusers_detil`),
-  ADD KEY `idusers` (`idusers`);
-
---
--- Indexes for table `visiting`
---
-ALTER TABLE `visiting`
-  ADD PRIMARY KEY (`idvisiting`),
-  ADD KEY `idusers` (`idusers`);
 
 --
 -- Constraints for dumped tables
@@ -1012,6 +963,18 @@ ALTER TABLE `bahanajar`
 ALTER TABLE `bimbingan`
   ADD CONSTRAINT `bimbingan_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `bimbingan_ibfk_2` FOREIGN KEY (`idjurusan`) REFERENCES `jurusan` (`idjurusan`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `bimbingan_dosen`
+--
+ALTER TABLE `bimbingan_dosen`
+  ADD CONSTRAINT `bimbingan_dosen_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `datasering`
+--
+ALTER TABLE `datasering`
+  ADD CONSTRAINT `datasering_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `diklat`
@@ -1079,6 +1042,12 @@ ALTER TABLE `lain_lain`
   ADD CONSTRAINT `lain_lain_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
+-- Constraints for table `orasi_ilmiah`
+--
+ALTER TABLE `orasi_ilmiah`
+  ADD CONSTRAINT `orasi_ilmiah_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
 -- Constraints for table `pembinaan`
 --
 ALTER TABLE `pembinaan`
@@ -1127,6 +1096,12 @@ ALTER TABLE `sertifikasi`
 --
 ALTER TABLE `tes`
   ADD CONSTRAINT `tes_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `tugas_tambahan`
+--
+ALTER TABLE `tugas_tambahan`
+  ADD CONSTRAINT `tugas_tambahan_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `users`
