@@ -55,7 +55,7 @@ class Orasi extends BaseController
 
             $data['curdate'] = $this->modul->TanggalSekarang();
 
-            return view('datasering/index', $data);
+            return view('orasi/index', $data);
         } else {
             $this->modul->halaman('login');
         }
@@ -68,18 +68,18 @@ class Orasi extends BaseController
             
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_mulai, "%d-%m-%Y") as tglmulaif', 'date_format(tgl_selesai, "%d-%m-%Y") as tglselesaif'], 'datasering', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_laksana, "%d-%m-%Y") as tgl_laksana_f'], 'orasi_ilmiah', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
-                $val[] = esc($row->pt_sasaran);
-                $val[] = esc($row->tglmulaif);
-                $val[] = esc($row->tglselesaif);
-                $val[] = esc($row->bidang_tugas);
-                $val[] = esc($row->deskripsi);
+                $val[] = esc($row->kategori);
+                $val[] = esc($row->judul);
+                $val[] = esc($row->nama_temu);
+                $val[] = esc($row->penyelenggara);
+                $val[] = esc($row->tgl_laksana_f);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->iddatasering . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->iddatasering . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idorasi . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idorasi . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
                 $data[] = $val;
                 $no++;
@@ -96,20 +96,17 @@ class Orasi extends BaseController
         if (session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
             $data = array(
-                'iddatasering' => Uuid::uuid4()->toString(),
+                'idorasi' => Uuid::uuid4()->toString(),
                 'idusers' => $idusers,
-                'pt_sasaran' => esc($this->request->getPost('pt')),
-                'tgl_mulai' => esc($this->request->getPost('tgl_mulai')),
-                'tgl_selesai' => esc($this->request->getPost('tgl_selesai')),
-                'bidang_tugas' => esc($this->request->getPost('bidang_tugas')),
-                'deskripsi' => esc($this->request->getPost('deskripsi')),
-                'metode' => esc($this->request->getPost('metode')),
-                'no_sk' => esc($this->request->getPost('no_sk')),
-                'tgl_sk' => esc($this->request->getPost('tgl_sk')),
+                'kategori' => esc($this->request->getPost('kategori')),
+                'judul' => esc($this->request->getPost('judul')),
+                'nama_temu' => esc($this->request->getPost('nama_temu')),
+                'penyelenggara' => esc($this->request->getPost('penyelenggara')),
+                'tgl_laksana' => esc($this->request->getPost('tgl_laksana')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("datasering", $data);
+            $simpan = $this->mcustom->tambah("orasi_ilmiah", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -128,8 +125,8 @@ class Orasi extends BaseController
     public function show()
     {
         if (session()->get("logged_dosen")) {
-            $kond['iddatasering'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("datasering", $kond);
+            $kond['idorasi'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("orasi_ilmiah", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -140,18 +137,15 @@ class Orasi extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $data = array(
-                'pt_sasaran' => esc($this->request->getPost('pt')),
-                'tgl_mulai' => esc($this->request->getPost('tgl_mulai')),
-                'tgl_selesai' => esc($this->request->getPost('tgl_selesai')),
-                'bidang_tugas' => esc($this->request->getPost('bidang_tugas')),
-                'deskripsi' => esc($this->request->getPost('deskripsi')),
-                'metode' => esc($this->request->getPost('metode')),
-                'no_sk' => esc($this->request->getPost('no_sk')),
-                'tgl_sk' => esc($this->request->getPost('tgl_sk')),
+                'kategori' => esc($this->request->getPost('kategori')),
+                'judul' => esc($this->request->getPost('judul')),
+                'nama_temu' => esc($this->request->getPost('nama_temu')),
+                'penyelenggara' => esc($this->request->getPost('penyelenggara')),
+                'tgl_laksana' => esc($this->request->getPost('tgl_laksana')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['iddatasering'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("datasering", $data, $kond);
+            $kond['idorasi'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("orasi_ilmiah", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -170,8 +164,8 @@ class Orasi extends BaseController
     public function hapus()
     {
         if (session()->get("logged_dosen")) {
-            $kond['iddatasering'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("datasering", $kond);
+            $kond['idorasi'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("orasi_ilmiah", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {
