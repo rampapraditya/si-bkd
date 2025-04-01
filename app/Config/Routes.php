@@ -275,3 +275,21 @@ $routes->group('visit-sci', function ($routes) {
     $routes->post('ajax_edit', 'Visit::ajax_edit');
     $routes->get('hapus/(:any)', 'Visit::hapus/$1');
 });
+
+$routes->group('datasering', function ($routes) {
+    $routes->get('', 'Datasering::index');
+    $routes->get('ajaxlist', 'Datasering::ajaxlist');
+    $routes->post('ajax_add', 'Datasering::ajax_add');
+    $routes->get('show/(:any)', 'Datasering::show/$1');
+    $routes->post('ajax_edit', 'Datasering::ajax_edit');
+    $routes->get('hapus/(:any)', 'Datasering::hapus/$1');
+});
+
+$routes->group('orasi', function ($routes) {
+    $routes->get('', 'Orasi::index');
+    $routes->get('ajaxlist', 'Orasi::ajaxlist');
+    $routes->post('ajax_add', 'Orasi::ajax_add');
+    $routes->get('show/(:any)', 'Orasi::show/$1');
+    $routes->post('ajax_edit', 'Orasi::ajax_edit');
+    $routes->get('hapus/(:any)', 'Orasi::hapus/$1');
+});
