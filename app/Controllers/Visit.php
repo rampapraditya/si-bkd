@@ -98,10 +98,12 @@ class Visit extends BaseController
             $data = array(
                 'idvisiting' => Uuid::uuid4()->toString(),
                 'idusers' => $idusers,
-                'judul' => esc($this->request->getPost('judul')),
+                'pt_pengundang' => esc($this->request->getPost('pt')),
                 'lama_kegiatan' => esc($this->request->getPost('lama')),
-                'penerbit' => esc($this->request->getPost('penerbit')),
-                'sk_penugasan' => esc($this->request->getPost('sk_penugasan')),
+                'kategori_kegiatan' => esc($this->request->getPost('kategori')),
+                'kegiatan_penting' => esc($this->request->getPost('kegiatan')),
+                'tgl_pelaksanaan' => esc($this->request->getPost('tgl_laksana')),
+                'sk_penugasan' => esc($this->request->getPost('sk')),
                 'tgl_sk' => esc($this->request->getPost('tgl_sk')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
@@ -125,8 +127,8 @@ class Visit extends BaseController
     public function show()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idbahanajar'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("bahanajar", $kond);
+            $kond['idvisiting'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("visiting", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -137,15 +139,17 @@ class Visit extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $data = array(
-                'judul' => esc($this->request->getPost('judul')),
-                'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
-                'penerbit' => esc($this->request->getPost('penerbit')),
-                'sk_penugasan' => esc($this->request->getPost('sk_penugasan')),
+                'pt_pengundang' => esc($this->request->getPost('pt')),
+                'lama_kegiatan' => esc($this->request->getPost('lama')),
+                'kategori_kegiatan' => esc($this->request->getPost('kategori')),
+                'kegiatan_penting' => esc($this->request->getPost('kegiatan')),
+                'tgl_pelaksanaan' => esc($this->request->getPost('tgl_laksana')),
+                'sk_penugasan' => esc($this->request->getPost('sk')),
                 'tgl_sk' => esc($this->request->getPost('tgl_sk')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idbahanajar'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("bahanajar", $data, $kond);
+            $kond['idvisiting'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("visiting", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -164,8 +168,8 @@ class Visit extends BaseController
     public function hapus()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idbahanajar'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("bahanajar", $kond);
+            $kond['idvisiting'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("visiting", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {

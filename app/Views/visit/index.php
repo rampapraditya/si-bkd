@@ -262,12 +262,15 @@
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idbahanajar);
-                $('[name="judul"]').val(data.judul);
-                $('[name="tgl_terbit"]').val(data.tgl_terbit);
-                $('[name="penerbit"]').val(data.penerbit);
-                $('[name="sk_penugasan"]').val(data.sk_penugasan);
+                $('[name="kode"]').val(data.idvisiting);
+                $('[name="pt"]').val(data.pt_pengundang);
+                $('[name="lama"]').val(data.lama_kegiatan);
+                $('[name="kategori"]').val(data.kategori_kegiatan);
+                $('[name="kegiatan"]').val(data.kegiatan_penting);
+                $('[name="tgl_laksana"]').val(data.tgl_pelaksanaan);
+                $('[name="sk"]').val(data.sk_penugasan);
                 $('[name="tgl_sk"]').val(data.tgl_sk);
+
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',
