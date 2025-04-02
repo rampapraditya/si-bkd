@@ -311,3 +311,21 @@ $routes->group('tugas-tambahan', function ($routes) {
     $routes->post('ajax_edit', 'Tugastambahan::ajax_edit');
     $routes->get('hapus/(:any)', 'Tugastambahan::hapus/$1');
 });
+
+$routes->group('anggota-profesi', function ($routes) {
+    $routes->get('', 'Anggotaprofesi::index');
+    $routes->get('ajaxlist', 'Anggotaprofesi::ajaxlist');
+    $routes->post('ajax_add', 'Anggotaprofesi::ajax_add');
+    $routes->get('show/(:any)', 'Anggotaprofesi::show/$1');
+    $routes->post('ajax_edit', 'Anggotaprofesi::ajax_edit');
+    $routes->get('hapus/(:any)', 'Anggotaprofesi::hapus/$1');
+});
+
+$routes->group('penghargaan', function ($routes) {
+    $routes->get('', 'Penghargaan::index');
+    $routes->get('ajaxlist', 'Penghargaan::ajaxlist');
+    $routes->post('ajax_add', 'Penghargaan::ajax_add');
+    $routes->get('show/(:any)', 'Penghargaan::show/$1');
+    $routes->post('ajax_edit', 'Penghargaan::ajax_edit');
+    $routes->get('hapus/(:any)', 'Penghargaan::hapus/$1');
+});

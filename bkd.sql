@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 02, 2025 at 06:05 AM
+-- Generation Time: Apr 02, 2025 at 08:28 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -57,7 +57,6 @@ DROP TABLE IF EXISTS `anggota_profesi`;
 CREATE TABLE IF NOT EXISTS `anggota_profesi` (
   `idang_profesi` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
-  `kategori` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `nama_org` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `peran` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `mulai` date NOT NULL,
@@ -850,6 +849,7 @@ DROP TABLE IF EXISTS `penghargaan`;
 CREATE TABLE IF NOT EXISTS `penghargaan` (
   `idpenghargaan` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
   `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `penghargaan` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
   `jenis_penghargaan` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `instansi` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `tahun` int NOT NULL,
