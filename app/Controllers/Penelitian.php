@@ -77,6 +77,7 @@ class Penelitian extends BaseController
                 $val[] = esc($row->tahun_pelaksanaan);
                 $val[] = esc($row->lama);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpenelitian) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
@@ -193,6 +194,82 @@ class Penelitian extends BaseController
                         ->setJSON($output)
                         ->setStatusCode(200)
                         ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function detil()
+    {
+        if (session()->get("logged_dosen")) {
+            $data['idusers'] = session()->get("idusers");
+            $data['nama'] = session()->get("nama");
+            $data['role'] = session()->get("idjabatan");
+            $data['nm_role'] = session()->get("nama_jabatan");
+            $data['menu'] = $this->request->getUri()->getSegment(1);
+
+            $def_foto = base_url('images/noimg.jpg');
+
+            $pro = (object) $this->mcustom->getDynamicData(true, ['foto'], 'users', [], ['idusers' => $data['idusers']]);
+            if (strlen($pro->foto) > 0) {
+                if (file_exists($this->modul->getPrivatePath() . $pro->foto)) {
+                    $def_foto = base_url('privateimg/showimg/' . esc($pro->foto));
+                }
+            }
+            $data['foto'] = $def_foto;
+
+            $jml = $this->mcustom->getCount('identitas');
+            if ($jml > 0) {
+                $tersimpan = (object) $this->mcustom->getDynamicData(true, [], 'identitas');
+                $data['appname'] = esc($tersimpan->appname);
+                $data['namains'] = esc($tersimpan->namains);
+                $deflogo = base_url('images/logo.png');
+                if (strlen($tersimpan->logo) > 0) {
+                    if (file_exists($this->modul->getPublicPath() . esc($tersimpan->logo))) {
+                        $deflogo = base_url($this->modul->getPublicPath().esc($tersimpan->logo));
+                    }
+                }
+                $data['logo'] = $deflogo;
+            } else {
+                $data['appname'] = "";
+                $data['namains'] = "";
+                $data['logo'] = base_url('images/logo.png');
+            }
+            $data['tahun'] = $this->modul->getTahun();
+            $data['curdate'] = $this->modul->TanggalSekarang();
+
+            $idpenelitian = $this->modul->dekrip_simple($this->request->getUri()->getSegment(3));
+            $data['idpenelitian'] = $idpenelitian;
+            $data['head'] = $this->mcustom->get_by_id("penelitian", ['idpenelitian' => $idpenelitian]);
+
+            return view('penelitian/detil', $data);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function ajaxdosen()
+    {
+        if (session()->get("logged_dosen")) {
+            $idpenelitian = $this->request->getUri()->getSegment(3);
+            
+            $data = array();
+            $no = 1;
+            $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_dosen', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            foreach ($list as $row) {
+                $val = array();
+                $val[] = $no;
+                $val[] = esc($row->nama_dosen);
+                $val[] = esc($row->peran);
+                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_dosen . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian_dosen . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '</div></div>';
+                $data[] = $val;
+                $no++;
+            }
+            $output = array("data" => $data);
+            echo json_encode($output);
         } else {
             $this->modul->halaman('login');
         }

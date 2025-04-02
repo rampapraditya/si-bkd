@@ -346,4 +346,6 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('show/(:any)', 'Penelitian::show/$1');
     $routes->post('ajax_edit', 'Penelitian::ajax_edit');
     $routes->get('hapus/(:any)', 'Penelitian::hapus/$1');
+    $routes->get('detil/(:any)', 'Penelitian::detil/$1');
+    $routes->get('ajaxdosen/(:any)', 'Penelitian::ajaxdosen/$1');
 });

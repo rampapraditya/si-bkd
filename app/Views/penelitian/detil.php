@@ -3,34 +3,120 @@
 
 <div class="content-wrapper">
     <section class="content-header">
-        <h1>Penelitian <small>View data penelitian</small> </h1>
+        <h1>Detil Penelitian <small>View data detil penelitian</small> </h1>
         <ol class="breadcrumb">
             <li><a href="<?php echo base_url('dashboard'); ?>"> Beranda</a></li>
-            <li class="active">Penelitian</li>
+            <li><a href="<?php echo base_url('penelitian'); ?>"> Penelitian</a></li>
+            <li class="active">Detil Penelitian</li>
         </ol>
     </section>
     <section class="content">
         <div class="row">
             <div class="col-lg-12 col-xs-12">
-                <div class="box box">
+                <div class="box box-primary">
                     <div class="box-header with-border">
-                        <button type="button" class="btn btn-primary btn-sm" onclick="add();"><i class="fa fa-fw fa-plus"></i> Tambah</button>
-                        <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+                        <h3 class="box-title">Penelitian</h3>
                     </div>
                     <div class="box-body">
-                        <table id="tb" class="table table-bordered table-striped">
+                        <div class="form-horizontal">
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Judul Kegiatan</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->judul; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Afiliasi</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->afiliasi; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Kelompok Bidang</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->kelompok_bidang; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Lokasi Kegiatan</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->lokasi; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tahun Usulan</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->tahun_usulan; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tahun Kegiatan</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->tahun_kegiatan; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tahun Pelaksanaan</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->tahun_pelaksanaan; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Lama Kegiatan (Tahun)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->lama; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Tahun Pelaksanaan Ke</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->tahun_ke; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Dana dari Dikti (Rp.)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->dana_dikti; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Dana dari Perguruan Tinggi (Rp.)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->dana_univ; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-3 control-label">Dana dari Instansi Lain (Rp.)</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" value="<?php echo $head->dana_ins_lain; ?>" autocomplete="off" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Anggota Kegiatan (Dosen)</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add();"><i class="fa fa-fw fa-plus"></i> Tambah Dosen </button>
+                            <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="tbdosen" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>Judul</th>
-                                    <th>Bidang<br>Keilmuan</th>
-                                    <th>Tahun<br>Pelaksanaan</th>
-                                    <th>Lama<br>Kegiatan</th>
+                                    <th>Nama Dosen</th>
+                                    <th>Peran</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                
                             </tbody>
                         </table>
                     </div>
@@ -148,17 +234,17 @@
 <script type="text/javascript">
 
     var save_method;
-    var table;
+    var tbdosen;
 
     $(document).ready(function () {
-        table = $('#tb').DataTable({
-            ajax: "<?php echo base_url('penelitian/ajaxlist'); ?>",
+        tbdosen = $('#tbdosen').DataTable({
+            ajax: "<?php echo base_url('penelitian/ajaxdosen/'.$idpenelitian); ?>",
             ordering: false
         });
     });
 
     function reload() {
-        table.ajax.reload(null, false);
+        tbdosen.ajax.reload(null, false);
     }
 
     function add() {
@@ -349,8 +435,5 @@
         });
     }
     
-    function detil(id){
-        window.location.href = "<?php echo base_url('penelitian/detil/'); ?>" + id;
-    }
 </script>
 <?php echo $this->endSection(); ?>
