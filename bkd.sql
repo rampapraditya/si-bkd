@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 01, 2025 at 06:18 AM
+-- Generation Time: Apr 02, 2025 at 01:16 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -106,9 +106,9 @@ CREATE TABLE IF NOT EXISTS `bimbingan_dosen` (
   `tgl_bimbingan` date NOT NULL,
   `tgl_selesai` date NOT NULL,
   `created_at` datetime NOT NULL,
-  `update_at` datetime NOT NULL,
-  PRIMARY KEY (`idusers`),
-  KEY `nama_pembimbing` (`nama_pembimbing`)
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idbimbingan`),
+  KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -129,8 +129,8 @@ CREATE TABLE IF NOT EXISTS `datasering` (
   `metode` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `no_sk` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk` date NOT NULL,
-  `date_created` datetime NOT NULL,
-  `date_updated` datetime NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
   PRIMARY KEY (`iddatasering`),
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;

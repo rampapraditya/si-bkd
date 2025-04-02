@@ -302,3 +302,12 @@ $routes->group('pemb-dosen', function ($routes) {
     $routes->post('ajax_edit', 'Pembdosen::ajax_edit');
     $routes->get('hapus/(:any)', 'Pembdosen::hapus/$1');
 });
+
+$routes->group('tugas-tambahan', function ($routes) {
+    $routes->get('', 'Tugastambahan::index');
+    $routes->get('ajaxlist', 'Tugastambahan::ajaxlist');
+    $routes->post('ajax_add', 'Tugastambahan::ajax_add');
+    $routes->get('show/(:any)', 'Tugastambahan::show/$1');
+    $routes->post('ajax_edit', 'Tugastambahan::ajax_edit');
+    $routes->get('hapus/(:any)', 'Tugastambahan::hapus/$1');
+});

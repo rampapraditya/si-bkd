@@ -54,6 +54,28 @@
                     <li <?php if($menu == 'tugas-tambahan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('tugas-tambahan'); ?>"><i class="fa fa-circle-o"></i> Tugas tambahan</a></li>
                 </ul>
             </li>
+            <li class="treeview <?php if($menu == 'anggota-profesi' || $menu == 'penghargaan' || $menu == 'penunjang-lain') { echo 'active'; } ?>">
+                <a href="#">
+                    <i class="fa fa-flask"></i> <span>Pelaks. Penelitian</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li <?php if($menu == 'anggota-profesi') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('anggota-profesi'); ?>"><i class="fa fa-circle-o"></i> Anggota Profesi</a></li>
+                    <li <?php if($menu == 'penghargaan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('penghargaan'); ?>"><i class="fa fa-circle-o"></i> Penghargaan</a></li>
+                    <li <?php if($menu == 'penunjang-lain') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('penunjang-lain'); ?>"><i class="fa fa-circle-o"></i> Penunjang Lain</a></li>
+                </ul>
+            </li>
+            <li class="treeview <?php if($menu == 'anggota-profesi' || $menu == 'penghargaan' || $menu == 'penunjang-lain') { echo 'active'; } ?>">
+                <a href="#">
+                    <i class="fa fa-life-ring"></i> <span>Penunjang</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li <?php if($menu == 'anggota-profesi') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('anggota-profesi'); ?>"><i class="fa fa-circle-o"></i> Anggota Profesi</a></li>
+                    <li <?php if($menu == 'penghargaan') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('penghargaan'); ?>"><i class="fa fa-circle-o"></i> Penghargaan</a></li>
+                    <li <?php if($menu == 'penunjang-lain') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('penunjang-lain'); ?>"><i class="fa fa-circle-o"></i> Penunjang Lain</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
 </aside>
