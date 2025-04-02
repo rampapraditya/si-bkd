@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 02, 2025 at 08:28 AM
+-- Generation Time: Apr 02, 2025 at 11:14 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -695,15 +695,16 @@ DROP TABLE IF EXISTS `penelitian`;
 CREATE TABLE IF NOT EXISTS `penelitian` (
   `idpenelitian` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `idusers` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `skim_kegiatan` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tahun_anggaran` int NOT NULL,
+  `judul` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `afiliasi` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
   `kelompok_bidang` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `lokasi` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `no_sk` varchar(65) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
   `tgl_sk` date NOT NULL,
   `lama` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `judul` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `lokasi` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `tahun_usulan` int NOT NULL,
+  `tahun_kegiatan` int NOT NULL,
+  `tahun_pelaksanaan` int NOT NULL,
   `tahun_ke` int NOT NULL,
   `dana_dikti` double NOT NULL,
   `dana_univ` double NOT NULL,

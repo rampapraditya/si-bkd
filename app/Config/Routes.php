@@ -329,3 +329,21 @@ $routes->group('penghargaan', function ($routes) {
     $routes->post('ajax_edit', 'Penghargaan::ajax_edit');
     $routes->get('hapus/(:any)', 'Penghargaan::hapus/$1');
 });
+
+$routes->group('penunjang-lain', function ($routes) {
+    $routes->get('', 'Penunjanglain::index');
+    $routes->get('ajaxlist', 'Penunjanglain::ajaxlist');
+    $routes->post('ajax_add', 'Penunjanglain::ajax_add');
+    $routes->get('show/(:any)', 'Penunjanglain::show/$1');
+    $routes->post('ajax_edit', 'Penunjanglain::ajax_edit');
+    $routes->get('hapus/(:any)', 'Penunjanglain::hapus/$1');
+});
+
+$routes->group('penelitian', function ($routes) {
+    $routes->get('', 'Penelitian::index');
+    $routes->get('ajaxlist', 'Penelitian::ajaxlist');
+    $routes->post('ajax_add', 'Penelitian::ajax_add');
+    $routes->get('show/(:any)', 'Penelitian::show/$1');
+    $routes->post('ajax_edit', 'Penelitian::ajax_edit');
+    $routes->get('hapus/(:any)', 'Penelitian::hapus/$1');
+});
