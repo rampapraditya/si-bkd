@@ -544,4 +544,31 @@ class Penelitian extends BaseController
         $kond['idpenelitian_non_civitas'] = $this->request->getPost('kode');
         return $this->mcustom->ganti("penelitian_non_civitas", $data, $kond);
     }
+
+    public function ajaxdokumen()
+    {
+        if (session()->get("logged_dosen")) {
+            $idpenelitian = $this->request->getUri()->getSegment(3);
+            
+            $data = array();
+            $no = 1;
+            $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_dokumen', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            foreach ($list as $row) {
+                $val = array();
+                $val[] = $no;
+                $val[] = esc($row->judul_dokumen);
+                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="unduh(' . "'" . $row->idpenelitian_doc . "'" . ')"><i class="fa fa-fw fa-download"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="gantidoc(' . "'" . $row->idpenelitian_doc . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapusdoc(' . "'" . $row->idpenelitian_doc . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '</div></div>';
+                $data[] = $val;
+                $no++;
+            }
+            $output = array("data" => $data);
+            echo json_encode($output);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
 }

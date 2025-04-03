@@ -177,6 +177,32 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Dokumen Penelitian</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="adddokumen();"><i class="fa fa-fw fa-plus"></i> Tambah Dokumen </button>
+                            <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="tbdokumen" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Judul Dokumen</th>
+                                    <th style="text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 </div>
 
@@ -215,10 +241,44 @@
     </div>
 </div>
 
+<div class="modal fade" id="modal_dokumen">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title-dokumen">Default Modal</h4>
+            </div>
+            <div class="modal-body">
+                <form id="form_dokumen" class="form-horizontal">
+                    <input type="hidden" name="kode_dokumen" id="kode_dokumen">    
+                    <input type="hidden" name="idpenelitian_dokumen" id="idpenelitian_dokumen" value="<?php echo $idpenelitian; ?>">
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Judul Dokumen</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="judul_dokumen" name="judul_dokumen" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Dokumen <br><span style="color: red; font-size: 10px;">Hanya dokumen pdf</span></label>
+                        <div class="col-sm-8">
+                            <input type="file" class="form-control" id="dokumen" name="dokumen" accept=".pdf">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button id="btnSave" type="button" class="btn btn-sm btn-primary" onclick="save();">Save</button>
+                <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript">
 
     var save_method;
-    var tbdosen, tbmhs, tbnon;
+    var tbdosen, tbmhs, tbnon, tbdokumen;
 
     $(document).ready(function () {
         tbdosen = $('#tbdosen').DataTable({
@@ -235,12 +295,18 @@
             ajax: "<?php echo base_url('penelitian/ajaxnoncivitas/'.$idpenelitian); ?>",
             ordering: false
         });
+
+        tbdokumen = $('#tbdokumen').DataTable({
+            ajax: "<?php echo base_url('penelitian/ajaxdokumen/'.$idpenelitian); ?>",
+            ordering: false
+        });
     });
 
     function reload() {
         tbdosen.ajax.reload(null, false);
         tbmhs.ajax.reload(null, false);
         tbnon.ajax.reload(null, false);
+        tbdokumen.ajax.reload(null, false);
     }
 
     function add(param) {
@@ -251,6 +317,13 @@
         $('#nama').attr('placeholder', 'Nama ' + param);
         $('#mode').val(param);
         $('.modal-title').text('Tambah Anggota ' + param);
+    }
+
+    function adddokumen(){
+        save_method = 'add';
+        $('#form_dokumen')[0].reset();
+        $('#modal_dokumen').modal('show');
+        $('.modal-title-dokumen').text('Tambah Dokumen Penelitian');
     }
 
     function save() {

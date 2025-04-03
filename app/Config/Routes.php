@@ -358,4 +358,5 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('hapusdosen/(:any)', 'Penelitian::hapusdosen/$1');
     $routes->get('hapusmhs/(:any)', 'Penelitian::hapusmhs/$1');
     $routes->get('hapusnon/(:any)', 'Penelitian::hapusnon/$1');
+    $routes->get('ajaxdokumen/(:any)', 'Penelitian::ajaxdokumen/$1');
 });
