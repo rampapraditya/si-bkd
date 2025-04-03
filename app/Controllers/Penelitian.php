@@ -675,7 +675,34 @@ class Penelitian extends BaseController
     }
 
     public function showdokumen(){
-        
+        if (session()->get("logged_dosen")) {
+            $kond['idpenelitian_doc'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("penelitian_dokumen", $kond);
+            echo json_encode($data);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function ajax_edit_dokumen(){
+        if (session()->get("logged_dosen")) {
+            if (isset($_FILES['file']['name'])) {
+                if (0 < $_FILES['file']['error']) {
+                    $status = "Error during file upload " . $_FILES['file']['error'];
+                } else {
+                    $status = $this->update_file();
+                }
+            } else {
+                $status = $this->update();
+            }
+            $output = array('status' => $status);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
     }
 
     private function update_file() {
@@ -689,30 +716,29 @@ class Penelitian extends BaseController
         $allowedMimeTypes = ['application/pdf'];
         //$allowedExtensions = ['jpeg', 'jpg', 'png', 'pdf'];
 
-        if($ukuranFile < 1){
+        if($ukuranFile < 25){
             if (in_array($mimeFile, $allowedMimeTypes)) {
-                if (file_exists($this->modul->getPublicPath() . '/' . $fileName)) {
+                if (file_exists($this->modul->getPrivatePath() . '/' . $fileName)) {
                     $status = "Gunakan nama file lain";
                 } else {
                     // hapus file lama
-                    $lawas = (object)$this->mcustom->getDynamicData(true, ['logo'], 'identitas');
-                    if (strlen($lawas->logo) > 0) {
-                        if (file_exists($this->modul->getPublicPath() . $lawas->logo)) {
-                            unlink($this->modul->getPublicPath() . $lawas->logo);
+                    $lawas = (object)$this->mcustom->getDynamicData(true, ['file'], 'penelitian_dokumen', [], ['idpenelitian_doc' => $this->request->getPost('kode')]);
+                    if (strlen($lawas->file) > 0) {
+                        if (file_exists($this->modul->getPrivatePath() . $lawas->file)) {
+                            unlink($this->modul->getPrivatePath() . $lawas->file);
                         }
                     }
 
-                    $status_upload = $file->move($this->modul->setPublicPath(), $fileName);
+                    $status_upload = $file->move($this->modul->setPrivatePath(), $fileName);
                     if ($status_upload) {
                         $data = array(
-                            'idpenelitian_dosen' => Uuid::uuid4()->toString(),
                             'idpenelitian' => esc($this->request->getPost('idpenelitian')),
                             'judul_dokumen' => esc($this->request->getPost('judul')),
                             'file' => $fileName,
-                            'created_at' => $this->modul->TanggalWaktu(),
                             'updated_at' => $this->modul->TanggalWaktu()
                         );
-                        $update = $this->mcustom->tambah("penelitian_dokumen", $data);
+                        $kond['idpenelitian_doc'] = $this->request->getPost('kode');
+                        $update = $this->mcustom->ganti("penelitian_dokumen", $data, $kond);
                         if ($update == 1) {
                             $status = "Data tersimpan";
                         } else {
@@ -726,27 +752,19 @@ class Penelitian extends BaseController
                 $status = "Hanya diperkenankan file gambar";
             }
         }else{
-            $status = "Hanya diperkenankan file dibawah 1 MB";
+            $status = "Hanya diperkenankan file dibawah 25 MB";
         }
         return $status;
     }
 
     private function update() {
         $data = array(
-            'nama' => strip_tags($this->request->getPost('nama')),
-            'namains' => strip_tags($this->request->getPost('namains')),
-            'slogan' => strip_tags($this->request->getPost('slogan')),
-            'tahun' => strip_tags($this->request->getPost('tahun')),
-            'pimpinan' => strip_tags($this->request->getPost('pimpinan')),
-            'alamat' => strip_tags($this->request->getPost('alamat')),
-            'kdpos' => strip_tags($this->request->getPost('kdpos')),
-            'tlp' => strip_tags($this->request->getPost('tlp')),
-            'fax' => strip_tags($this->request->getPost('fax')),
-            'website' => strip_tags($this->request->getPost('website')),
-            'email' => strip_tags($this->request->getPost('email')),
-            'keterangan' => strip_tags($this->request->getPost('ket'))
+            'idpenelitian' => esc($this->request->getPost('idpenelitian')),
+            'judul_dokumen' => esc($this->request->getPost('judul')),
+            'updated_at' => $this->modul->TanggalWaktu()
         );
-        $update = $this->mcustom->updateNK("identitas", $data);
+        $kond['idpenelitian_doc'] = $this->request->getPost('kode');
+        $update = $this->mcustom->ganti("penelitian_dokumen", $data, $kond);
         if ($update == 1) {
             $status = "Data tersimpan";
         } else {

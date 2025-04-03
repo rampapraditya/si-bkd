@@ -363,4 +363,5 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('showdokumen/(:any)', 'Penelitian::showdokumen/$1');
     $routes->get('unduh/(:any)', 'Penelitian::unduh/$1');
     $routes->get('hapusdokumen/(:any)', 'Penelitian::hapusdokumen/$1');
+    $routes->post('ajax_edit_dokumen', 'Penelitian::ajax_edit_dokumen');
 });

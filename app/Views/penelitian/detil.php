@@ -575,16 +575,25 @@
                     var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
                     $('meta[name="csrf-token"]').attr('content', csrfToken);
 
-                    iziToast.info({
-                        title: 'Info',
-                        message: response.status,
-                        position: 'topRight'
-                    });
-                    
                     $('#btnSaveDoc').text('Save');
                     $('#btnSaveDoc').attr('disabled',false);
 
-                    reload();
+                    if(response.status === "Data tersimpan"){
+                        iziToast.info({
+                            title: 'Info',
+                            message: response.status,
+                            position: 'topRight'
+                        });
+                        
+                        $('#modal_dokumen').modal('hide');
+                        reload();
+                    } else {
+                        iziToast.warning({
+                            title: 'Info',
+                            message: response.status,
+                            position: 'topRight'
+                        });
+                    }
 
                 }, error: function (response, status, xhr) {
                     var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
@@ -658,17 +667,14 @@
         $('#form_dokumen')[0].reset();
         $('#modal_dokumen').modal('show');
         $('.modal-title-dokumen').text('Ganti Dokumen Penelitian');
-        
         $.ajax({
             url: "<?php echo base_url('penelitian/showdokumen/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idpenelitian_non_civitas);
-                $('[name="idpenelitian"]').val(data.idpenelitian);
-                $('[name="nama"]').val(data.nama_non_civitas);
-                $('[name="peran"]').val(data.peran);
-
+                $('[name="kode_dokumen"]').val(data.idpenelitian_doc);
+                $('[name="idpenelitian_dokumen"]').val(data.idpenelitian);
+                $('[name="judul_dokumen"]').val(data.judul_dokumen);
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
                     title: 'Error',
