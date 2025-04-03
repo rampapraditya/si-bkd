@@ -379,31 +379,24 @@
         });
     }
 
-    function ganti(id) {
+    function ganti(id, mode) {
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti penelitian');
+        $('#lbNama').text('Nama ' + mode);
+        $('#nama').attr('placeholder', 'Nama ' + mode);
+        $('#mode').val(mode);
+        $('.modal-title').text('Ganti Anggota ' + mode);
+        
         $.ajax({
-            url: "<?php echo base_url('penelitian/show/'); ?>" + id,
+            url: "<?php echo base_url('penelitian/show_member_dosen/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idpenelitian);
-                $('[name="judul"]').val(data.judul);
-                $('[name="afiliasi"]').val(data.afiliasi);
-                $('[name="bidang"]').val(data.kelompok_bidang);
-                $('[name="lokasi"]').val(data.lokasi);
-                $('[name="tahun_usulan"]').val(data.tahun_usulan);
-                $('[name="tahun_kegiatan"]').val(data.tahun_kegiatan);
-                $('[name="tahun_laksana"]').val(data.tahun_pelaksanaan);
-                $('[name="lama"]').val(data.lama);
-                $('[name="tahun_ke"]').val(data.tahun_ke);
-                $('[name="sk"]').val(data.no_sk);
-                $('[name="tglsk"]').val(data.tgl_sk);
-                $('[name="dana_dikti"]').val(data.dana_dikti);
-                $('[name="dana_univ"]').val(data.dana_univ);
-                $('[name="dana_lain"]').val(data.dana_ins_lain);
+                $('[name="kode"]').val(data.idpenelitian_dosen);
+                $('[name="idpenelitian"]').val(data.idpenelitian);
+                $('[name="nama"]').val(data.nama_dosen);
+                $('[name="peran"]').val(data.peran);
 
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({

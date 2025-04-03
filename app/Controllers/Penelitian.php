@@ -252,7 +252,7 @@ class Penelitian extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $idpenelitian = $this->request->getUri()->getSegment(3);
-            
+            $mode = "Dosen";
             $data = array();
             $no = 1;
             $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_dosen', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
@@ -262,7 +262,7 @@ class Penelitian extends BaseController
                 $val[] = esc($row->nama_dosen);
                 $val[] = esc($row->peran);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_dosen . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_dosen . "'" . ', ' . "'" . $mode . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian_dosen . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
                 $data[] = $val;
@@ -279,7 +279,8 @@ class Penelitian extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $idpenelitian = $this->request->getUri()->getSegment(3);
-            
+            $mode = "Mahasiswa";
+
             $data = array();
             $no = 1;
             $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_mahasiswa', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
@@ -289,7 +290,7 @@ class Penelitian extends BaseController
                 $val[] = esc($row->nama_mhs);
                 $val[] = esc($row->peran);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_mhs . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_mhs . "'" . ', ' . "'" . $mode . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian_mhs . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
                 $data[] = $val;
@@ -306,7 +307,8 @@ class Penelitian extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $idpenelitian = $this->request->getUri()->getSegment(3);
-            
+            $mode = "Non Civitas Akademika";
+
             $data = array();
             $no = 1;
             $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_non_civitas', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
@@ -316,7 +318,7 @@ class Penelitian extends BaseController
                 $val[] = esc($row->nama_non_civitas);
                 $val[] = esc($row->peran);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_non_civitas . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_non_civitas . "'" . ', ' . "'" . $mode . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian_non_civitas . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
                 $data[] = $val;
@@ -389,5 +391,16 @@ class Penelitian extends BaseController
             'updated_at' => $this->modul->TanggalWaktu()
         );
         return $this->mcustom->tambah("penelitian_non_civitas", $data);
+    }
+
+    public function show_member_dosen()
+    {
+        if (session()->get("logged_dosen")) {
+            $kond['idpenelitian_dosen'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("penelitian_dosen", $kond);
+            echo json_encode($data);
+        } else {
+            $this->modul->halaman('login');
+        }
     }
 }

@@ -351,6 +351,8 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('ajaxmhs/(:any)', 'Penelitian::ajaxmhs/$1');
     $routes->get('ajaxnoncivitas/(:any)', 'Penelitian::ajaxnoncivitas/$1');
     $routes->post('ajax_add_member', 'Penelitian::ajax_add_member');
-    $routes->get('show_member/(:any)', 'Penelitian::show_member/$1');
+    $routes->get('show_member_dosen/(:any)', 'Penelitian::show_member_dosen/$1');
+    $routes->get('show_member_mhs/(:any)', 'Penelitian::show_member_mhs/$1');
+    $routes->get('show_member_non/(:any)', 'Penelitian::show_member_non/$1');
     $routes->post('ajax_edit_member', 'Penelitian::ajax_edit_member');
 });
