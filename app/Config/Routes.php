@@ -360,7 +360,7 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('hapusnon/(:any)', 'Penelitian::hapusnon/$1');
     $routes->get('ajaxdokumen/(:any)', 'Penelitian::ajaxdokumen/$1');
     $routes->post('ajax_add_dokumen', 'Penelitian::ajax_add_dokumen');
-    $routes->get('ajaxdokumen/(:any)', 'Penelitian::ajaxdokumen/$1');
+    $routes->get('showdokumen/(:any)', 'Penelitian::showdokumen/$1');
     $routes->get('unduh/(:any)', 'Penelitian::unduh/$1');
     $routes->get('hapusdokumen/(:any)', 'Penelitian::hapusdokumen/$1');
 });

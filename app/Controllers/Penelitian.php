@@ -674,6 +674,10 @@ class Penelitian extends BaseController
         return $status;
     }
 
+    public function showdokumen(){
+        
+    }
+
     private function update_file() {
         $file = $this->request->getFile('file');
         $fileName = $file->getRandomName();

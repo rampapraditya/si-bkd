@@ -653,5 +653,30 @@
         });
     }
 
+    function gantidoc(id){
+        save_method = 'update';
+        $('#form_dokumen')[0].reset();
+        $('#modal_dokumen').modal('show');
+        $('.modal-title-dokumen').text('Ganti Dokumen Penelitian');
+        
+        $.ajax({
+            url: "<?php echo base_url('penelitian/showdokumen/'); ?>" + id,
+            type: "GET",
+            dataType: "JSON",
+            success: function (data) {
+                $('[name="kode"]').val(data.idpenelitian_non_civitas);
+                $('[name="idpenelitian"]').val(data.idpenelitian);
+                $('[name="nama"]').val(data.nama_non_civitas);
+                $('[name="peran"]').val(data.peran);
+
+            }, error: function (jqXHR, textStatus, errorThrown) {
+                iziToast.error({
+                    title: 'Error',
+                    message: "Error json " + errorThrown,
+                    position: 'topRight'
+                });
+            }
+        });
+    }
 </script>
 <?php echo $this->endSection(); ?>
