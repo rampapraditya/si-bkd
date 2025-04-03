@@ -52,7 +52,7 @@ class Publikasi extends BaseController
                 $data['namains'] = "";
                 $data['logo'] = base_url('images/logo.png');
             }
-            $data['tahun'] = $this->modul->getTahun();
+            
             $data['curdate'] = $this->modul->TanggalSekarang();
 
             return view('publikasi/index', $data);
@@ -68,18 +68,18 @@ class Publikasi extends BaseController
             
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_terbit, "%d-%m-%Y") as tgl_terbit'], 'publikasi', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
+                $val[] = esc($row->jenis);
+                $val[] = esc($row->kategori_capaian);
                 $val[] = esc($row->judul);
-                $val[] = esc($row->kelompok_bidang);
-                $val[] = esc($row->tahun_pelaksanaan);
-                $val[] = esc($row->lama);
+                $val[] = esc($row->tgl_terbit);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpenelitian) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpublikasi) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpublikasi . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpublikasi . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
                 $data[] = $val;
                 $no++;
@@ -96,26 +96,23 @@ class Publikasi extends BaseController
         if (session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
             $data = array(
-                'idpenelitian' => Uuid::uuid4()->toString(),
+                'idpublikasi' => Uuid::uuid4()->toString(),
                 'idusers' => $idusers,
+                'jenis' => esc($this->request->getPost('jenis')),
+                'kategori_keg' => esc($this->request->getPost('kategori_keg')),
+                'kategori_capaian' => esc($this->request->getPost('kategori_capaian')),
+                'aktivitas_litabmas' => esc($this->request->getPost('aktivitas_litabmas')),
                 'judul' => esc($this->request->getPost('judul')),
-                'afiliasi' => esc($this->request->getPost('afiliasi')),
-                'kelompok_bidang' => esc($this->request->getPost('bidang')),
-                'lokasi' => esc($this->request->getPost('lokasi')),
-                'no_sk' => esc($this->request->getPost('sk')),
-                'tgl_sk' => esc($this->request->getPost('tglsk')),
-                'lama' => esc($this->request->getPost('lama')),
-                'tahun_usulan' => esc($this->request->getPost('tahun_usulan')),
-                'tahun_kegiatan' => esc($this->request->getPost('tahun_kegiatan')),
-                'tahun_pelaksanaan' => esc($this->request->getPost('tahun_laksana')),
-                'tahun_ke' => esc($this->request->getPost('tahun_ke')),
-                'dana_dikti' => esc($this->request->getPost('dana_dikti')),
-                'dana_univ' => esc($this->request->getPost('dana_univ')),
-                'dana_ins_lain' => esc($this->request->getPost('dana_lain')),
+                'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
+                'jml_hal' => esc($this->request->getPost('jml_hal')),
+                'penerbit' => esc($this->request->getPost('penerbit')),
+                'ISBN' => esc($this->request->getPost('isbn')),
+                'tautan_external' => esc($this->request->getPost('tautan_external')),
+                'keterangan' => esc($this->request->getPost('keterangan')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("penelitian", $data);
+            $simpan = $this->mcustom->tambah("publikasi", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -134,8 +131,8 @@ class Publikasi extends BaseController
     public function show()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idpenelitian'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("penelitian", $kond);
+            $kond['idpublikasi'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("publikasi", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -146,24 +143,21 @@ class Publikasi extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $data = array(
+                'jenis' => esc($this->request->getPost('jenis')),
+                'kategori_keg' => esc($this->request->getPost('kategori_keg')),
+                'kategori_capaian' => esc($this->request->getPost('kategori_capaian')),
+                'aktivitas_litabmas' => esc($this->request->getPost('aktivitas_litabmas')),
                 'judul' => esc($this->request->getPost('judul')),
-                'afiliasi' => esc($this->request->getPost('afiliasi')),
-                'kelompok_bidang' => esc($this->request->getPost('bidang')),
-                'lokasi' => esc($this->request->getPost('lokasi')),
-                'no_sk' => esc($this->request->getPost('sk')),
-                'tgl_sk' => esc($this->request->getPost('tglsk')),
-                'lama' => esc($this->request->getPost('lama')),
-                'tahun_usulan' => esc($this->request->getPost('tahun_usulan')),
-                'tahun_kegiatan' => esc($this->request->getPost('tahun_kegiatan')),
-                'tahun_pelaksanaan' => esc($this->request->getPost('tahun_laksana')),
-                'tahun_ke' => esc($this->request->getPost('tahun_ke')),
-                'dana_dikti' => esc($this->request->getPost('dana_dikti')),
-                'dana_univ' => esc($this->request->getPost('dana_univ')),
-                'dana_ins_lain' => esc($this->request->getPost('dana_lain')),
+                'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
+                'jml_hal' => esc($this->request->getPost('jml_hal')),
+                'penerbit' => esc($this->request->getPost('penerbit')),
+                'ISBN' => esc($this->request->getPost('isbn')),
+                'tautan_external' => esc($this->request->getPost('tautan_external')),
+                'keterangan' => esc($this->request->getPost('keterangan')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idpenelitian'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("penelitian", $data, $kond);
+            $kond['idpublikasi'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("publikasi", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -182,8 +176,8 @@ class Publikasi extends BaseController
     public function hapus()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idpenelitian'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("penelitian", $kond);
+            $kond['idpublikasi'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("publikasi", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {
@@ -238,11 +232,11 @@ class Publikasi extends BaseController
             $data['tahun'] = $this->modul->getTahun();
             $data['curdate'] = $this->modul->TanggalSekarang();
 
-            $idpenelitian = $this->modul->dekrip_simple($this->request->getUri()->getSegment(3));
-            $data['idpenelitian'] = $idpenelitian;
-            $data['head'] = $this->mcustom->get_by_id("penelitian", ['idpenelitian' => $idpenelitian]);
+            $idpublikasi = $this->modul->dekrip_simple($this->request->getUri()->getSegment(3));
+            $data['idpublikasi'] = $idpublikasi;
+            $data['head'] = $this->mcustom->get_by_id("publikasi", ['idpublikasi' => $idpublikasi]);
 
-            return view('penelitian/detil', $data);
+            return view('publikasi/detil', $data);
         } else {
             $this->modul->halaman('login');
         }

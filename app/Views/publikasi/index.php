@@ -52,87 +52,69 @@
                 <form id="form" class="form-horizontal">
                     <input type="hidden" name="kode" id="kode">
                     <div class="form-group row">
+                        <label class="col-sm-4 control-label">Kategori Kegiatan</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="kategori_keg" name="kategori_keg" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Jenis</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="jenis" name="jenis" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Kategori Capaian</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="kategori_capaian" name="kategori_capaian" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 control-label">Aktivitas Litabmas</label>
+                        <div class="col-sm-8">
+                            <input type="text" class="form-control" id="aktivitas_litabmas" name="aktivitas_litabmas" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="form-group row">
                         <label class="col-sm-4 control-label">Judul</label>
                         <div class="col-sm-8">
                             <input type="text" class="form-control" id="judul" name="judul" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Afiliasi</label>
+                        <label class="col-sm-4 control-label">Tanggal Terbit</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="afiliasi" name="afiliasi" autocomplete="off">
+                            <input type="date" class="form-control" id="tgl_terbit" name="tgl_terbit" autocomplete="off" value="<?php echo $curdate; ?>">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Bidang Keilmuan</label>
+                        <label class="col-sm-4 control-label">Jumlah Halaman</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="bidang" name="bidang" autocomplete="off">
+                            <input type="number" maxlength="4" class="form-control" id="jml_hal" name="jml_hal" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Lokasi Kegiatan</label>
+                        <label class="col-sm-4 control-label">Penerbit</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="lokasi" name="lokasi" autocomplete="off">
+                            <input type="text" class="form-control" id="penerbit" name="penerbit" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Usulan</label>
+                        <label class="col-sm-4 control-label">ISBN</label>
                         <div class="col-sm-8">
-                            <input type="number" maxlength="4" class="form-control" id="tahun_usulan" name="tahun_usulan" autocomplete="off" value="<?php echo $tahun; ?>">
+                            <input type="text" class="form-control" id="isbn" name="isbn" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Kegiatan</label>
+                        <label class="col-sm-4 control-label">Tautan Ekternal</label>
                         <div class="col-sm-8">
-                            <input type="number" maxlength="4" class="form-control" id="tahun_kegiatan" name="tahun_kegiatan" autocomplete="off" value="<?php echo $tahun; ?>">
+                            <input type="text" class="form-control" id="tautan_external" name="tautan_external" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Pelaksanaan</label>
+                        <label class="col-sm-4 control-label">Keterangan</label>
                         <div class="col-sm-8">
-                            <input type="number" maxlength="4" class="form-control" id="tahun_laksana" name="tahun_laksana" autocomplete="off" value="<?php echo $tahun; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Lama Kegiatan (Tahun)</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="lama" name="lama" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Pelaksanaan Ke</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="tahun_ke" name="tahun_ke" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Nomor SK</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="sk" name="sk" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tanggal SK</label>
-                        <div class="col-sm-8">
-                            <input type="date" class="form-control" id="tglsk" name="tglsk" autocomplete="off" value="<?php echo $curdate; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Dana Dikti</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="dana_dikti" name="dana_dikti" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Dana Universitas</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="dana_univ" name="dana_univ" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Dana Lain-lain</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="dana_lain" name="dana_lain" autocomplete="off">
+                            <textarea class="form-control" id="keterangan" name="keterangan" rows="3"></textarea>
                         </div>
                     </div>
                 </form>
@@ -152,7 +134,7 @@
 
     $(document).ready(function () {
         table = $('#tb').DataTable({
-            ajax: "<?php echo base_url('penelitian/ajaxlist'); ?>",
+            ajax: "<?php echo base_url('publikasi/ajaxlist'); ?>",
             ordering: false
         });
     });
@@ -165,36 +147,33 @@
         save_method = 'add';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah penelitian');
+        $('.modal-title').text('Tambah publikasi');
     }
 
     function save() {
         var kode = document.getElementById('kode').value;
+        var kategori_keg = document.getElementById('kategori_keg').value;
+        var jenis = document.getElementById('jenis').value;
+        var kategori_capaian = document.getElementById('kategori_capaian').value;
+        var aktivitas_litabmas = document.getElementById('aktivitas_litabmas').value;
         var judul = document.getElementById('judul').value;
-        var afiliasi = document.getElementById('afiliasi').value;
-        var bidang = document.getElementById('bidang').value;
-        var lokasi = document.getElementById('lokasi').value;
-        var tahun_usulan = document.getElementById('tahun_usulan').value;
-        var tahun_kegiatan = document.getElementById('tahun_kegiatan').value;
-        var tahun_laksana = document.getElementById('tahun_laksana').value;
-        var lama = document.getElementById('lama').value;
-        var tahun_ke = document.getElementById('tahun_ke').value;
-        var sk = document.getElementById('sk').value;
-        var tglsk = document.getElementById('tglsk').value;
-        var dana_dikti = document.getElementById('dana_dikti').value;
-        var dana_univ = document.getElementById('dana_univ').value;
-        var dana_lain = document.getElementById('dana_lain').value;
+        var tgl_terbit = document.getElementById('tgl_terbit').value;
+        var jml_hal = document.getElementById('jml_hal').value;
+        var penerbit = document.getElementById('penerbit').value;
+        var isbn = document.getElementById('isbn').value;
+        var tautan_external = document.getElementById('tautan_external').value;
+        var keterangan = document.getElementById('keterangan').value;
 
-        if (judul === '') {
+        if (jenis === '') {
+            iziToast.error({
+                title: 'Error',
+                message: "Jenis tidak boleh kosong",
+                position: 'topRight'
+            });
+        } else if (judul === '') {
             iziToast.error({
                 title: 'Error',
                 message: "Judul tidak boleh kosong",
-                position: 'topRight'
-            });
-        } else if (afiliasi === '') {
-            iziToast.error({
-                title: 'Error',
-                message: "Affiliasi tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -203,27 +182,24 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('penelitian/ajax_add'); ?>";
+                url = "<?php echo base_url('publikasi/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('penelitian/ajax_edit'); ?>";
+                url = "<?php echo base_url('publikasi/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
             form_data.append('kode', kode);
+            form_data.append('kategori_keg', kategori_keg);
+            form_data.append('jenis', jenis);
+            form_data.append('kategori_capaian', kategori_capaian);
+            form_data.append('aktivitas_litabmas', aktivitas_litabmas);
             form_data.append('judul', judul);
-            form_data.append('afiliasi', afiliasi);
-            form_data.append('bidang', bidang);
-            form_data.append('lokasi', lokasi);
-            form_data.append('tahun_usulan', tahun_usulan);
-            form_data.append('tahun_kegiatan', tahun_kegiatan);
-            form_data.append('tahun_laksana', tahun_laksana);
-            form_data.append('lama', lama);
-            form_data.append('tahun_ke', tahun_ke);
-            form_data.append('sk', sk);
-            form_data.append('tglsk', tglsk);
-            form_data.append('dana_dikti', dana_dikti);
-            form_data.append('dana_univ', dana_univ);
-            form_data.append('dana_lain', dana_lain);
+            form_data.append('tgl_terbit', tgl_terbit);
+            form_data.append('jml_hal', jml_hal);
+            form_data.append('penerbit', penerbit);
+            form_data.append('isbn', isbn);
+            form_data.append('tautan_external', tautan_external);
+            form_data.append('keterangan', keterangan);
             
             $.ajax({
                 url: url,
@@ -272,7 +248,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus penelitian nomor ' + nama + ' ?',
+            message: 'Apakah yakin menghapus publikasi nomor ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -282,7 +258,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('penelitian/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('publikasi/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -317,27 +293,24 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti penelitian');
+        $('.modal-title').text('Ganti publikasi');
         $.ajax({
-            url: "<?php echo base_url('penelitian/show/'); ?>" + id,
+            url: "<?php echo base_url('publikasi/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idpenelitian);
+                $('[name="kode"]').val(data.idpublikasi);
+                $('[name="kategori_keg"]').val(data.kategori_keg);
+                $('[name="jenis"]').val(data.jenis);
+                $('[name="kategori_capaian"]').val(data.kategori_capaian);
+                $('[name="aktivitas_litabmas"]').val(data.aktivitas_litabmas);
                 $('[name="judul"]').val(data.judul);
-                $('[name="afiliasi"]').val(data.afiliasi);
-                $('[name="bidang"]').val(data.kelompok_bidang);
-                $('[name="lokasi"]').val(data.lokasi);
-                $('[name="tahun_usulan"]').val(data.tahun_usulan);
-                $('[name="tahun_kegiatan"]').val(data.tahun_kegiatan);
-                $('[name="tahun_laksana"]').val(data.tahun_pelaksanaan);
-                $('[name="lama"]').val(data.lama);
-                $('[name="tahun_ke"]').val(data.tahun_ke);
-                $('[name="sk"]').val(data.no_sk);
-                $('[name="tglsk"]').val(data.tgl_sk);
-                $('[name="dana_dikti"]').val(data.dana_dikti);
-                $('[name="dana_univ"]').val(data.dana_univ);
-                $('[name="dana_lain"]').val(data.dana_ins_lain);
+                $('[name="tgl_terbit"]').val(data.tgl_terbit);
+                $('[name="jml_hal"]').val(data.jml_hal);
+                $('[name="penerbit"]').val(data.penerbit);
+                $('[name="isbn"]').val(data.ISBN);
+                $('[name="tautan_external"]').val(data.tautan_external);
+                $('[name="keterangan"]').val(data.keterangan);
 
             }, error: function (jqXHR, textStatus, errorThrown) {
                 iziToast.error({
@@ -350,7 +323,7 @@
     }
     
     function detil(id){
-        window.location.href = "<?php echo base_url('penelitian/detil/'); ?>" + id;
+        window.location.href = "<?php echo base_url('publikasi/detil/'); ?>" + id;
     }
 </script>
 <?php echo $this->endSection(); ?>
