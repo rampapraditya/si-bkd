@@ -355,4 +355,7 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('show_member_mhs/(:any)', 'Penelitian::show_member_mhs/$1');
     $routes->get('show_member_non/(:any)', 'Penelitian::show_member_non/$1');
     $routes->post('ajax_edit_member', 'Penelitian::ajax_edit_member');
+    $routes->get('hapusdosen/(:any)', 'Penelitian::hapusdosen/$1');
+    $routes->get('hapusmhs/(:any)', 'Penelitian::hapusmhs/$1');
+    $routes->get('hapusnon/(:any)', 'Penelitian::hapusnon/$1');
 });

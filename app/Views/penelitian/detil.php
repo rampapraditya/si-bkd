@@ -333,12 +333,12 @@
         }
     }
 
-    function hapus(id, nama) {
+    function hapus(id, nama, mode) {
         iziToast.show({
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus penelitian nomor ' + nama + ' ?',
+            message: 'Apakah yakin menghapus penelitian ' + mode + ' nomor ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -347,8 +347,17 @@
                     function (instance, toast) {
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
+                        var url = "";
+                        if (mode === 'Dosen') {
+                            url = "<?php echo base_url('penelitian/hapusdosen/'); ?>" + id;
+                        } else if (mode === 'Mahasiswa') {
+                            url = "<?php echo base_url('penelitian/hapusmhs/'); ?>" + id;
+                        } else {
+                            url = "<?php echo base_url('penelitian/hapusnon/'); ?>" + id;
+                        }
+
                         $.ajax({
-                            url: "<?php echo base_url('penelitian/hapus/'); ?>" + id,
+                            url: url,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -388,24 +397,65 @@
         $('#mode').val(mode);
         $('.modal-title').text('Ganti Anggota ' + mode);
         
-        $.ajax({
-            url: "<?php echo base_url('penelitian/show_member_dosen/'); ?>" + id,
-            type: "GET",
-            dataType: "JSON",
-            success: function (data) {
-                $('[name="kode"]').val(data.idpenelitian_dosen);
-                $('[name="idpenelitian"]').val(data.idpenelitian);
-                $('[name="nama"]').val(data.nama_dosen);
-                $('[name="peran"]').val(data.peran);
+        
+        if(mode === 'Dosen') {
+            $.ajax({
+                url: "<?php echo base_url('penelitian/show_member_dosen/'); ?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $('[name="kode"]').val(data.idpenelitian_dosen);
+                    $('[name="idpenelitian"]').val(data.idpenelitian);
+                    $('[name="nama"]').val(data.nama_dosen);
+                    $('[name="peran"]').val(data.peran);
 
-            }, error: function (jqXHR, textStatus, errorThrown) {
-                iziToast.error({
-                    title: 'Error',
-                    message: "Error json " + errorThrown,
-                    position: 'topRight'
-                });
-            }
-        });
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: "Error json " + errorThrown,
+                        position: 'topRight'
+                    });
+                }
+            });
+        } else if (mode === 'Mahasiswa') {
+            $.ajax({
+                url: "<?php echo base_url('penelitian/show_member_mhs/'); ?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $('[name="kode"]').val(data.idpenelitian_mhs);
+                    $('[name="idpenelitian"]').val(data.idpenelitian);
+                    $('[name="nama"]').val(data.nama_mhs);
+                    $('[name="peran"]').val(data.peran);
+
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: "Error json " + errorThrown,
+                        position: 'topRight'
+                    });
+                }
+            });
+        } else {
+            $.ajax({
+                url: "<?php echo base_url('penelitian/show_member_non/'); ?>" + id,
+                type: "GET",
+                dataType: "JSON",
+                success: function (data) {
+                    $('[name="kode"]').val(data.idpenelitian_non_civitas);
+                    $('[name="idpenelitian"]').val(data.idpenelitian);
+                    $('[name="nama"]').val(data.nama_non_civitas);
+                    $('[name="peran"]').val(data.peran);
+
+                }, error: function (jqXHR, textStatus, errorThrown) {
+                    iziToast.error({
+                        title: 'Error',
+                        message: "Error json " + errorThrown,
+                        position: 'topRight'
+                    });
+                }
+            });
+        }
     }
     
 </script>
