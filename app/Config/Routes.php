@@ -348,4 +348,7 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('hapus/(:any)', 'Penelitian::hapus/$1');
     $routes->get('detil/(:any)', 'Penelitian::detil/$1');
     $routes->get('ajaxdosen/(:any)', 'Penelitian::ajaxdosen/$1');
+    $routes->get('ajaxmhs/(:any)', 'Penelitian::ajaxmhs/$1');
+    $routes->get('ajaxnoncivitas/(:any)', 'Penelitian::ajaxnoncivitas/$1');
+    $routes->post('ajax_add_member', 'Penelitian::ajax_add_member');
 });

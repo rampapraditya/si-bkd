@@ -274,4 +274,120 @@ class Penelitian extends BaseController
             $this->modul->halaman('login');
         }
     }
+
+    public function ajaxmhs()
+    {
+        if (session()->get("logged_dosen")) {
+            $idpenelitian = $this->request->getUri()->getSegment(3);
+            
+            $data = array();
+            $no = 1;
+            $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_mahasiswa', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            foreach ($list as $row) {
+                $val = array();
+                $val[] = $no;
+                $val[] = esc($row->nama_mhs);
+                $val[] = esc($row->peran);
+                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_mhs . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian_mhs . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '</div></div>';
+                $data[] = $val;
+                $no++;
+            }
+            $output = array("data" => $data);
+            echo json_encode($output);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function ajaxnoncivitas()
+    {
+        if (session()->get("logged_dosen")) {
+            $idpenelitian = $this->request->getUri()->getSegment(3);
+            
+            $data = array();
+            $no = 1;
+            $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian_non_civitas', [], ['idpenelitian' => $idpenelitian], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            foreach ($list as $row) {
+                $val = array();
+                $val[] = $no;
+                $val[] = esc($row->nama_non_civitas);
+                $val[] = esc($row->peran);
+                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian_non_civitas . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian_non_civitas . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                . '</div></div>';
+                $data[] = $val;
+                $no++;
+            }
+            $output = array("data" => $data);
+            echo json_encode($output);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function ajax_add_member(){
+        if (session()->get("logged_dosen")) {
+            $mode = esc($this->request->getPost('mode'));
+            if($mode == "Dosen"){
+                $simpan = $this->tambah_dosen();
+            } elseif($mode == "Mahasiswa"){
+                $simpan = $this->tambah_mahasiswa();
+            } elseif($mode == "Non Civitas Akademika"){
+                $simpan = $this->tambah_non_civitas();
+            }
+
+            if ($simpan == 1) {
+                $status = "Data tersimpan";
+            } else {
+                $status = "Data gagal tersimpan";
+            }
+            $output = array('status' => $status);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    private function tambah_dosen(){
+        $data = array(
+            'idpenelitian_dosen' => Uuid::uuid4()->toString(),
+            'idpenelitian' => esc($this->request->getPost('idpenelitian')),
+            'nama_dosen' => esc($this->request->getPost('nama')),
+            'peran' => esc($this->request->getPost('peran')),
+            'created_at' => $this->modul->TanggalWaktu(),
+            'updated_at' => $this->modul->TanggalWaktu()
+        );
+        return $this->mcustom->tambah("penelitian_dosen", $data);
+    }
+
+    private function tambah_mahasiswa(){
+        $data = array(
+            'idpenelitian_mhs' => Uuid::uuid4()->toString(),
+            'idpenelitian' => esc($this->request->getPost('idpenelitian')),
+            'nama_mhs' => esc($this->request->getPost('nama')),
+            'peran' => esc($this->request->getPost('peran')),
+            'created_at' => $this->modul->TanggalWaktu(),
+            'updated_at' => $this->modul->TanggalWaktu()
+        );
+        return $this->mcustom->tambah("penelitian_mahasiswa", $data);
+    }
+
+    private function tambah_non_civitas(){
+        $data = array(
+            'idpenelitian_non_civitas' => Uuid::uuid4()->toString(),
+            'idpenelitian' => esc($this->request->getPost('idpenelitian')),
+            'nama_non_civitas' => esc($this->request->getPost('nama')),
+            'peran' => esc($this->request->getPost('peran')),
+            'created_at' => $this->modul->TanggalWaktu(),
+            'updated_at' => $this->modul->TanggalWaktu()
+        );
+        return $this->mcustom->tambah("penelitian_non_civitas", $data);
+    }
 }

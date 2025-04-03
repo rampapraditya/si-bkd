@@ -102,7 +102,7 @@
                     <div class="box-header with-border">
                         <h3 class="box-title">Anggota Kegiatan (Dosen)</h3>
                         <div class="box-tools pull-right">
-                            <button type="button" class="btn btn-primary btn-sm" onclick="add();"><i class="fa fa-fw fa-plus"></i> Tambah Dosen </button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add('Dosen');"><i class="fa fa-fw fa-plus"></i> Tambah Dosen </button>
                             <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
                         </div>
                     </div>
@@ -112,6 +112,60 @@
                                 <tr>
                                     <th>#</th>
                                     <th>Nama Dosen</th>
+                                    <th>Peran</th>
+                                    <th style="text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Anggota Kegiatan (Mahasiswa)</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add('Mahasiswa');"><i class="fa fa-fw fa-plus"></i> Tambah Mahasiswa </button>
+                            <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="tbmhs" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Mahasiswa</th>
+                                    <th>Peran</th>
+                                    <th style="text-align: center;">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-xs-12">
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">Anggota Non Civitas</h3>
+                        <div class="box-tools pull-right">
+                            <button type="button" class="btn btn-primary btn-sm" onclick="add('Non Civitas Akademika');"><i class="fa fa-fw fa-plus"></i> Tambah Non Civitas </button>
+                            <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+                        </div>
+                    </div>
+                    <div class="box-body">
+                        <table id="tbnon" class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Nama Non Civitas</th>
                                     <th>Peran</th>
                                     <th style="text-align: center;">Aksi</th>
                                 </tr>
@@ -136,89 +190,19 @@
             </div>
             <div class="modal-body">
                 <form id="form" class="form-horizontal">
-                    <input type="hidden" name="kode" id="kode">
+                    <input type="hidden" name="kode" id="kode">    
+                    <input type="hidden" name="idpenelitian" id="idpenelitian" value="<?php echo $idpenelitian; ?>">
+                    <input type="hidden" name="mode" id="mode">
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Judul</label>
+                        <label id="lbNama" class="col-sm-4 control-label">Nama Anggota</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="judul" name="judul" autocomplete="off">
+                            <input type="text" class="form-control" id="nama" name="nama" autocomplete="off">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-4 control-label">Afiliasi</label>
+                        <label class="col-sm-4 control-label">Peran</label>
                         <div class="col-sm-8">
-                            <input type="text" class="form-control" id="afiliasi" name="afiliasi" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Bidang Keilmuan</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="bidang" name="bidang" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Lokasi Kegiatan</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="lokasi" name="lokasi" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Usulan</label>
-                        <div class="col-sm-8">
-                            <input type="number" maxlength="4" class="form-control" id="tahun_usulan" name="tahun_usulan" autocomplete="off" value="<?php echo $tahun; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Kegiatan</label>
-                        <div class="col-sm-8">
-                            <input type="number" maxlength="4" class="form-control" id="tahun_kegiatan" name="tahun_kegiatan" autocomplete="off" value="<?php echo $tahun; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Pelaksanaan</label>
-                        <div class="col-sm-8">
-                            <input type="number" maxlength="4" class="form-control" id="tahun_laksana" name="tahun_laksana" autocomplete="off" value="<?php echo $tahun; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Lama Kegiatan (Tahun)</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="lama" name="lama" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tahun Pelaksanaan Ke</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="tahun_ke" name="tahun_ke" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Nomor SK</label>
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" id="sk" name="sk" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Tanggal SK</label>
-                        <div class="col-sm-8">
-                            <input type="date" class="form-control" id="tglsk" name="tglsk" autocomplete="off" value="<?php echo $curdate; ?>">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Dana Dikti</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="dana_dikti" name="dana_dikti" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Dana Universitas</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="dana_univ" name="dana_univ" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-4 control-label">Dana Lain-lain</label>
-                        <div class="col-sm-8">
-                            <input type="number" class="form-control" id="dana_lain" name="dana_lain" autocomplete="off">
+                            <input type="text" class="form-control" id="peran" name="peran" autocomplete="off" placeholder="Peran Anggota">
                         </div>
                     </div>
                 </form>
@@ -234,53 +218,58 @@
 <script type="text/javascript">
 
     var save_method;
-    var tbdosen;
+    var tbdosen, tbmhs, tbnon;
 
     $(document).ready(function () {
         tbdosen = $('#tbdosen').DataTable({
             ajax: "<?php echo base_url('penelitian/ajaxdosen/'.$idpenelitian); ?>",
             ordering: false
         });
+
+        tbmhs = $('#tbmhs').DataTable({
+            ajax: "<?php echo base_url('penelitian/ajaxmhs/'.$idpenelitian); ?>",
+            ordering: false
+        });
+
+        tbnon = $('#tbnon').DataTable({
+            ajax: "<?php echo base_url('penelitian/ajaxnoncivitas/'.$idpenelitian); ?>",
+            ordering: false
+        });
     });
 
     function reload() {
         tbdosen.ajax.reload(null, false);
+        tbmhs.ajax.reload(null, false);
+        tbnon.ajax.reload(null, false);
     }
 
-    function add() {
+    function add(param) {
         save_method = 'add';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Tambah penelitian');
+        $('#lbNama').text('Nama ' + param);
+        $('#nama').attr('placeholder', 'Nama ' + param);
+        $('#mode').val(param);
+        $('.modal-title').text('Tambah Anggota ' + param);
     }
 
     function save() {
         var kode = document.getElementById('kode').value;
-        var judul = document.getElementById('judul').value;
-        var afiliasi = document.getElementById('afiliasi').value;
-        var bidang = document.getElementById('bidang').value;
-        var lokasi = document.getElementById('lokasi').value;
-        var tahun_usulan = document.getElementById('tahun_usulan').value;
-        var tahun_kegiatan = document.getElementById('tahun_kegiatan').value;
-        var tahun_laksana = document.getElementById('tahun_laksana').value;
-        var lama = document.getElementById('lama').value;
-        var tahun_ke = document.getElementById('tahun_ke').value;
-        var sk = document.getElementById('sk').value;
-        var tglsk = document.getElementById('tglsk').value;
-        var dana_dikti = document.getElementById('dana_dikti').value;
-        var dana_univ = document.getElementById('dana_univ').value;
-        var dana_lain = document.getElementById('dana_lain').value;
+        var idpenelitian = document.getElementById('idpenelitian').value;
+        var mode = document.getElementById('mode').value;
+        var nama = document.getElementById('nama').value;
+        var peran = document.getElementById('peran').value;
 
-        if (judul === '') {
+        if (mode === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Judul tidak boleh kosong",
+                message: "Mode tidak boleh kosong",
                 position: 'topRight'
             });
-        } else if (afiliasi === '') {
+        } else if (nama === '') {
             iziToast.error({
                 title: 'Error',
-                message: "Affiliasi tidak boleh kosong",
+                message: "Nama anggota tidak boleh kosong",
                 position: 'topRight'
             });
         } else {
@@ -289,27 +278,17 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('penelitian/ajax_add'); ?>";
+                url = "<?php echo base_url('penelitian/ajax_add_member'); ?>";
             } else {
-                url = "<?php echo base_url('penelitian/ajax_edit'); ?>";
+                url = "<?php echo base_url('penelitian/ajax_edit_member'); ?>";
             }
             
             var form_data = new FormData();
             form_data.append('kode', kode);
-            form_data.append('judul', judul);
-            form_data.append('afiliasi', afiliasi);
-            form_data.append('bidang', bidang);
-            form_data.append('lokasi', lokasi);
-            form_data.append('tahun_usulan', tahun_usulan);
-            form_data.append('tahun_kegiatan', tahun_kegiatan);
-            form_data.append('tahun_laksana', tahun_laksana);
-            form_data.append('lama', lama);
-            form_data.append('tahun_ke', tahun_ke);
-            form_data.append('sk', sk);
-            form_data.append('tglsk', tglsk);
-            form_data.append('dana_dikti', dana_dikti);
-            form_data.append('dana_univ', dana_univ);
-            form_data.append('dana_lain', dana_lain);
+            form_data.append('idpenelitian', idpenelitian);
+            form_data.append('mode', mode);
+            form_data.append('nama', nama);
+            form_data.append('peran', peran);
             
             $.ajax({
                 url: url,
@@ -336,6 +315,7 @@
 
                     $('#btnSave').text('Save');
                     $('#btnSave').attr('disabled', false);
+
                 }, error: function (response, status, xhr) {
                     var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
                     $('meta[name="csrf-token"]').attr('content', csrfToken);
