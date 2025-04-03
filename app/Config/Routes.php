@@ -365,3 +365,30 @@ $routes->group('penelitian', function ($routes) {
     $routes->get('hapusdokumen/(:any)', 'Penelitian::hapusdokumen/$1');
     $routes->post('ajax_edit_dokumen', 'Penelitian::ajax_edit_dokumen');
 });
+
+$routes->group('publikasi', function ($routes) {
+    $routes->get('', 'Publikasi::index');
+    $routes->get('ajaxlist', 'Publikasi::ajaxlist');
+    $routes->post('ajax_add', 'Publikasi::ajax_add');
+    $routes->get('show/(:any)', 'Publikasi::show/$1');
+    $routes->post('ajax_edit', 'Publikasi::ajax_edit');
+    $routes->get('hapus/(:any)', 'Publikasi::hapus/$1');
+    $routes->get('detil/(:any)', 'Publikasi::detil/$1');
+    $routes->get('ajaxdosen/(:any)', 'Publikasi::ajaxdosen/$1');
+    $routes->get('ajaxmhs/(:any)', 'Publikasi::ajaxmhs/$1');
+    $routes->get('ajaxnoncivitas/(:any)', 'Publikasi::ajaxnoncivitas/$1');
+    $routes->post('ajax_add_member', 'Publikasi::ajax_add_member');
+    $routes->get('show_member_dosen/(:any)', 'Publikasi::show_member_dosen/$1');
+    $routes->get('show_member_mhs/(:any)', 'Publikasi::show_member_mhs/$1');
+    $routes->get('show_member_non/(:any)', 'Publikasi::show_member_non/$1');
+    $routes->post('ajax_edit_member', 'Publikasi::ajax_edit_member');
+    $routes->get('hapusdosen/(:any)', 'Publikasi::hapusdosen/$1');
+    $routes->get('hapusmhs/(:any)', 'Publikasi::hapusmhs/$1');
+    $routes->get('hapusnon/(:any)', 'Publikasi::hapusnon/$1');
+    $routes->get('ajaxdokumen/(:any)', 'Publikasi::ajaxdokumen/$1');
+    $routes->post('ajax_add_dokumen', 'Publikasi::ajax_add_dokumen');
+    $routes->get('showdokumen/(:any)', 'Publikasi::showdokumen/$1');
+    $routes->get('unduh/(:any)', 'Publikasi::unduh/$1');
+    $routes->get('hapusdokumen/(:any)', 'Publikasi::hapusdokumen/$1');
+    $routes->post('ajax_edit_dokumen', 'Publikasi::ajax_edit_dokumen');
+});
