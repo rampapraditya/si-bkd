@@ -475,4 +475,24 @@ class Modul {
 
         return $response->setStatusCode(404, 'File not found');
     }
+
+    public function unduhfile($filePath){
+        // Periksa apakah file ada
+        if (!file_exists($filePath)) {
+            die('File tidak ditemukan.');
+        }
+
+        // Set header untuk download file
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename="' . basename($filePath) . '"');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($filePath));
+
+        // Baca file dan kirim ke output
+        readfile($filePath);
+        exit;
+    }
 }

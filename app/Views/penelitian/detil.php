@@ -268,7 +268,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button id="btnSave" type="button" class="btn btn-sm btn-primary" onclick="save();">Save</button>
+                <button id="btnSaveDoc" type="button" class="btn btn-sm btn-primary" onclick="savedoc();">Save</button>
                 <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -317,13 +317,6 @@
         $('#nama').attr('placeholder', 'Nama ' + param);
         $('#mode').val(param);
         $('.modal-title').text('Tambah Anggota ' + param);
-    }
-
-    function adddokumen(){
-        save_method = 'add';
-        $('#form_dokumen')[0].reset();
-        $('#modal_dokumen').modal('show');
-        $('.modal-title-dokumen').text('Tambah Dokumen Penelitian');
     }
 
     function save() {
@@ -531,5 +524,134 @@
         }
     }
     
+    function adddokumen(){
+        save_method = 'add';
+        $('#form_dokumen')[0].reset();
+        $('#modal_dokumen').modal('show');
+        $('.modal-title-dokumen').text('Tambah Dokumen Penelitian');
+    }
+
+    function savedoc(){
+        var kode = document.getElementById('kode_dokumen').value;
+        var idpenelitian = document.getElementById('idpenelitian_dokumen').value;
+        var judul = document.getElementById('judul_dokumen').value;
+        var file = $('#dokumen').prop('files')[0];
+        
+        if(judul === ""){
+            iziToast.success({
+                title: 'Info',
+                message: 'Judul dokumen tidak boleh kosong',
+                position: 'topRight'
+            });
+        } else {
+            var form_data = new FormData();
+            form_data.append('kode', kode);
+            form_data.append('idpenelitian', idpenelitian);
+            form_data.append('judul', judul);
+            form_data.append('file', file);
+
+            $('#btnSaveDoc').text('Saving...');
+            $('#btnSaveDoc').attr('disabled',true);
+
+            var url = "";
+            if (save_method === 'add') {
+                url = "<?php echo base_url('penelitian/ajax_add_dokumen'); ?>";
+            } else {
+                url = "<?php echo base_url('penelitian/ajax_edit_dokumen'); ?>";
+            }
+
+            $.ajax({
+                url: url,
+                dataType: 'JSON',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'POST',
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
+
+                },success: function (response, status, xhr) {
+                    var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                    $('meta[name="csrf-token"]').attr('content', csrfToken);
+
+                    iziToast.info({
+                        title: 'Info',
+                        message: response.status,
+                        position: 'topRight'
+                    });
+                    
+                    $('#btnSaveDoc').text('Save');
+                    $('#btnSaveDoc').attr('disabled',false);
+
+                    reload();
+
+                }, error: function (response, status, xhr) {
+                    var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
+                    $('meta[name="csrf-token"]').attr('content', csrfToken);
+                    
+                    iziToast.error({
+                        title: 'Info',
+                        message: response.status,
+                        position: 'topRight'
+                    });
+                    
+                    $('#btnSaveDoc').text('Save');
+                    $('#btnSaveDoc').attr('disabled',false);
+                }
+            });
+        }
+    }
+
+    function unduh(file){
+        window.open("<?php echo base_url('penelitian/unduh/'); ?>"+file, '_blank');
+    }
+
+    function hapusdoc(id, no){
+        iziToast.show({
+            color: 'dark',
+            icon: 'fa fa-fw fa-question',
+            title: 'Konfirmasi',
+            message: 'Apakah yakin menghapus dokumen penelitian nomor ' + no + ' ?',
+            position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+            progressBarColor: 'rgb(0, 255, 184)',
+            buttons: [
+                [
+                    '<button>Ok</button>',
+                    function (instance, toast) {
+                        instance.hide({transitionOut: 'fadeOutUp'}, toast);
+
+                        $.ajax({
+                            url: "<?php echo base_url('penelitian/hapusdokumen/'); ?>" + id,
+                            type: "GET",
+                            dataType: "JSON",
+                            success: function (data) {
+                                iziToast.info({
+                                    title: 'Info',
+                                    message: data.status,
+                                    position: 'topRight'
+                                });
+                                reload();
+
+                            }, error: function (jqXHR, textStatus, errorThrown) {
+                                iziToast.error({
+                                    title: 'Error',
+                                    message: "Error json " + errorThrown,
+                                    position: 'topRight'
+                                });
+                            }
+                        });
+                    }
+                ],
+                [
+                    '<button>Close</button>',
+                    function (instance, toast) {
+                        instance.hide({transitionOut: 'fadeOutUp'}, toast);
+                    }
+                ]
+            ]
+        });
+    }
+
 </script>
 <?php echo $this->endSection(); ?>

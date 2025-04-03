@@ -558,7 +558,7 @@ class Penelitian extends BaseController
                 $val[] = $no;
                 $val[] = esc($row->judul_dokumen);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="unduh(' . "'" . $row->idpenelitian_doc . "'" . ')"><i class="fa fa-fw fa-download"></i></button>'
+                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="unduh(' . "'" . $row->file . "'" . ')"><i class="fa fa-fw fa-download"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="gantidoc(' . "'" . $row->idpenelitian_doc . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
                 . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapusdoc(' . "'" . $row->idpenelitian_doc . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
                 . '</div></div>';
@@ -570,5 +570,184 @@ class Penelitian extends BaseController
         } else {
             $this->modul->halaman('login');
         }
+    }
+
+    public function hapusdokumen() {
+        if (session()->get("logged_dosen")) {
+            $kond['idpenelitian_doc'] = esc($this->request->getUri()->getSegment(3));
+
+            $lawas = (object)$this->mcustom->getDynamicData(true, ['file'], 'penelitian_dokumen', [], $kond);
+            if (strlen($lawas->file) > 0) {
+                if (file_exists($this->modul->getPrivatePath() . $lawas->file)) {
+                    unlink($this->modul->getPrivatePath() . $lawas->file);
+                }
+            }
+
+            $hapus = $this->mcustom->hapus("penelitian_dokumen", $kond);
+            if ($hapus == 1) {
+                $status = "Data terhapus";
+            } else {
+                $status = "Data gagal terhapus";
+            }
+            $output = array('status' => $status);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function unduh($filename){
+        if (session()->get("logged_dosen")) {
+            $filePath = WRITEPATH . 'uploads/' . $filename;
+            $this->modul->unduhfile($filePath);
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    public function ajax_add_dokumen() {
+        if (session()->get("logged_dosen")) {
+            if (isset($_FILES['file']['name'])) {
+                if (0 < $_FILES['file']['error']) {
+                    $status = "Error during file upload " . $_FILES['file']['error'];
+                } else {
+                    $status = $this->simpan_file();
+                }
+            } else {
+                $status = "File tidak ditemukan";
+            }
+            
+            $output = array('status' => $status);
+            return $this->response
+                        ->setJSON($output)
+                        ->setStatusCode(200)
+                        ->setHeader('X-CSRF-TOKEN', csrf_hash());
+        } else {
+            $this->modul->halaman('login');
+        }
+    }
+
+    private function simpan_file() {
+        $file = $this->request->getFile('file');
+        $fileName = $file->getRandomName();
+        $ukuranFile = $file->getSize() / (1024 * 1024);
+        $mimeFile = $file->getMimeType();
+
+        //$allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+        $allowedMimeTypes = ['application/pdf'];
+        //$allowedExtensions = ['jpeg', 'jpg', 'png', 'pdf'];
+
+        if($ukuranFile < 25){
+            if (in_array($mimeFile, $allowedMimeTypes)) {
+                if (file_exists($this->modul->getPrivatePath() . '/' . $fileName)) {
+                    $status = "Gunakan nama file lain";
+                } else {
+                    $status_upload = $file->move($this->modul->setPrivatePath(), $fileName);
+                    if ($status_upload) {
+                        $data = array(
+                            'idpenelitian_doc' => Uuid::uuid4()->toString(),
+                            'idpenelitian' => esc($this->request->getPost('idpenelitian')),
+                            'judul_dokumen' => esc($this->request->getPost('judul')),
+                            'file' => $fileName,
+                            'created_at' => $this->modul->TanggalWaktu(),
+                            'updated_at' => $this->modul->TanggalWaktu()
+                        );
+                        $simpan = $this->mcustom->tambah("penelitian_dokumen", $data);
+                        if ($simpan == 1) {
+                            $status = "Data tersimpan";
+                        } else {
+                            $status = "Data gagal tersimpan";
+                        }
+                    } else {
+                        $status = "File gagal terupload";
+                    }
+                }
+            }else{
+                $status = "Hanya diperkenankan file gambar";
+            }
+        }else{
+            $status = "Hanya diperkenankan file dibawah 1 MB";
+        }
+        return $status;
+    }
+
+    private function update_file() {
+        $file = $this->request->getFile('file');
+        $fileName = $file->getRandomName();
+        $ukuranFile = $file->getSize() / (1024 * 1024);
+        $extFile = $file->getClientExtension();
+        $mimeFile = $file->getMimeType();
+
+        //$allowedMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+        $allowedMimeTypes = ['application/pdf'];
+        //$allowedExtensions = ['jpeg', 'jpg', 'png', 'pdf'];
+
+        if($ukuranFile < 1){
+            if (in_array($mimeFile, $allowedMimeTypes)) {
+                if (file_exists($this->modul->getPublicPath() . '/' . $fileName)) {
+                    $status = "Gunakan nama file lain";
+                } else {
+                    // hapus file lama
+                    $lawas = (object)$this->mcustom->getDynamicData(true, ['logo'], 'identitas');
+                    if (strlen($lawas->logo) > 0) {
+                        if (file_exists($this->modul->getPublicPath() . $lawas->logo)) {
+                            unlink($this->modul->getPublicPath() . $lawas->logo);
+                        }
+                    }
+
+                    $status_upload = $file->move($this->modul->setPublicPath(), $fileName);
+                    if ($status_upload) {
+                        $data = array(
+                            'idpenelitian_dosen' => Uuid::uuid4()->toString(),
+                            'idpenelitian' => esc($this->request->getPost('idpenelitian')),
+                            'judul_dokumen' => esc($this->request->getPost('judul')),
+                            'file' => $fileName,
+                            'created_at' => $this->modul->TanggalWaktu(),
+                            'updated_at' => $this->modul->TanggalWaktu()
+                        );
+                        $update = $this->mcustom->tambah("penelitian_dokumen", $data);
+                        if ($update == 1) {
+                            $status = "Data tersimpan";
+                        } else {
+                            $status = "Data gagal tersimpan";
+                        }
+                    } else {
+                        $status = "File gagal terupload";
+                    }
+                }
+            }else{
+                $status = "Hanya diperkenankan file gambar";
+            }
+        }else{
+            $status = "Hanya diperkenankan file dibawah 1 MB";
+        }
+        return $status;
+    }
+
+    private function update() {
+        $data = array(
+            'nama' => strip_tags($this->request->getPost('nama')),
+            'namains' => strip_tags($this->request->getPost('namains')),
+            'slogan' => strip_tags($this->request->getPost('slogan')),
+            'tahun' => strip_tags($this->request->getPost('tahun')),
+            'pimpinan' => strip_tags($this->request->getPost('pimpinan')),
+            'alamat' => strip_tags($this->request->getPost('alamat')),
+            'kdpos' => strip_tags($this->request->getPost('kdpos')),
+            'tlp' => strip_tags($this->request->getPost('tlp')),
+            'fax' => strip_tags($this->request->getPost('fax')),
+            'website' => strip_tags($this->request->getPost('website')),
+            'email' => strip_tags($this->request->getPost('email')),
+            'keterangan' => strip_tags($this->request->getPost('ket'))
+        );
+        $update = $this->mcustom->updateNK("identitas", $data);
+        if ($update == 1) {
+            $status = "Data tersimpan";
+        } else {
+            $status = "Data gagal tersimpan";
+        }
+        return $status;
     }
 }
