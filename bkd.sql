@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 03, 2025 at 02:55 PM
+-- Generation Time: Apr 04, 2025 at 03:20 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -634,6 +634,108 @@ INSERT INTO `pangkat` (`idpangkat`, `nama_pangkat`, `created_at`, `updated_at`) 
 ('f0b55768-9c8e-49fd-9c2c-75b014935282', 'Letda', '2024-12-27 21:15:31', '2024-12-27 21:15:31'),
 ('f276c37a-8322-4270-ad1d-542ed445b45a', 'Peltu', '2024-12-27 21:15:39', '2024-12-27 21:15:39'),
 ('fd13ecc0-4db3-4da7-8cab-d3016b58966c', 'Laksma TNI', '2024-12-27 21:14:10', '2024-12-27 21:14:10');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paten`
+--
+
+DROP TABLE IF EXISTS `paten`;
+CREATE TABLE IF NOT EXISTS `paten` (
+  `idpaten` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idusers` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `judul` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `kategori_capaian` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `aktivitas_litabmas` varchar(150) COLLATE utf8mb4_general_ci NOT NULL,
+  `tgl_terbit` date NOT NULL,
+  `tautan_ekternal` varchar(200) COLLATE utf8mb4_general_ci NOT NULL,
+  `keterangan` text COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpaten`),
+  KEY `idusers` (`idusers`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paten_dokumen`
+--
+
+DROP TABLE IF EXISTS `paten_dokumen`;
+CREATE TABLE IF NOT EXISTS `paten_dokumen` (
+  `idpaten_doc` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idpaten` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama_doc` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `jenis_doc` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `file` varchar(250) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpaten_doc`),
+  KEY `idpaten` (`idpaten`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paten_dosen`
+--
+
+DROP TABLE IF EXISTS `paten_dosen`;
+CREATE TABLE IF NOT EXISTS `paten_dosen` (
+  `idpaten_dosen` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `idpaten` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
+  `urutan` int NOT NULL,
+  `afiliasi` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `peran` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpaten_dosen`),
+  KEY `idpaten` (`idpaten`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paten_lain`
+--
+
+DROP TABLE IF EXISTS `paten_lain`;
+CREATE TABLE IF NOT EXISTS `paten_lain` (
+  `idpaten_lain` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `idpaten` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
+  `urutan` int NOT NULL,
+  `afiliasi` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `peran` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpaten_lain`),
+  KEY `idpaten` (`idpaten`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `paten_mahasiswa`
+--
+
+DROP TABLE IF EXISTS `paten_mahasiswa`;
+CREATE TABLE IF NOT EXISTS `paten_mahasiswa` (
+  `idpaten_mhs` varchar(36) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `idpaten` varchar(36) COLLATE utf8mb4_general_ci NOT NULL,
+  `nama` varchar(65) COLLATE utf8mb4_general_ci NOT NULL,
+  `urutan` int NOT NULL,
+  `afiliasi` varchar(56) COLLATE utf8mb4_general_ci NOT NULL,
+  `peran` varchar(45) COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL,
+  PRIMARY KEY (`idpaten_mhs`),
+  KEY `idpaten` (`idpaten`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1322,6 +1424,36 @@ ALTER TABLE `lain_lain`
 --
 ALTER TABLE `orasi_ilmiah`
   ADD CONSTRAINT `orasi_ilmiah_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `paten`
+--
+ALTER TABLE `paten`
+  ADD CONSTRAINT `paten_ibfk_1` FOREIGN KEY (`idusers`) REFERENCES `users` (`idusers`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `paten_dokumen`
+--
+ALTER TABLE `paten_dokumen`
+  ADD CONSTRAINT `paten_dokumen_ibfk_1` FOREIGN KEY (`idpaten`) REFERENCES `paten` (`idpaten`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `paten_dosen`
+--
+ALTER TABLE `paten_dosen`
+  ADD CONSTRAINT `paten_dosen_ibfk_1` FOREIGN KEY (`idpaten`) REFERENCES `paten` (`idpaten`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `paten_lain`
+--
+ALTER TABLE `paten_lain`
+  ADD CONSTRAINT `paten_lain_ibfk_1` FOREIGN KEY (`idpaten`) REFERENCES `paten` (`idpaten`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `paten_mahasiswa`
+--
+ALTER TABLE `paten_mahasiswa`
+  ADD CONSTRAINT `paten_mahasiswa_ibfk_1` FOREIGN KEY (`idpaten`) REFERENCES `paten` (`idpaten`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `pembinaan`

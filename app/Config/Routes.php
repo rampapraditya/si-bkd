@@ -392,3 +392,30 @@ $routes->group('publikasi', function ($routes) {
     $routes->get('hapusdokumen/(:any)', 'Publikasi::hapusdokumen/$1');
     $routes->post('ajax_edit_dokumen', 'Publikasi::ajax_edit_dokumen');
 });
+
+$routes->group('paten', function ($routes) {
+    $routes->get('', 'Paten::index');
+    $routes->get('ajaxlist', 'Paten::ajaxlist');
+    $routes->post('ajax_add', 'Paten::ajax_add');
+    $routes->get('show/(:any)', 'Paten::show/$1');
+    $routes->post('ajax_edit', 'Paten::ajax_edit');
+    $routes->get('hapus/(:any)', 'Paten::hapus/$1');
+    $routes->get('detil/(:any)', 'Paten::detil/$1');
+    $routes->get('ajaxdosen/(:any)', 'Paten::ajaxdosen/$1');
+    $routes->get('ajaxmhs/(:any)', 'Paten::ajaxmhs/$1');
+    $routes->get('ajaxnoncivitas/(:any)', 'Paten::ajaxnoncivitas/$1');
+    $routes->post('ajax_add_member', 'Paten::ajax_add_member');
+    $routes->get('show_member_dosen/(:any)', 'Paten::show_member_dosen/$1');
+    $routes->get('show_member_mhs/(:any)', 'Paten::show_member_mhs/$1');
+    $routes->get('show_member_non/(:any)', 'Paten::show_member_non/$1');
+    $routes->post('ajax_edit_member', 'Paten::ajax_edit_member');
+    $routes->get('hapusdosen/(:any)', 'Paten::hapusdosen/$1');
+    $routes->get('hapusmhs/(:any)', 'Paten::hapusmhs/$1');
+    $routes->get('hapusnon/(:any)', 'Paten::hapusnon/$1');
+    $routes->get('ajaxdokumen/(:any)', 'Paten::ajaxdokumen/$1');
+    $routes->post('ajax_add_dokumen', 'Paten::ajax_add_dokumen');
+    $routes->get('showdokumen/(:any)', 'Paten::showdokumen/$1');
+    $routes->get('unduh/(:any)', 'Paten::unduh/$1');
+    $routes->get('hapusdokumen/(:any)', 'Paten::hapusdokumen/$1');
+    $routes->post('ajax_edit_dokumen', 'Paten::ajax_edit_dokumen');
+});

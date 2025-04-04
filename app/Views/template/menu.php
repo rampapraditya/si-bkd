@@ -60,6 +60,7 @@
                     <li <?php if($menu == 'pembinaan-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pembinaan-mhs'); ?>"><i class="fa fa-circle-o"></i> Pembinaan Mahasiswa</a></li>
                 </ul>
             </li>
+            <!--
             <li class="treeview">
                 <a href="#">
                     <i class="fa fa-pie-chart"></i>
@@ -73,6 +74,7 @@
                     <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
                 </ul>
             </li>
+            -->
         </ul>
     </section>
 </aside>

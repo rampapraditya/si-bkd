@@ -134,7 +134,7 @@
                             } else if (response.pesan === "okdosen") {
                                 window.location.href = "<?php echo base_url('dashboard'); ?>";
                             } else {
-                                iziToast.info({
+                                iziToast.warning({
                                     title: 'Info',
                                     message: response.pesan,
                                     position: 'topRight'
