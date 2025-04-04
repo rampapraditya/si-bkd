@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Apr 04, 2025 at 03:20 AM
+-- Generation Time: Apr 04, 2025 at 03:45 AM
 -- Server version: 9.1.0
 -- PHP Version: 8.3.14
 
@@ -112,6 +112,13 @@ CREATE TABLE IF NOT EXISTS `bimbingan` (
   KEY `idjurusan` (`idjurusan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `bimbingan`
+--
+
+INSERT INTO `bimbingan` (`idbimbingan`, `idusers`, `semester`, `ket_kegiatan`, `judul_bimbingan`, `bidang`, `jenis_bimbingan`, `idjurusan`, `created_at`, `updated_at`) VALUES
+('0d0e9767-e8d8-4a6d-b2a6-8430402e0ed5', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'Ganjil 2024/2025', 'Bimbingan Tugas Akhir', 'Rancang Bangun Sistem Informasi Beban Kerja Dosen STTAL Berbasis website', 'Rekayasa Perangkat Lunak', 'Tugas Akhir', '2770e10c-132f-4feb-96f5-9c97295466ae', '2025-03-20 13:16:49', '2025-03-20 13:16:49');
+
 -- --------------------------------------------------------
 
 --
@@ -185,6 +192,13 @@ CREATE TABLE IF NOT EXISTS `diklat` (
   PRIMARY KEY (`iddiklat`),
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `diklat`
+--
+
+INSERT INTO `diklat` (`iddiklat`, `idusers`, `jenisdiklat`, `namadiklat`, `penyelengara`, `peran`, `tingkat`, `jmljam`, `no_sert`, `tgl_sert`, `tahun_selenggara`, `tempat`, `tgl_mulai`, `tgl_selesai`, `no_sk_penugasan`, `tgl_sk_penugasan`, `created_at`, `updated_at`) VALUES
+('b7afe121-bb40-4e5e-90a7-b557fcd34b6f', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'Pelatihan Profesional', 'Pelatihan Data Science untuk Dosen Informatik', 'Kementerian Pendidikan, Kebudayaan, Riset, dan Tek', 'Peserta', 'Nasional', 40, '372/DS/Kemendikbud/2023', '2023-04-10', 2023, 'Jakarta', '2023-04-05', '2023-04-10', '1170/SK/Diklat/2023', '2023-04-03', '2025-03-24 14:33:15', '2025-03-24 14:33:15');
 
 -- --------------------------------------------------------
 
@@ -328,6 +342,13 @@ CREATE TABLE IF NOT EXISTS `inpassing` (
   KEY `idgolongan` (`idgolongan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `inpassing`
+--
+
+INSERT INTO `inpassing` (`id_inpassing`, `idgolongan`, `nomor_sk`, `tgl_sk`, `mulai_tgl`, `angka_kredit`, `masa_kerja_tahun`, `masa_kerja_bulan`, `bukti`, `created_at`, `updated_at`, `idusers`) VALUES
+('c3712861-c719-476d-a461-ea8b80572c58', 'f4007f5a-e1c1-418a-9922-429c709e319f', '456/STTAL/2022', '2022-02-09', '2022-02-10', 200, 16, 7, '', '2025-03-24 13:25:04', '2025-03-24 13:25:04', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac');
+
 -- --------------------------------------------------------
 
 --
@@ -402,6 +423,13 @@ CREATE TABLE IF NOT EXISTS `jabatan_fungsional_dosen` (
   KEY `id_jab_fungsi` (`id_jab_fungsi`),
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `jabatan_fungsional_dosen`
+--
+
+INSERT INTO `jabatan_fungsional_dosen` (`idjab_fungsi_dosen`, `id_jab_fungsi`, `nomor_sk`, `mulai`, `bukti`, `idusers`, `created_at`, `updated_at`) VALUES
+('d02a9109-42b8-47ed-9de0-aeb6a0faff2b', 'b20c3bb8-bab7-4674-a63e-e4cb36cabbd7', '045/STTAL/2024', '2024-03-04', '', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', '2025-03-24 13:36:51', '2025-03-24 13:36:51');
 
 -- --------------------------------------------------------
 
@@ -485,6 +513,13 @@ CREATE TABLE IF NOT EXISTS `kepangkatan` (
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `kepangkatan`
+--
+
+INSERT INTO `kepangkatan` (`idkepangkatan`, `idgolongan`, `nomor_sk`, `tgl_sk`, `mulai_tgl`, `masa_kerja_gol_tahun`, `masa_kerja_gol_bulan`, `bukti`, `idusers`, `created_at`, `updated_at`) VALUES
+('0188ccff-4f2a-4b50-a432-671aeddfc790', 'f4007f5a-e1c1-418a-9922-429c709e319f', '237/KEP/2024', '2024-09-29', '2025-03-24', 16, 2, '', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', '2025-03-24 13:46:15', '2025-03-24 13:46:31');
+
 -- --------------------------------------------------------
 
 --
@@ -550,6 +585,7 @@ INSERT INTO `korps` (`idkorps`, `nama_korps`, `created_at`, `updated_at`) VALUES
 ('4dedc097-e0d5-48d2-b997-53faeb13c75c', 'Laut (T)', '2024-12-27 13:53:59', '2024-12-27 13:53:59'),
 ('5499fb13-2815-4d0a-9bdb-49610f855dbb', 'Laut (E)', '2024-12-27 13:54:04', '2024-12-27 13:54:04'),
 ('5c8da38b-1e92-4f3b-aad5-02276c4de86a', 'Laut (KH)', '2024-12-27 13:57:05', '2025-03-20 09:22:11'),
+('7ea37a7d-a41d-43c3-a7b2-c48092c26eab', 'Keu', '2025-03-20 14:50:27', '2025-03-20 14:50:27'),
 ('c31fb8e3-8933-4190-a089-109ad23ec795', 'Laut Marinir', '2024-12-27 13:54:12', '2025-03-20 09:22:50');
 
 -- --------------------------------------------------------
@@ -787,6 +823,14 @@ CREATE TABLE IF NOT EXISTS `pendidikan_formal` (
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `pendidikan_formal`
+--
+
+INSERT INTO `pendidikan_formal` (`idpendformal`, `idusers`, `jenjang`, `pt`, `noinduk`, `program_studi`, `gelar`, `bidang`, `tahun_masuk`, `tgl_lulus`, `ipk`, `no_ijazah`, `judul_tesis`, `created_at`, `updated_at`) VALUES
+('4222fbbf-53fe-4695-9e02-858002192799', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'S1', 'Universitas Tujuh Belas Agustus', '23/UNTAG/TI/2016', '2770e10c-132f-4feb-96f5-9c97295466ae', 'S.T.', 'Teknik Informatika', 2016, '2020-01-24', 3.83, '023/UNTAG/S1/2016', 'Rancang bangun aplikasi mobile untuk pemantauan kualitas udara be', '2025-03-24 14:12:44', '2025-03-24 14:12:44'),
+('dee3a5d3-1126-4fa1-906b-6eb25704fa5d', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'S2', 'Institut Teknologi Sepuluh November', '17/ITS/TI/2021', '2770e10c-132f-4feb-96f5-9c97295466ae', 'M.Kom.', 'Teknik Informatika', 2021, '2023-07-11', 3.76, '17/ITS/S2/2023', 'Optimasi Jaringan Neural untuk Prediksi Beban Trafik Jaringan 5G ', '2025-03-24 14:19:16', '2025-03-24 14:19:16');
+
 -- --------------------------------------------------------
 
 --
@@ -914,6 +958,13 @@ CREATE TABLE IF NOT EXISTS `penempatan` (
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `penempatan`
+--
+
+INSERT INTO `penempatan` (`idpenempatan`, `idusers`, `status`, `ikatan_kerja`, `jenjang`, `unit`, `pt`, `mulai`, `keluar`, `selesai`, `home_base`, `created_at`, `updated_at`) VALUES
+('9c6049da-6ff1-402c-9adf-2867d7c2d4ac', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'PNS', 'Dosen Tetap', 'S2', 'Prodi Teknik Informatika', 'Universitas Tujuh belas Agustus', '2016-01-06', '2020-01-23', '2020-01-24', 'Ya', '2025-03-24 13:57:32', '2025-03-24 13:57:32');
+
 -- --------------------------------------------------------
 
 --
@@ -940,7 +991,16 @@ CREATE TABLE IF NOT EXISTS `pengajaran` (
 --
 
 INSERT INTO `pengajaran` (`idpengajaran`, `idusers`, `matkul`, `jenismatkul`, `bidang`, `kelas`, `jml_mhs`, `sks`, `created_at`, `updated_at`) VALUES
-('9fbab828-5832-4503-9109-d98606cb50fc', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'sistem informasi', 'analisan sistem informasi', 'Informatika', 'D3', 26, 3, '2025-03-20 10:49:37', '2025-03-20 10:49:48');
+('9fbab828-5832-4503-9109-d98606cb50fc', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'Metodeologi Penulisan Tugas Akhir', 'Teori', 'Informatika', 'D3 18 TI dan Cyber', 26, 3, '2025-03-20 10:49:37', '2025-03-20 12:05:18'),
+('acc93359-8abb-4054-9487-ab774d4b4150', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'Pemrogrograman Web', 'Teori/Proyek Pemrograman', 'Informatika', 'D3 19 TI Umum', 27, 3, '2025-03-20 12:02:20', '2025-03-20 12:02:35'),
+('46ac7a8b-8512-49cd-b25b-5cf0150888c2', 'eb3012cf-2eb9-4a2a-a3b1-5e98018b9796', 'Speaking Practice', 'Praktikum', 'Bahasa Inggris Teknis', 'D3 18 TI &amp; Cyber', 26, 3, '2025-03-20 12:10:03', '2025-03-20 12:10:03'),
+('75150da0-c1db-4085-b4bb-cd38e849d8b3', 'eb3012cf-2eb9-4a2a-a3b1-5e98018b9796', 'Reading Comprehension', 'Teori', 'Bahasa Inggris Teknis', 'D3 20, TE, TM, TI', 48, 2, '2025-03-20 12:11:43', '2025-03-20 12:11:43'),
+('7f713398-4eb1-4247-8bc9-1a8cc4d16e9e', '5151366e-4d7d-47cf-b94a-96e490730d24', 'Mikrokontroler', 'Praktikum', 'Teknik Elektronika', 'D3 19 TE', 12, 3, '2025-03-20 12:15:57', '2025-03-20 12:15:57'),
+('a336c8e2-008e-4ed6-a600-67eb02675919', '5151366e-4d7d-47cf-b94a-96e490730d24', 'Dasar Elektronika', 'Teori dan Praktikum', 'Teknik Elektronika', 'D3 20 TE ', 14, 3, '2025-03-20 12:17:48', '2025-03-20 12:17:48'),
+('8eaf08cd-b806-4a6b-bc3e-90ce930621bd', '1ffb916f-1c1c-401d-aaf8-aac2fb5ebfe0', 'Mekanika Teknik', 'Teori', 'Teknik Mesin', 'D3 20 TM', 13, 3, '2025-03-20 12:20:05', '2025-03-20 12:20:05'),
+('cfef7aec-ed46-4cc2-b7de-32fabe6c5df2', '1ffb916f-1c1c-401d-aaf8-aac2fb5ebfe0', 'Termodinamika', 'Teori', 'Teknik Mesin', 'D3 19 TM', 12, 3, '2025-03-20 12:21:12', '2025-03-20 12:21:12'),
+('a6c9bf26-a16e-4a8b-9d9a-9da8b5794635', '5ee15370-33ae-43c6-8d4d-bc0d6a965825', 'Etika dan kepemimpinan Militer', 'Teori', 'Ilmu Kepemimpinan dan Etika Militer', 'D3 20 TI dan Cyber', 25, 3, '2025-03-20 13:09:19', '2025-03-20 13:09:19'),
+('c06b9c9c-2bde-4b34-999b-cfd4144147a3', '5ee15370-33ae-43c6-8d4d-bc0d6a965825', 'Metodeologi Penulisan Tugas Akhir', 'Teori', 'Ilmu Penelitian dan Ilmu Ilmiah', 'D3 18 TI dan Cyber', 26, 3, '2025-03-20 13:11:50', '2025-03-20 13:11:50');
 
 -- --------------------------------------------------------
 
@@ -982,6 +1042,13 @@ CREATE TABLE IF NOT EXISTS `pengujian` (
   KEY `idusers` (`idusers`),
   KEY `idjurusan` (`idjurusan`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `pengujian`
+--
+
+INSERT INTO `pengujian` (`idpengujian`, `idusers`, `judul`, `bidang`, `jenis`, `idjurusan`, `created_at`, `updated_at`) VALUES
+('2a561025-3ed0-452f-a096-92f8f421fd70', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'Rancang bangun Sistem Informasi BKD STTAL', 'Teknik Informatika', 'Tugas Akhir', '2770e10c-132f-4feb-96f5-9c97295466ae', '2025-03-20 13:59:15', '2025-03-20 14:33:44');
 
 -- --------------------------------------------------------
 
@@ -1135,6 +1202,13 @@ CREATE TABLE IF NOT EXISTS `riwayat_kerja` (
   KEY `idusers` (`idusers`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `riwayat_kerja`
+--
+
+INSERT INTO `riwayat_kerja` (`idriwayat_kerja`, `idusers`, `bidang_usaha`, `jenis_pekerjaan`, `jabatan`, `instansi`, `divisi`, `deskripsi`, `mulai_kerja`, `selesai_kerja`, `area`, `created_at`, `updated_at`) VALUES
+('c8544494-ce6d-4812-92a8-614bbeccc588', 'd53e6d1e-36f8-4854-a597-4fd2afc812ac', 'Aktivitas Jasa Lainnya', 'Pimpinan / Manajerial', 'Kaprodi D3 Teknik Informa', 'TNI AL', 'STTAL', 'memiliki tugas utama dalam mengelola dan mengembangkan program studi agar sesuai dengan standar akademik dan kebutuhan industri', '2024-05-07', '2025-03-28', 'Dalam Negeri', '2025-03-28 10:55:14', '2025-03-28 10:55:14');
+
 -- --------------------------------------------------------
 
 --
@@ -1265,10 +1339,13 @@ CREATE TABLE IF NOT EXISTS `users` (
 --
 
 INSERT INTO `users` (`idusers`, `username`, `email`, `pass`, `nrp`, `nama`, `foto`, `idjabatan`, `idsatker`, `idpangkat`, `idkorps`, `created_at`, `updated_at`) VALUES
-('0b589209-958f-472b-ad71-9a7793b441b8', 'rampa', 'rampa@gmail.com', 'aGtq', '111/P', 'Rampa Praditya', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '32675749-b658-4559-abdf-114440ebed4e', '2025-04-01 12:23:01', '2025-04-01 12:23:01'),
-('d53e6d1e-36f8-4854-a597-4fd2afc812ac', 'zainalsyahlan', 'zainalsyahlan@gmail.com', 'aGtq', '17813/P', 'Zainal Syahlan, S.T., M.Kom., M.Tr.Opsla', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5c8da38b-1e92-4f3b-aad5-02276c4de86a', '2025-03-20 10:29:34', '2025-03-20 11:22:17'),
+('1ffb916f-1c1c-401d-aaf8-aac2fb5ebfe0', 'pompy', 'pompy@gmail.com', 'aGtq', '17816/P', 'Pompy, S.T., M.T., M.Tr.Opsla', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '4dedc097-e0d5-48d2-b997-53faeb13c75c', '2025-03-20 11:30:29', '2025-03-20 11:30:29'),
+('5151366e-4d7d-47cf-b94a-96e490730d24', 'bagusirawan', 'bagusirawan@gmail.com', 'aGtq', '15618/P', 'Bagus Irawan, S.T.,M.T', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5499fb13-2815-4d0a-9bdb-49610f855dbb', '2025-03-20 11:28:19', '2025-03-20 11:28:29'),
+('5ee15370-33ae-43c6-8d4d-bc0d6a965825', 'wawankusdiana', 'wawankusdiana@gmail.com', 'aGtq', '11468/P', 'Dr. Wawan Kusdiana, S.T., M.T.,', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', 'd71dab4d-5ca5-4402-a959-8adac6849720', '4dedc097-e0d5-48d2-b997-53faeb13c75c', '2025-03-20 13:04:55', '2025-03-20 13:04:55'),
+('d53e6d1e-36f8-4854-a597-4fd2afc812ac', 'zainalsyahlan', 'zainalsyahlan@gmail.com', 'aGtq', '17813/P', 'Zainal Syahlan, S.T., M.Kom., M.Tr.Opsla', '1742796168_770a9c227ace8ed6dad1.jpeg', '6e32c857-5fb7-4754-87ed-bd740c658e52', '23a0b274-6252-4d10-9387-349486727e97', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5c8da38b-1e92-4f3b-aad5-02276c4de86a', '2025-03-20 10:29:34', '2025-03-24 13:02:48'),
+('ddced26c-3b25-4e7a-9097-3729585f5518', 'isnadi', 'isnadi@gmail.com', 'aGtq', '18328/P', 'Isnadi, S.Kom., M.Tr.Opsla', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '47e28f2b-8189-4cb1-bb56-e3cac3e1a689', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5499fb13-2815-4d0a-9bdb-49610f855dbb', '2025-03-20 12:36:02', '2025-03-20 12:36:02'),
 ('eb3012cf-2eb9-4a2a-a3b1-5e98018b9796', 'arifsudaryoko', 'arifsudaryoko@gmail.com', 'aGtq', '16284/P', 'Arif Sudaryoko.S.pd', '', '6e32c857-5fb7-4754-87ed-bd740c658e52', '6b49d143-2129-4472-8fdc-5d204f189395', '854c9f71-9bd4-4edb-a647-5dd4d25f7b03', '5c8da38b-1e92-4f3b-aad5-02276c4de86a', '2025-03-20 11:25:17', '2025-03-20 11:25:17'),
-('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1739432338_d8f676931205a36e774b.png', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'a632496b-80cb-4190-a611-1c9f130401ce', '32675749-b658-4559-abdf-114440ebed4e', '2024-12-29 10:54:06', '2025-02-13 14:38:58');
+('U00001', 'ADMIN', 'admin@gmail.com', 'aGtq', 'admin', 'Administrator', '1739432338_d8f676931205a36e774b.png', 'f093ffbe-41f5-42c7-a184-19226cd97a69', '23a0b274-6252-4d10-9387-349486727e97', 'd6eb5530-b3f1-4d81-a43a-ef3615e2dffe', '7ea37a7d-a41d-43c3-a7b2-c48092c26eab', '2024-12-29 10:54:06', '2025-03-20 14:50:42');
 
 -- --------------------------------------------------------
 
