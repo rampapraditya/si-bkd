@@ -267,7 +267,7 @@
                 $('[name="tingkat"]').val(data.tingkat);
                 $('[name="judul"]').val(data.judul);
                 $('[name="nama_temu"]').val(data.nama_temu);
-                $('[name="penyelanggara"]').val(data.penyelenggara);
+                $('[name="penyelanggara"]').val(data.penyelanggara);
                 $('[name="tgl"]').val(data.tgl_pelaksanaan);
 
             }, error: function (jqXHR, textStatus, errorThrown) {

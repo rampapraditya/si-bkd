@@ -75,7 +75,7 @@ class Pembicara extends BaseController
                 $val[] = esc($row->tingkat);
                 $val[] = esc($row->judul);
                 $val[] = esc($row->nama_temu);
-                $val[] = esc($row->penyelenggara);
+                $val[] = esc($row->penyelanggara);
                 $val[] = esc($row->tglf);
                 $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
                 . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpembicara . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
@@ -96,22 +96,17 @@ class Pembicara extends BaseController
         if (session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
             $data = array(
-                'idpengabdian' => Uuid::uuid4()->toString(),
+                'idpembicara' => Uuid::uuid4()->toString(),
                 'idusers' => $idusers,
-                'tahun' => esc($this->request->getPost('tahun')),
-                'afiliasi' => esc($this->request->getPost('afiliasi')),
-                'sk_penugasan' => esc($this->request->getPost('sk')),
-                'tgl_penugasan' => esc($this->request->getPost('tanggal')),
-                'lama' => esc($this->request->getPost('lama')),
+                'tingkat' => esc($this->request->getPost('tingkat')),
                 'judul' => esc($this->request->getPost('judul')),
-                'lokasi' => esc($this->request->getPost('lokasi')),
-                'dana_dikti' => esc($this->request->getPost('dana_dikti')),
-                'dana_pt' => esc($this->request->getPost('dana_univ')),
-                'dana_lain' => esc($this->request->getPost('dana_lain')),
+                'nama_temu' => esc($this->request->getPost('nama_temu')),
+                'penyelanggara' => esc($this->request->getPost('penyelanggara')),
+                'tgl_pelaksanaan' => esc($this->request->getPost('tgl')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("pengabdian", $data);
+            $simpan = $this->mcustom->tambah("pembicara", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -130,8 +125,8 @@ class Pembicara extends BaseController
     public function show()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idpengabdian'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("pengabdian", $kond);
+            $kond['idpembicara'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("pembicara", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -142,20 +137,15 @@ class Pembicara extends BaseController
     {
         if (session()->get("logged_dosen")) {
             $data = array(
-                'tahun' => esc($this->request->getPost('tahun')),
-                'afiliasi' => esc($this->request->getPost('afiliasi')),
-                'sk_penugasan' => esc($this->request->getPost('sk')),
-                'tgl_penugasan' => esc($this->request->getPost('tanggal')),
-                'lama' => esc($this->request->getPost('lama')),
+                'tingkat' => esc($this->request->getPost('tingkat')),
                 'judul' => esc($this->request->getPost('judul')),
-                'lokasi' => esc($this->request->getPost('lokasi')),
-                'dana_dikti' => esc($this->request->getPost('dana_dikti')),
-                'dana_pt' => esc($this->request->getPost('dana_univ')),
-                'dana_lain' => esc($this->request->getPost('dana_lain')),
+                'nama_temu' => esc($this->request->getPost('nama_temu')),
+                'penyelanggara' => esc($this->request->getPost('penyelanggara')),
+                'tgl_pelaksanaan' => esc($this->request->getPost('tgl')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idpengabdian'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("pengabdian", $data, $kond);
+            $kond['idpembicara'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("pembicara", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -174,8 +164,8 @@ class Pembicara extends BaseController
     public function hapus()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idpengabdian'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("pengabdian", $kond);
+            $kond['idpembicara'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("pembicara", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {
