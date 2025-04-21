@@ -464,3 +464,12 @@ $routes->group('jabstruktural', function ($routes) {
     $routes->post('ajax_edit', 'Jabstruktural::ajax_edit');
     $routes->get('hapus/(:any)', 'Jabstruktural::hapus/$1');
 });
+
+$routes->group('pengelolajurnal', function ($routes) {
+    $routes->get('', 'Pengelolajurnal::index');
+    $routes->get('ajaxlist', 'Pengelolajurnal::ajaxlist');
+    $routes->post('ajax_add', 'Pengelolajurnal::ajax_add');
+    $routes->get('show/(:any)', 'Pengelolajurnal::show/$1');
+    $routes->post('ajax_edit', 'Pengelolajurnal::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pengelolajurnal::hapus/$1');
+});
