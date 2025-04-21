@@ -455,3 +455,12 @@ $routes->group('pembicara', function ($routes) {
     $routes->post('ajax_edit', 'Pembicara::ajax_edit');
     $routes->get('hapus/(:any)', 'Pembicara::hapus/$1');
 });
+
+$routes->group('jabstruktural', function ($routes) {
+    $routes->get('', 'Jabstruktural::index');
+    $routes->get('ajaxlist', 'Jabstruktural::ajaxlist');
+    $routes->post('ajax_add', 'Jabstruktural::ajax_add');
+    $routes->get('show/(:any)', 'Jabstruktural::show/$1');
+    $routes->post('ajax_edit', 'Jabstruktural::ajax_edit');
+    $routes->get('hapus/(:any)', 'Jabstruktural::hapus/$1');
+});
