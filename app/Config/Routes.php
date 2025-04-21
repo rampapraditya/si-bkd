@@ -446,3 +446,12 @@ $routes->group('pengabdian', function ($routes) {
     $routes->get('hapusdokumen/(:any)', 'Pengabdian::hapusdokumen/$1');
     $routes->post('ajax_edit_dokumen', 'Pengabdian::ajax_edit_dokumen');
 });
+
+$routes->group('pembicara', function ($routes) {
+    $routes->get('', 'Pembicara::index');
+    $routes->get('ajaxlist', 'Pembicara::ajaxlist');
+    $routes->post('ajax_add', 'Pembicara::ajax_add');
+    $routes->get('show/(:any)', 'Pembicara::show/$1');
+    $routes->post('ajax_edit', 'Pembicara::ajax_edit');
+    $routes->get('hapus/(:any)', 'Pembicara::hapus/$1');
+});
