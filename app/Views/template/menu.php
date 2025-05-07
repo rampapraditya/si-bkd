@@ -60,21 +60,29 @@
                     <li <?php if($menu == 'pembinaan-mhs') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pembinaan-mhs'); ?>"><i class="fa fa-circle-o"></i> Pembinaan Mahasiswa</a></li>
                 </ul>
             </li>
-            <!--
-            <li class="treeview">
+            <li class="treeview <?php if($menu == 'penelitian' || $menu == 'publikasi' || $menu == 'paten') { echo 'active'; } ?>">
                 <a href="#">
-                    <i class="fa fa-pie-chart"></i>
-                    <span>Laporan</span>
+                    <i class="fa fa-flask"></i> <span>Pelaks. Penelitian</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="pages/charts/chartjs.html"><i class="fa fa-circle-o"></i> ChartJS</a></li>
-                    <li><a href="pages/charts/morris.html"><i class="fa fa-circle-o"></i> Morris</a></li>
-                    <li><a href="pages/charts/flot.html"><i class="fa fa-circle-o"></i> Flot</a></li>
-                    <li><a href="pages/charts/inline.html"><i class="fa fa-circle-o"></i> Inline charts</a></li>
+                    <li <?php if($menu == 'penelitian') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('penelitian'); ?>"><i class="fa fa-circle-o"></i> Penelitian</a></li>
+                    <li <?php if($menu == 'publikasi') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('publikasi'); ?>"><i class="fa fa-circle-o"></i> Publikasi karya</a></li>
+                    <li <?php if($menu == 'paten') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('paten'); ?>"><i class="fa fa-circle-o"></i> Paten / HKI</a></li>
                 </ul>
             </li>
-            -->
+            <li class="treeview <?php if($menu == 'pengabdian' || $menu == 'pembicara' || $menu == 'pengelolajurnal' || $menu == 'jabstruktural') { echo 'active'; } ?>">
+                <a href="#">
+                    <i class="fa fa-link"></i> <span>Pelaks. Pengabdian</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li <?php if($menu == 'pengabdian') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengabdian'); ?>"><i class="fa fa-circle-o"></i> Pengabdian</a></li>
+                    <li <?php if($menu == 'pembicara') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pembicara'); ?>"><i class="fa fa-circle-o"></i> Pembicara</a></li>
+                    <li <?php if($menu == 'pengelolajurnal') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('pengelolajurnal'); ?>"><i class="fa fa-circle-o"></i> Pengelola jurnal</a></li>
+                    <li <?php if($menu == 'jabstruktural') { echo 'class="active"'; } ?> ><a href="<?php echo base_url('jabstruktural'); ?>"><i class="fa fa-circle-o"></i> Jabatan struktural</a></li>
+                </ul>
+            </li>
         </ul>
     </section>
 </aside>
