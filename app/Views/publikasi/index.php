@@ -13,15 +13,26 @@
         <div class="row">
             <div class="col-lg-12 col-xs-12">
                 <div class="box box">
+                    <?php
+                    if(session()->get("logged_dosen")){
+                        ?>
                     <div class="box-header with-border">
                         <button type="button" class="btn btn-primary btn-sm" onclick="add();"><i class="fa fa-fw fa-plus"></i> Tambah</button>
                         <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
                     </div>
+                        <?php
+                    }
+                    ?>
                     <div class="box-body">
                         <table id="tb" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <?php
+                                    if(session()->get("logged_admin")){
+                                        echo '<th>Nama Dosen</th>';
+                                    }
+                                    ?>
                                     <th>Jenis</th>
                                     <th>Kategori<br>Capaian</th>
                                     <th>Judul</th>

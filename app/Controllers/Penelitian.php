@@ -18,7 +18,7 @@ class Penelitian extends BaseController
 
     public function index()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $data['idusers'] = session()->get("idusers");
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
@@ -56,6 +56,7 @@ class Penelitian extends BaseController
             $data['curdate'] = $this->modul->TanggalSekarang();
 
             return view('penelitian/index', $data);
+            
         } else {
             $this->modul->halaman('login');
         }
@@ -63,24 +64,43 @@ class Penelitian extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_dosen")) {
-            $idusers = session()->get("idusers");
-            
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+
+            if (session()->get("logged_dosen")) {
+                $idusers = session()->get("idusers");
+                $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            } else if (session()->get("logged_admin")) {
+                $select = ['penelitian.*','users.nama'];
+                $join = [
+                    ['table' => 'users', 'condition' => 'penelitian.idusers = users.idusers', 'type' => 'inner']
+                ];
+                $list = $this->mcustom->getDynamicData(false, $select, 'penelitian', $join, [], [], [], [], [], null, null, ['penelitian.created_at' => 'ASC']);
+            }
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
+                if (session()->get("logged_admin")) {
+                    $val[] = esc($row->nama);
+                }
                 $val[] = esc($row->judul);
                 $val[] = esc($row->kelompok_bidang);
                 $val[] = esc($row->tahun_pelaksanaan);
                 $val[] = esc($row->lama);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpenelitian) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                . '</div></div>';
+                if (session()->get("logged_admin")) {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                } else {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpenelitian) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpenelitian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpenelitian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                }
+                
                 $data[] = $val;
                 $no++;
             }

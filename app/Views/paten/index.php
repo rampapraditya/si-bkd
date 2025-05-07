@@ -13,15 +13,26 @@
         <div class="row">
             <div class="col-lg-12 col-xs-12">
                 <div class="box box">
+                    <?php
+                    if(session()->get("logged_dosen")){
+                        ?>
                     <div class="box-header with-border">
                         <button type="button" class="btn btn-primary btn-sm" onclick="add();"><i class="fa fa-fw fa-plus"></i> Tambah</button>
                         <button type="button" class="btn btn-default btn-sm" onclick="reload();"><i class="fa fa-fw fa-refresh"></i> Reload</button>
                     </div>
+                        <?php
+                    }
+                    ?>
                     <div class="box-body">
                         <table id="tb" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>#</th>
+                                    <?php
+                                    if(session()->get("logged_admin")){
+                                        echo '<th>Nama Dosen</th>';
+                                    }
+                                    ?>
                                     <th>Jenis</th>
                                     <th>Kategori<br>Capaian</th>
                                     <th>Judul</th>
@@ -128,15 +139,11 @@
 
     function save() {
         var kode = document.getElementById('kode').value;
-        var kategori_keg = document.getElementById('kategori_keg').value;
+        var judul = document.getElementById('judul').value;
         var jenis = document.getElementById('jenis').value;
         var kategori_capaian = document.getElementById('kategori_capaian').value;
         var aktivitas_litabmas = document.getElementById('aktivitas_litabmas').value;
-        var judul = document.getElementById('judul').value;
         var tgl_terbit = document.getElementById('tgl_terbit').value;
-        var jml_hal = document.getElementById('jml_hal').value;
-        var penerbit = document.getElementById('penerbit').value;
-        var isbn = document.getElementById('isbn').value;
         var tautan_external = document.getElementById('tautan_external').value;
         var keterangan = document.getElementById('keterangan').value;
 
@@ -158,22 +165,18 @@
 
             var url = "";
             if (save_method === 'add') {
-                url = "<?php echo base_url('publikasi/ajax_add'); ?>";
+                url = "<?php echo base_url('paten/ajax_add'); ?>";
             } else {
-                url = "<?php echo base_url('publikasi/ajax_edit'); ?>";
+                url = "<?php echo base_url('paten/ajax_edit'); ?>";
             }
             
             var form_data = new FormData();
             form_data.append('kode', kode);
-            form_data.append('kategori_keg', kategori_keg);
             form_data.append('jenis', jenis);
             form_data.append('kategori_capaian', kategori_capaian);
             form_data.append('aktivitas_litabmas', aktivitas_litabmas);
             form_data.append('judul', judul);
             form_data.append('tgl_terbit', tgl_terbit);
-            form_data.append('jml_hal', jml_hal);
-            form_data.append('penerbit', penerbit);
-            form_data.append('isbn', isbn);
             form_data.append('tautan_external', tautan_external);
             form_data.append('keterangan', keterangan);
             
@@ -224,7 +227,7 @@
             color: 'dark',
             icon: 'fa fa-fw fa-question',
             title: 'Konfirmasi',
-            message: 'Apakah yakin menghapus publikasi nomor ' + nama + ' ?',
+            message: 'Apakah yakin menghapus paten nomor ' + nama + ' ?',
             position: 'center', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
             progressBarColor: 'rgb(0, 255, 184)',
             buttons: [
@@ -234,7 +237,7 @@
                         instance.hide({transitionOut: 'fadeOutUp'}, toast);
 
                         $.ajax({
-                            url: "<?php echo base_url('publikasi/hapus/'); ?>" + id,
+                            url: "<?php echo base_url('paten/hapus/'); ?>" + id,
                             type: "GET",
                             dataType: "JSON",
                             success: function (data) {
@@ -269,22 +272,18 @@
         save_method = 'update';
         $('#form')[0].reset();
         $('#modal_form').modal('show');
-        $('.modal-title').text('Ganti publikasi');
+        $('.modal-title').text('Ganti paten');
         $.ajax({
-            url: "<?php echo base_url('publikasi/show/'); ?>" + id,
+            url: "<?php echo base_url('paten/show/'); ?>" + id,
             type: "GET",
             dataType: "JSON",
             success: function (data) {
-                $('[name="kode"]').val(data.idpublikasi);
-                $('[name="kategori_keg"]').val(data.kategori_keg);
+                $('[name="kode"]').val(data.idpaten);
                 $('[name="jenis"]').val(data.jenis);
                 $('[name="kategori_capaian"]').val(data.kategori_capaian);
                 $('[name="aktivitas_litabmas"]').val(data.aktivitas_litabmas);
                 $('[name="judul"]').val(data.judul);
                 $('[name="tgl_terbit"]').val(data.tgl_terbit);
-                $('[name="jml_hal"]').val(data.jml_hal);
-                $('[name="penerbit"]').val(data.penerbit);
-                $('[name="isbn"]').val(data.ISBN);
                 $('[name="tautan_external"]').val(data.tautan_external);
                 $('[name="keterangan"]').val(data.keterangan);
 
@@ -299,7 +298,7 @@
     }
     
     function detil(id){
-        window.location.href = "<?php echo base_url('publikasi/detil/'); ?>" + id;
+        window.location.href = "<?php echo base_url('paten/detil/'); ?>" + id;
     }
 </script>
 <?php echo $this->endSection(); ?>

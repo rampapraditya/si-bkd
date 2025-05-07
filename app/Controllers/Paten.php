@@ -18,7 +18,7 @@ class Paten extends BaseController
 
     public function index()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $data['idusers'] = session()->get("idusers");
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
@@ -63,24 +63,41 @@ class Paten extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_dosen")) {
-            $idusers = session()->get("idusers");
-            
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+
+            if (session()->get("logged_dosen")) {
+                $idusers = session()->get("idusers");
+                $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_terbit, "%d-%m-%Y") as tgl_terbit'], 'paten', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            } else if (session()->get("logged_admin")) {
+                $select = ['paten.*', 'date_format(tgl_terbit, "%d-%m-%Y") as tgl_terbit', 'users.nama'];
+                $join = [
+                    ['table' => 'users', 'condition' => 'paten.idusers = users.idusers', 'type' => 'inner']
+                ];
+                $list = $this->mcustom->getDynamicData(false, $select, 'paten', $join, [], [], [], [], [], null, null, ['paten.created_at' => 'ASC']);
+            }
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_terbit, "%d-%m-%Y") as tgl_terbit'], 'paten', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
+                if (session()->get("logged_admin")) {
+                    $val[] = esc($row->nama);
+                }
                 $val[] = esc($row->jenis);
                 $val[] = esc($row->kategori_capaian);
                 $val[] = esc($row->judul);
                 $val[] = esc($row->tgl_terbit);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpaten) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpaten . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpaten . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                . '</div></div>';
+                if (session()->get("logged_admin")) {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpaten . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                } else {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpaten) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpaten . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpaten . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                }
                 $data[] = $val;
                 $no++;
             }
@@ -96,23 +113,19 @@ class Paten extends BaseController
         if (session()->get("logged_dosen")) {
             $idusers = session()->get("idusers");
             $data = array(
-                'idpublikasi' => Uuid::uuid4()->toString(),
+                'idpaten' => Uuid::uuid4()->toString(),
                 'idusers' => $idusers,
                 'jenis' => esc($this->request->getPost('jenis')),
-                'kategori_keg' => esc($this->request->getPost('kategori_keg')),
                 'kategori_capaian' => esc($this->request->getPost('kategori_capaian')),
                 'aktivitas_litabmas' => esc($this->request->getPost('aktivitas_litabmas')),
                 'judul' => esc($this->request->getPost('judul')),
                 'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
-                'jml_hal' => esc($this->request->getPost('jml_hal')),
-                'penerbit' => esc($this->request->getPost('penerbit')),
-                'ISBN' => esc($this->request->getPost('isbn')),
-                'tautan_external' => esc($this->request->getPost('tautan_external')),
+                'tautan_ekternal' => esc($this->request->getPost('tautan_external')),
                 'keterangan' => esc($this->request->getPost('keterangan')),
                 'created_at' => $this->modul->TanggalWaktu(),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $simpan = $this->mcustom->tambah("publikasi", $data);
+            $simpan = $this->mcustom->tambah("paten", $data);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -131,8 +144,8 @@ class Paten extends BaseController
     public function show()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idpublikasi'] = esc($this->request->getUri()->getSegment(3));
-            $data = $this->mcustom->get_by_id("publikasi", $kond);
+            $kond['idpaten'] = esc($this->request->getUri()->getSegment(3));
+            $data = $this->mcustom->get_by_id("paten", $kond);
             echo json_encode($data);
         } else {
             $this->modul->halaman('login');
@@ -144,20 +157,16 @@ class Paten extends BaseController
         if (session()->get("logged_dosen")) {
             $data = array(
                 'jenis' => esc($this->request->getPost('jenis')),
-                'kategori_keg' => esc($this->request->getPost('kategori_keg')),
                 'kategori_capaian' => esc($this->request->getPost('kategori_capaian')),
                 'aktivitas_litabmas' => esc($this->request->getPost('aktivitas_litabmas')),
                 'judul' => esc($this->request->getPost('judul')),
                 'tgl_terbit' => esc($this->request->getPost('tgl_terbit')),
-                'jml_hal' => esc($this->request->getPost('jml_hal')),
-                'penerbit' => esc($this->request->getPost('penerbit')),
-                'ISBN' => esc($this->request->getPost('isbn')),
-                'tautan_external' => esc($this->request->getPost('tautan_external')),
+                'tautan_ekternal' => esc($this->request->getPost('tautan_external')),
                 'keterangan' => esc($this->request->getPost('keterangan')),
                 'updated_at' => $this->modul->TanggalWaktu()
             );
-            $kond['idpublikasi'] = esc($this->request->getPost('kode'));
-            $simpan = $this->mcustom->ganti("publikasi", $data, $kond);
+            $kond['idpaten'] = esc($this->request->getPost('kode'));
+            $simpan = $this->mcustom->ganti("paten", $data, $kond);
             if ($simpan == 1) {
                 $status = "Data tersimpan";
             } else {
@@ -176,8 +185,8 @@ class Paten extends BaseController
     public function hapus()
     {
         if (session()->get("logged_dosen")) {
-            $kond['idpublikasi'] = esc($this->request->getUri()->getSegment(3));
-            $hapus = $this->mcustom->hapus("publikasi", $kond);
+            $kond['idpaten'] = esc($this->request->getUri()->getSegment(3));
+            $hapus = $this->mcustom->hapus("paten", $kond);
             if ($hapus == 1) {
                 $status = "Data terhapus";
             } else {

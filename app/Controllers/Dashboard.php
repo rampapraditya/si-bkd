@@ -71,6 +71,10 @@ class Dashboard extends BaseController
                 ];
                 $data['jmldosen'] = $this->mcustom->getCount("users", $join, ['jabatan.nama_jabatan' => 'DOSEN']);
 
+                $data['jml_pengajaran'] = $this->mcustom->getCount("pengajaran");
+                $data['jml_penelitian'] = $this->mcustom->getCount("penelitian");
+                $data['jml_pengabdian'] = $this->mcustom->getCount("pengabdian");
+
                 return view('dashboard/index', $data);
 
             } else if (session()->get("logged_dosen")) {
