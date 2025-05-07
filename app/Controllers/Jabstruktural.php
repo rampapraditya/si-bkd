@@ -18,7 +18,7 @@ class Jabstruktural extends BaseController
 
     public function index()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $data['idusers'] = session()->get("idusers");
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
@@ -63,23 +63,42 @@ class Jabstruktural extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_dosen")) {
-            $idusers = session()->get("idusers");
-            
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+
+            if (session()->get("logged_dosen")) {
+                $idusers = session()->get("idusers");
+                $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_mulai, "%d %M %Y") as tglmf', 'date_format(tgl_selesai, "%d %M %Y") as tglsf'], 'jabstruktural', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            } else {
+                $select = ['jabstruktural.*', 'date_format(tgl_mulai, "%d %M %Y") as tglmf', 'date_format(tgl_selesai, "%d %M %Y") as tglsf','users.nama'];
+                $join = [
+                    ['table' => 'users', 'condition' => 'jabstruktural.idusers = users.idusers', 'type' => 'inner']
+                ];
+                $list = $this->mcustom->getDynamicData(false, $select, 'jabstruktural', $join, [], [], [], [], [], null, null, ['jabstruktural.created_at' => 'ASC']);
+            }
+
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_mulai, "%d %M %Y") as tglmf', 'date_format(tgl_selesai, "%d %M %Y") as tglsf'], 'jabstruktural', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
+                if (session()->get("logged_admin")) {
+                    $val[] = esc($row->nama);
+                }
                 $val[] = esc($row->jabatan);
                 $val[] = esc($row->sk);
                 $val[] = esc($row->tglmf);
                 $val[] = esc($row->tglsf);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idjabstruktural . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idjabstruktural . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                . '</div></div>';
+                if (session()->get("logged_admin")) {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idjabstruktural . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                } else {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idjabstruktural . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idjabstruktural . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                }
+                
                 $data[] = $val;
                 $no++;
             }
@@ -160,7 +179,7 @@ class Jabstruktural extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $kond['idjabstruktural'] = esc($this->request->getUri()->getSegment(3));
             $hapus = $this->mcustom->hapus("jabstruktural", $kond);
             if ($hapus == 1) {

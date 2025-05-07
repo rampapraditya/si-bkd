@@ -18,7 +18,7 @@ class Pengabdian extends BaseController
 
     public function index()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $data['idusers'] = session()->get("idusers");
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
@@ -63,23 +63,43 @@ class Pengabdian extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_dosen")) {
-            $idusers = session()->get("idusers");
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+            
+            if (session()->get("logged_dosen")) {
+                $idusers = session()->get("idusers");
+                $list = $this->mcustom->getDynamicData(false, ['*'], 'pengabdian', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+
+            } else if (session()->get("logged_admin")) {
+                $select = ['pengabdian.*','users.nama'];
+                $join = [
+                    ['table' => 'users', 'condition' => 'pengabdian.idusers = users.idusers', 'type' => 'inner']
+                ];
+                $list = $this->mcustom->getDynamicData(false, $select, 'pengabdian', $join, [], [], [], [], [], null, null, ['pengabdian.created_at' => 'ASC']);
+            }
             
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*'], 'pengabdian', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
+                if (session()->get("logged_admin")) {
+                    $val[] = esc($row->nama);
+                }
                 $val[] = esc($row->judul);
                 $val[] = esc($row->tahun);
                 $val[] = esc($row->lama);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpengabdian) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpengabdian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengabdian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                . '</div></div>';
+                if (session()->get("logged_admin")) {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengabdian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                } else {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-default btn-fw" onclick="detil(' . "'" . $this->modul->enkrip_simple($row->idpengabdian) . "'" . ')"><i class="fa fa-fw fa-check"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpengabdian . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengabdian . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                }
+                
                 $data[] = $val;
                 $no++;
             }
@@ -172,7 +192,7 @@ class Pengabdian extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $kond['idpengabdian'] = esc($this->request->getUri()->getSegment(3));
             $hapus = $this->mcustom->hapus("pengabdian", $kond);
             if ($hapus == 1) {

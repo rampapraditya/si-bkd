@@ -193,7 +193,7 @@ class Publikasi extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $kond['idpublikasi'] = esc($this->request->getUri()->getSegment(3));
             $hapus = $this->mcustom->hapus("publikasi", $kond);
             if ($hapus == 1) {

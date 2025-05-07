@@ -66,9 +66,6 @@ class Penelitian extends BaseController
     {
         if (session()->get("logged_admin") || session()->get("logged_dosen")) {
 
-            $data = array();
-            $no = 1;
-
             if (session()->get("logged_dosen")) {
                 $idusers = session()->get("idusers");
                 $list = $this->mcustom->getDynamicData(false, ['*'], 'penelitian', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
@@ -79,6 +76,9 @@ class Penelitian extends BaseController
                 ];
                 $list = $this->mcustom->getDynamicData(false, $select, 'penelitian', $join, [], [], [], [], [], null, null, ['penelitian.created_at' => 'ASC']);
             }
+
+            $data = array();
+            $no = 1;
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
@@ -201,7 +201,7 @@ class Penelitian extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $kond['idpenelitian'] = esc($this->request->getUri()->getSegment(3));
             $hapus = $this->mcustom->hapus("penelitian", $kond);
             if ($hapus == 1) {

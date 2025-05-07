@@ -18,7 +18,7 @@ class Pengelolajurnal extends BaseController
 
     public function index()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $data['idusers'] = session()->get("idusers");
             $data['nama'] = session()->get("nama");
             $data['role'] = session()->get("idjabatan");
@@ -63,25 +63,43 @@ class Pengelolajurnal extends BaseController
 
     public function ajaxlist()
     {
-        if (session()->get("logged_dosen")) {
-            $idusers = session()->get("idusers");
-            
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+            if (session()->get("logged_dosen")) {
+                $idusers = session()->get("idusers");
+                $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_mulai, "%d %M %Y") as tglmf', 'date_format(tgl_selesai, "%d %M %Y") as tglsf'], 'pengelola_jurnal', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
+            } else {
+                $select = ['pengelola_jurnal.*', 'date_format(tgl_mulai, "%d %M %Y") as tglmf', 'date_format(tgl_selesai, "%d %M %Y") as tglsf','users.nama'];
+                $join = [
+                    ['table' => 'users', 'condition' => 'pengelola_jurnal.idusers = users.idusers', 'type' => 'inner']
+                ];
+                $list = $this->mcustom->getDynamicData(false, $select, 'pengelola_jurnal', $join, [], [], [], [], [], null, null, ['pengelola_jurnal.created_at' => 'ASC']);
+            }
+
             $data = array();
             $no = 1;
-            $list = $this->mcustom->getDynamicData(false, ['*', 'date_format(tgl_mulai, "%d %M %Y") as tglmf', 'date_format(tgl_selesai, "%d %M %Y") as tglsf'], 'pengelola_jurnal', [], ['idusers' => $idusers], [], [], [], [], null, null, ['created_at' => 'ASC']);
             foreach ($list as $row) {
                 $val = array();
                 $val[] = $no;
+                if (session()->get("logged_admin")) {
+                    $val[] = esc($row->nama);
+                }
                 $val[] = esc($row->nama_jurnal);
                 $val[] = esc($row->sk);
                 $val[] = esc($row->tglmf);
                 $val[] = esc($row->tglsf);
                 $val[] = esc($row->status_aktif);
                 $val[] = esc($row->peran);
-                $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
-                . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpengelolajurnal . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
-                . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengelolajurnal . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
-                . '</div></div>';
+                if (session()->get("logged_admin")) {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengelolajurnal . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                } else {
+                    $val[] = '<div style="text-align:center; width:100%;"><div class="btn-group" role="group">'
+                    . '<button type="button" class="btn btn-xs btn-primary btn-fw" onclick="ganti(' . "'" . $row->idpengelolajurnal . "'" . ')"><i class="fa fa-fw fa-pencil"></i></button>'
+                    . '<button type="button" class="btn btn-xs btn-danger btn-fw" onclick="hapus(' . "'" . $row->idpengelolajurnal . "'" . ',' . "'" . $no . "'" . ')"><i class="fa fa-fw fa-trash"></i></button>'
+                    . '</div></div>';
+                }
+                
                 $data[] = $val;
                 $no++;
             }
@@ -166,7 +184,8 @@ class Pengelolajurnal extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
+
             $kond['idpengelolajurnal'] = esc($this->request->getUri()->getSegment(3));
             $hapus = $this->mcustom->hapus("pengelola_jurnal", $kond);
             if ($hapus == 1) {

@@ -184,7 +184,7 @@ class Paten extends BaseController
 
     public function hapus()
     {
-        if (session()->get("logged_dosen")) {
+        if (session()->get("logged_admin") || session()->get("logged_dosen")) {
             $kond['idpaten'] = esc($this->request->getUri()->getSegment(3));
             $hapus = $this->mcustom->hapus("paten", $kond);
             if ($hapus == 1) {
