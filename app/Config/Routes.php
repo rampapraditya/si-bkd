@@ -15,6 +15,11 @@ $routes->group('login', function ($routes) {
     $routes->get('logout', 'Login::logout');
 });
 
+$routes->group('forgot', function ($routes) {
+    $routes->get('', 'Forgot::index');
+    $routes->post('proses', 'Forgot::proses');
+});
+
 $routes->group('identitas', function ($routes) {
     $routes->get('', 'Identitas::index');
     $routes->post('proses', 'Identitas::proses');

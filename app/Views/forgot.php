@@ -38,26 +38,22 @@
                 <a href="<?php echo base_url('login'); ?>"><b><?php echo $appname; ?></b></a>
             </div>
             <div class="login-box-body">
-                <p class="login-box-msg">Sign in to start your session</p>
+                <p class="login-box-msg">Enter your username and we'll send you a link to reset your password.</p>
                 <div>
                     <div class="form-group has-feedback">
                         <input id="username" name="username" type="text" class="form-control" placeholder="Username" autocomplete="off">
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
-                    </div>
-                    <div class="form-group has-feedback">
-                        <input id="pass" name="pass" type="password" class="form-control" placeholder="Password">
-                        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                     </div>
                     <div class="row">
                         <div class="col-xs-8">
                             
                         </div>
                         <div class="col-xs-4">
-                            <button id="btnProses" type="button" class="btn btn-primary btn-block btn-flat" onclick="proses();">Sign In</button>
+                            <button id="btnProses" type="button" class="btn btn-primary btn-block btn-flat" onclick="proses();">Send Email</button>
                         </div>
                     </div>
                 </div>
-                <a href="<?php echo base_url('forgot'); ?>">I forgot my password</a><br>
+                <a href="<?php echo base_url('login'); ?>">Sign in to start your session</a><br>
             </div>
         </div>
 
@@ -88,19 +84,11 @@
 
             function proses() {
                 var username = document.getElementById('username').value;
-                var pass = document.getElementById('pass').value;
-
+                
                 if (username === "") {
                     iziToast.error({
                         title: 'Error',
                         message: "Username tidak boleh kosong",
-                        position: 'topRight'
-                    });
-                    
-                } else if (pass === "") {
-                    iziToast.error({
-                        title: 'Error',
-                        message: "Password tidak boleh kosong",
                         position: 'topRight'
                     });
                     
@@ -110,10 +98,9 @@
 
                     var form_data = new FormData();
                     form_data.append('username', username);
-                    form_data.append('password', pass);
                     
                     $.ajax({
-                        url: "<?php echo base_url(); ?>login/proses",
+                        url: "<?php echo base_url(); ?>forgot/proses",
                         dataType: 'JSON',
                         cache: false,
                         contentType: false,
@@ -123,26 +110,20 @@
                         beforeSend: function (xhr) {
                             xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
                         },success: function (response, status, xhr) {
-                            $('#btnProses').text('Sign In');
+                            $('#btnProses').text('Send Email');
                             $('#btnProses').attr('disabled', false);
                             
                             var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
                             $('meta[name="csrf-token"]').attr('content', csrfToken);
                             
-                            if (response.pesan === "ok") {
-                                window.location.href = "<?php echo base_url('dashboard'); ?>";
-                            } else if (response.pesan === "okdosen") {
-                                window.location.href = "<?php echo base_url('dashboard'); ?>";
-                            } else {
-                                iziToast.warning({
-                                    title: 'Info',
-                                    message: response.pesan,
-                                    position: 'topRight'
-                                });
-                            }
+                            iziToast.warning({
+                                title: 'Info',
+                                message: response.pesan,
+                                position: 'topRight'
+                            });
 
                         }, error: function (response, status, xhr) {
-                            $('#btnProses').text('Sign In');
+                            $('#btnProses').text('Send Email');
                             $('#btnProses').attr('disabled', false);
                             
                             var csrfToken = xhr.getResponseHeader('X-CSRF-TOKEN');
